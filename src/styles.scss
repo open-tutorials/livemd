@@ -1,0 +1,128 @@
+@import "~highlight.js/styles/github.css";
+
+html, body {
+  font-family: 'Roboto', sans-serif;
+  padding: 10px 40px;
+}
+
+button, textarea, input {
+  font-family: 'Roboto', sans-serif;
+}
+
+textarea {
+  border-radius: 10px;
+  padding: 10px;
+  border: 2px solid silver;
+}
+
+input {
+  border-radius: 10px;
+  padding: 10px;
+  border: 2px solid silver;
+}
+
+code:not(pre > code) {
+  border-radius: 5px;
+  border: 1px solid silver;
+  padding: 2px 4px;
+  background: rgba(175, 184, 193, 0.2);
+  font-family: 'Source Code Pro', monospace;
+  margin-right: 2px;
+}
+
+pre, code {
+  font-family: 'Source Code Pro', monospace;
+}
+
+pre {
+  margin: 20px 0;
+}
+
+blockquote {
+  border-left: 3px solid silver;
+  padding-left: 10px;
+  color: darkgreen;
+}
+
+summary + br {
+  display: none;
+}
+
+ul, ol {
+  margin: 10px 0;
+
+  li img {
+    margin: 0;
+    vertical-align: middle;
+  }
+
+  li:not(:last-child) {
+    margin-bottom: 10px;
+  }
+}
+
+table {
+  border: 1px solid silver;
+  border-collapse: collapse;
+
+  th {
+    background: lightgray;
+    padding: 10px;
+  }
+
+  th, td {
+    padding: 5px 10px;
+  }
+}
+
+ul {
+  list-style: none;
+  padding-left: 20px;
+
+  li:not(.task):before {
+    content: '▫️';
+    margin-right: 10px;
+  }
+}
+
+hr {
+  height: 1px;
+  border: none;
+  border-top: 1px dashed silver;
+}
+
+details:not([open]) > p {
+  display: none;
+}
+
+p {
+  margin: 5px 0;
+  line-height: 1.75;
+}
+
+details {
+  display: inline-block;
+  margin: 5px 0;
+  border: 1px solid lightgray;
+  padding: 10px 20px;
+  border-radius: 10px;
+
+  summary {
+    user-select: none;
+    cursor: pointer;
+  }
+
+  &:hover:not([open]) {
+    background: aliceblue;
+  }
+
+  &[open] summary {
+    margin-bottom: 20px;
+  }
+}
+
+img {
+  margin: 5px 0;
+  border-radius: 10px;
+  border: 1px solid silver;
+}

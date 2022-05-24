@@ -1,0 +1,26 @@
+:host {
+  display: inline-flex;
+  align-items: center;
+  font-weight: bold;
+  font-size: 40px;
+  border: 1px solid silver;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: none;
+  margin-left: 10px;
+  font-size: 20px;
+  line-height: 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  &:hover {
+    background: aquamarine;
+  }
+}

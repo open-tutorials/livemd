@@ -1,0 +1,348 @@
+
+:host {
+  display: block;
+  position: relative;
+}
+
+h1 {
+  border: 1px solid silver;
+  padding: 10px;
+  border-radius: 10px;
+  font-family: 'Source Code Pro', monospace;
+  display: inline-block;
+}
+
+.me {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  width: 40px;
+  cursor: default;
+}
+
+:host([data-mode=member]) {
+  .token {
+    &:not(.opened) {
+      .md .content {
+        filter: blur(4px);
+      }
+
+      .locked {
+        display: block;
+      }
+    }
+
+    &.opened {
+      .marks:hover {
+        button {
+          opacity: 1;
+        }
+
+        .tools {
+          display: flex;
+        }
+      }
+    }
+  }
+}
+
+:host([data-mode=owner]) {
+  .token {
+    &:not(.unlocked) {
+      .md .content {
+        opacity: .5;
+      }
+    }
+
+    &.opened {
+      .marks:hover {
+        .tools {
+          display: flex;
+        }
+      }
+    }
+
+    .marks {
+      .unlock {
+        cursor: pointer;
+        background: transparent;
+        border: none;
+        z-index: 5;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        display: none;
+      }
+
+      &:hover {
+        .unlock {
+          display: block;
+        }
+      }
+    }
+  }
+}
+
+.token {
+  display: flex;
+  position: relative;
+
+  .open {
+    display: none;
+    position: absolute;
+    top: 20px;
+    right: 0;
+    left: 100px;
+    width: 100px;
+    height: 30px;
+    z-index: 1;
+
+    button {
+      border: none;
+      width: 40px;
+      height: 80px;
+      cursor: pointer;
+      background: none;
+
+      &:hover {
+        span {
+          border-color: greenyellow;
+        }
+      }
+
+      span {
+        user-select: none;
+        display: block;
+        width: 20px;
+        height: 20px;
+        border-bottom: 5px solid lightgreen;
+        border-right: 5px solid lightgreen;
+        transform: rotate(45deg);
+        margin: -10px 0;
+        animation: animate-open 2s infinite;
+
+        &:nth-child(2) {
+          animation-delay: -0.2s;
+        }
+
+        &:nth-child(3) {
+          animation-delay: -0.4s;
+        }
+      }
+
+      @keyframes animate-open {
+        0% {
+          opacity: 0;
+          transform: rotate(45deg) translate(-20px, -20px);
+        }
+        50% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+          transform: rotate(45deg) translate(20px, 20px);
+        }
+      }
+    }
+  }
+
+  &.first.unlocked:not(.opened),
+  &.unlocked.opened + &.unlocked:not(.opened) {
+    .open {
+      display: block;
+    }
+  }
+
+  &.unlocked {
+    .marks .progress {
+      background: lightgreen;
+    }
+  }
+
+  .marks {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    width: 40px;
+    max-width: 40px;
+
+    .my {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      margin: auto 0;
+      z-index: 1;
+      width: 30px;
+      height: 30px;
+      border: 5px solid lightgreen;
+      border-radius: 50%;
+      user-select: none;
+      background: white;
+      font-size: 20px;
+      padding-top: 2px;
+    }
+
+    &.marked, &:hover {
+      .my {
+        display: flex;
+      }
+    }
+
+    &.other {
+      pointer-events: none;
+    }
+
+    .progress {
+      position: absolute;
+      width: 10px;
+      top: 5px;
+      bottom: 5px;
+      margin: 0 auto;
+      background: silver;
+    }
+
+    .tools {
+      display: none;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      align-items: center;
+      z-index: 1;
+      left: 40px;
+      padding-left: 10px;
+
+      .content {
+        border: 2px solid lightgreen;
+        padding: 10px;
+        border-radius: 5px;
+        background: aliceblue;
+
+        .buttons {
+          display: flex;
+
+          button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            border: 1px solid lightgreen;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            width: 35px;
+            height: 35px;
+
+            &:not(:last-child) {
+              margin-right: 5px;
+            }
+          }
+
+          button:not(.marked) {
+            opacity: .5;
+          }
+        }
+
+        textarea {
+          width: 300px;
+          margin-top: 10px;
+        }
+      }
+    }
+  }
+
+  .md {
+    flex: 1;
+    overflow-x: scroll;
+    position: relative;
+    padding: 0 10px;
+    margin-left: 5px;
+    border-left: 1px solid silver;
+    border-right: 1px solid silver;
+
+    .members {
+      margin-top: 5px;
+
+      > div {
+        position: relative;
+        font-size: 30px;
+        width: 35px;
+        user-select: none;
+
+        span {
+          position: absolute;
+          bottom: 0;
+          right: 0;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-sizing: border-box;
+          font-size: 18px;
+        }
+      }
+    }
+
+    .progress {
+      display: flex;
+      align-content: flex-start;
+      user-select: none;
+
+      div {
+        font-size: 16px;
+
+        &:not(:last-child) {
+          margin-right: 5px;
+        }
+      }
+    }
+
+    .comments {
+      margin-top: 5px;
+      background: aliceblue;
+      padding: 10px;
+      border-radius: 5px;
+      font-size: .85em;
+
+      &:empty {
+        display: none;
+      }
+
+      ::ng-deep {
+        ul {
+          margin: 0;
+
+          li {
+            margin: 0;
+          }
+        }
+
+        pre {
+          margin: 5px 0;
+        }
+      }
+    }
+  }
+
+  &:last-child {
+    .md {
+      border-radius: 0 0 10px 10px;
+      border-bottom: 1px solid silver;
+      padding-bottom: 10px;
+    }
+  }
+
+  &.first {
+    .md {
+      border-radius: 10px 10px 0 0;
+      border-top: 1px solid silver;
+      padding-top: 10px;
+    }
+  }
+}
+

@@ -1,0 +1,40 @@
+:host {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.form {
+  display: flex;
+  padding: 20px;
+  flex-direction: column;
+  width: 80%;
+
+  > :not(:last-child) {
+    margin-bottom: 20px;
+  }
+
+  textarea {
+    flex: 1;
+    font-size: 25px;
+    border-radius: 10px;
+  }
+
+  input {
+    font-size: 25px;
+    padding: 10px;
+    border-radius: 10px;
+  }
+
+  button {
+    font-size: 25px;
+    padding: 20px;
+    border: 2px solid silver;
+    border-radius: 10px;
+  }
+}
+

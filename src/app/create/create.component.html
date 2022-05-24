@@ -1,0 +1,12 @@
+<form [formGroup]="form" class="form">
+  <h1>Ваш Markdown</h1>
+  <textarea formControlName="markdown"
+            [placeholder]="markdown" rows="20"></textarea>
+
+  <input formControlName="baseUrl" placeholder="Базовый URL">
+  <input formControlName="imagesUrl" placeholder="URL для картинок">
+  <button [disabled]="!form.valid"
+          (click)="create()">Создать канал
+  </button>
+</form>
+

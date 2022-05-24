@@ -1,0 +1,19 @@
+<div class="form">
+  <h1>Кто Вы?</h1>
+  <div class="avatars">
+    <button *ngFor="let avatar of avatars | keyvalue"
+            [class.selected]="avatarControl.value === avatar.key"
+            (click)="avatarControl.setValue(avatar.key)">
+      {{avatar.value}}
+    </button>
+  </div>
+
+  <form [formGroup]="form">
+    <input #nameRef formControlName="name"
+           placeholder="Виталик">
+    <button [disabled]="!form.valid"
+            (click)="join()">&rarr;</button>
+  </form>
+</div>
+
+

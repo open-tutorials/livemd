@@ -1,0 +1,72 @@
+:host {
+  display: flex;
+  justify-content: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+
+  h1 {
+    text-align: center;
+  }
+
+  width: 440px;
+
+  form {
+    display: flex;
+    margin-top: 20px;
+
+    input {
+      flex: 1;
+      font-size: 30px;
+      border-radius: 5px;
+      padding: 10px;
+      border: 2px solid silver;
+      margin-right: 10px;
+    }
+
+    button {
+      font-size: 30px;
+      font-weight: bold;
+      border-radius: 5px;
+      padding: 10px 20px;
+      cursor: pointer;
+      border: 2px solid silver;
+
+      &:hover {
+        background: silver;
+      }
+    }
+  }
+}
+
+.avatars {
+  display: flex;
+  flex-wrap: wrap;
+
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px solid silver;
+    width: 100px;
+    height: 100px;
+    font-size: 70px;
+    margin-top: 10px;
+    cursor: pointer;
+
+    &:hover {
+      background: silver;
+    }
+
+    &.selected {
+      background: red;
+    }
+
+    &:not(:last-child) {
+      margin-right: 10px;
+    }
+  }
+}
