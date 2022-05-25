@@ -41,8 +41,7 @@ function getFile(id) {
   const c1 = adler.str(p1) % 10;
   const c2 = adler.str(p2) % 10;
 
-  return ['/var/run/app', c1, c2, id].join('/') + '.json';
-//   return ['channels', c1, c2, id].join('/') + '.json';
+  return [process.env.DEV_MODE ? 'channels' : '/var/run/app', c1, c2, id].join('/') + '.json';
 }
 
 function loadChannel(id) {
@@ -98,10 +97,10 @@ app.get('*', function (request, response) {
 });
 
 app.post('/api/channels', (req, res) => {
-  const [owner, markdown, baseUrl, imagesUrl] =
-    [req.body.owner, req.body.markdown, req.body.baseUrl, req.body.imagesUrl];
+  const [slug, owner, markdown, baseUrl, imagesUrl] =
+    [req.body.slug, req.body.owner, req.body.markdown, req.body.baseUrl, req.body.imagesUrl];
 
-  const id = shortid.generate();
+  const id = slug || shortid.generate();
   const channel = new Channel({id, markdown, owner, baseUrl, imagesUrl});
   channels[id] = channel;
 

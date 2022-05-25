@@ -26,6 +26,9 @@ export class ChannelUpdate {
   @Field()
   imagesUrl!: string;
 
+  @Field()
+  slug!: string;
+
   constructor(defs: Partial<ChannelUpdate> = {}) {
     Object.assign(this, defs);
   }
