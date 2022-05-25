@@ -3,8 +3,7 @@ FROM node:14
 WORKDIR /app
 
 COPY package.json package-lock.json ./
-RUN npm install \
-    && npm run build
+RUN npm install
 
 COPY . .
 
@@ -15,7 +14,8 @@ RUN addgroup --system --gid 10001 app \
         --no-create-home --home /app  \
         app \
     && mkdir /var/run/app \
-    && chown app:app /var/run/app
+    && chown app:app /var/run/app \
+    && npm run build
 
 ENV PORT=8080
 EXPOSE 8080
