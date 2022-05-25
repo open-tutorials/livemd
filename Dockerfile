@@ -13,6 +13,8 @@ RUN addgroup --system --gid 10001 app \
         --disabled-login --ingroup app \
         --no-create-home --home /app  \
         app \
+    && mkdir /var/run/app \
+    && chown app:app /var/run/app \
     && npm run build
 
 ENV PORT=8080

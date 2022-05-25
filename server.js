@@ -41,7 +41,8 @@ function getFile(id) {
   const c1 = adler.str(p1) % 10;
   const c2 = adler.str(p2) % 10;
 
-  return ['channels', c1, c2, id].join('/') + '.json';
+  return ['/var/run/app/', c1, c2, id].join('/') + '.json';
+//   return ['channels', c1, c2, id].join('/') + '.json';
 }
 
 function loadChannel(id) {
