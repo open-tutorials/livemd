@@ -9,11 +9,10 @@ export function getMarkedOptions(baseUrl: string, imagesUrl: string) {
   };
 
   renderer.listitem = function (text: string, task: boolean, checked) {
-    const listitem = marked.Renderer.prototype.listitem.call(this, text, task, checked);
-    console.log(listitem);
-    return task
-      ? listitem.replace('<li>', '<li class="task">')
-      : listitem;
+    const item = marked.Renderer.prototype.listitem.call(this, text, task, checked);
+    return task || /^[❓🐞]/.test(text)
+      ? item.replace('<li>', '<li class="marked">')
+      : item;
   };
 
   renderer.html = function (html: string) {

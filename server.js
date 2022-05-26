@@ -36,13 +36,12 @@ class Channel {
 const channels = {};
 
 function getFile(id) {
-  const [, p1, p2, p3] = id.match(/^(.{2})(.{2})/i);
+  const [, p1, p2,] = id.match(/^(.{2})(.{2})/i);
 
   const c1 = adler.str(p1) % 10;
   const c2 = adler.str(p2) % 10;
 
-  return ['/var/run/app', c1, c2, id].join('/') + '.json';
-//   return ['channels', c1, c2, id].join('/') + '.json';
+  return [process.env.DEV_MODE ? 'channels' : '/var/run/app', c1, c2, id].join('/') + '.json';
 }
 
 function loadChannel(id) {
@@ -98,10 +97,15 @@ app.get('*', function (request, response) {
 });
 
 app.post('/api/channels', (req, res) => {
-  const [owner, markdown, baseUrl, imagesUrl] =
-    [req.body.owner, req.body.markdown, req.body.baseUrl, req.body.imagesUrl];
+  const [slug, owner, markdown, baseUrl, imagesUrl] =
+    [req.body.slug, req.body.owner, req.body.markdown, req.body.baseUrl, req.body.imagesUrl];
 
-  const id = shortid.generate();
+  if (!!slug && slug.length < 4) {
+    res.status(404).send('Slug should be more than 4 letters');
+    return;
+  }
+
+  const id = slug || shortid.generate();
   const channel = new Channel({id, markdown, owner, baseUrl, imagesUrl});
   channels[id] = channel;
 
