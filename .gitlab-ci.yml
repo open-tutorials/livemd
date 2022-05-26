@@ -31,6 +31,8 @@ deploy:
   image: registry.gitlab.com/junte/docker-hub/curl:7.72.0
   stage: deploy
   dependencies: []
+  only:
+    - main
   script:
     - curl -k -X POST -d "component=${DEPLOYER_COMPONENT}&key=${DEPLOYER_KEY}&tag=${CI_PIPELINE_ID}" ${DEPLOYER_HOST}
   environment:
