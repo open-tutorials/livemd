@@ -81,14 +81,20 @@ ul {
 
   li:not(.marked):before {
     content: '▫️';
-    margin-right: 10px;
+    margin-right: 7.5px;
+    vertical-align: middle;
+  }
+
+  li.task:before {
+    content: url('assets/task.svg');
   }
 }
 
 hr {
-  height: 1px;
+  height: 15px;
   border: none;
-  border-top: 1px dashed silver;
+  background-repeat: repeat-x;
+  background-image: url('assets/section.svg');
 }
 
 details:not([open]) > p {

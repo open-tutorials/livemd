@@ -9,10 +9,16 @@ export function getMarkedOptions(baseUrl: string, imagesUrl: string) {
   };
 
   renderer.listitem = function (text: string, task: boolean, checked) {
-    const item = marked.Renderer.prototype.listitem.call(this, text, task, checked);
-    return task || /^[❓🐞]/.test(text)
-      ? item.replace('<li>', '<li class="marked">')
-      : item;
+    let item = marked.Renderer.prototype.listitem.call(this, text, task, checked);
+
+    if (task) {
+      item = item
+        .replace('<input disabled="" type="checkbox"> ', '')
+        .replace('<li>', '<li class="task">');
+    } else if (/^[❓🐞]/.test(text)) {
+      item = item.replace('<li>', '<li class="marked">');
+    }
+    return item;
   };
 
   renderer.html = function (html: string) {
