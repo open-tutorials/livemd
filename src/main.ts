@@ -47,6 +47,32 @@ const details: any = {
   }
 };
 
+const summary: any = {
+  name: 'summary',
+  level: 'block',
+  start(src: string) {
+    return src.match(/^<summary>/)?.index;
+  },
+  tokenizer(src: string, tokens: any[]): any {
+    const rule = /^<summary>(((?!<summary>)(?:.|\n))+)<\/summary>/;
+    const match = rule.exec(src);
+    if (match) {
+      let [raw, text] = match;
+      text = text.trim();
+      const token = {
+        type: 'summary',
+        raw: raw,
+        text: text.trim(),
+        tokens: this.lexer.inlineTokens(text)
+      };
+      return token;
+    }
+  },
+  renderer(token: any) {
+    return `<summary>${this.parser.parseInline(token.tokens)}</summary>`;
+  }
+};
+
 const timer: any = {
   name: 'timer',
   level: 'block',
@@ -71,7 +97,7 @@ const timer: any = {
   }
 };
 // @ts-ignore-end
-marked.use({extensions: [details, timer]});
+marked.use({extensions: [summary, details, timer]});
 
 if (environment.production) {
   enableProdMode();
