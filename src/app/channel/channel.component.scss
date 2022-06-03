@@ -51,7 +51,7 @@ h1 {
   .token {
     &:not(.unlocked) {
       .md .content {
-        opacity: .1;
+        opacity: .5;
       }
     }
 
@@ -59,27 +59,6 @@ h1 {
       .marks:hover {
         .tools {
           display: flex;
-        }
-      }
-    }
-
-    .marks {
-      .unlock {
-        cursor: pointer;
-        background: transparent;
-        border: none;
-        z-index: 5;
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        display: none;
-      }
-
-      &:hover {
-        .unlock {
-          display: block;
         }
       }
     }
@@ -264,6 +243,17 @@ h1 {
     margin-left: 5px;
     border-left: 1px solid silver;
     border-right: 1px solid silver;
+
+    .unlock {
+      width: 100%;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      background: transparent;
+      &:hover {
+        background: greenyellow;
+      }
+    }
 
     .members {
       margin-top: 5px;
