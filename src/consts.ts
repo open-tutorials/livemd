@@ -23,64 +23,36 @@ export const MARKS: { [key: string]: string } = {
   'like': '👍'
 };
 
-export const MARKDOWN = `An h1 header
-============
+export const MARKDOWN = `Hello! This is a live markdown!
+# How it works?
 
-Paragraphs are separated by a blank line.
+Just copy your markdown and create a online channel for your friends!
 
-2nd paragraph. *Italic*, **bold**, and \`monospace\`. Itemized lists
-look like:
+# What can you do?
 
-  * this one
-  * that one
-  * the other one
+> Sure, you can use common markdown markup.
 
-Note that --- not considering the asterisk --- the actual text
-content starts at 4-columns in.
+What to do today:
+* play guitar
+* go to party
+* meet with friends
 
-> Block quotes are
-> written like so.
->
-> They can span multiple paragraphs,
-> if you like.
+> We support emoji 🙀 lists.
 
-Use 3 dashes for an em-dash. Use 2 dashes for ranges (ex., "it's all
-in chapters 12--14"). Three dots ... will be converted to an ellipsis.
-Unicode is supported. ☺
+Do you like?
+* ❓ books
+* 💀 music
 
-An h2 header
-------------
+# Interaction
 
-Here's a numbered list:
+Tasks
+* [x] books
+* [ ] music
 
- 1. first item
- 2. second item
- 3. third item
+<details>
+    <summary>Do you really want to see it?</summary>
 
-Note again how the actual text starts at 4 columns in (4 characters
-from the left side). Here's a code sample:
-
-    # Let me re-iterate ...
-    for i in 1 .. 10 { do-something(i) }
-
-As you probably guessed, indented 4 spaces. By the way, instead of
-indenting the block, you can use delimited blocks, if you like:
-
-~~~
-define foobar() {
-    print "Welcome to flavor country!";
-}
-~~~
-
-(which makes copying & pasting easier). You can optionally mark the
-delimited block for Pandoc to syntax highlight it:
-
-~~~python
-import time
-# Quick, count to ten!
-for i in range(10):
-    # (but not *too* quick)
-    time.sleep(0.5)
-    print(i)
-~~~
+    <iframe src="https://giphy.com/embed/3ohzdYjwEQuR1J7dte" width="480" height="217" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/alien-sigourney-weaver-ripley-3ohzdYjwEQuR1J7dte">via GIPHY</a></p>
+</details>
+***
 `;

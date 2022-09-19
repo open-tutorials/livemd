@@ -14,9 +14,10 @@ export function getMarkedOptions(baseUrl: string, imagesUrl: string) {
     if (task) {
       item = item
         .replace('<input disabled="" type="checkbox"> ', '')
-        .replace('<li>', '<li class="task">');
-    } else if (/^[❓🐞]/.test(text)) {
-      item = item.replace('<li>', '<li class="marked">');
+        .replace('<input checked="" disabled="" type="checkbox"> ', '')
+        .replace('<li>', '<li class="task' + (checked ? ' checked' : '') + '">');
+    } else if (/^(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])/.test(text)) {
+      item = item.replace('<li>', '<li class="emoji">');
     }
     return item;
   };

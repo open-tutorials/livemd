@@ -79,7 +79,7 @@ ul {
   list-style: none;
   padding-left: 20px;
 
-  li:not(.marked):before {
+  li:not(.emoji):before {
     content: '▫️';
     margin-right: 7.5px;
     vertical-align: middle;
@@ -87,6 +87,10 @@ ul {
 
   li.task:before {
     content: url('assets/task.svg');
+  }
+
+  li.task.checked:before {
+    content: url('assets/task_checked.svg');
   }
 }
 
