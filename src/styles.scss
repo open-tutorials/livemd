@@ -136,3 +136,12 @@ img {
   border-radius: 10px;
   border: 1px solid silver;
 }
+
+body::after {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  z-index: -1; // hide images
+  content: url(assets/checkbox.svg) url(assets/checkbox_checked.svg) url(assets/radio.svg) url(assets/radio_checked.svg); // load images
+}
