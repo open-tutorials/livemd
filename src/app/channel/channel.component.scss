@@ -4,6 +4,14 @@
   position: relative;
 }
 
+header {
+  display: flex;
+  justify-content: flex-end;
+  img {
+    display: block;
+  }
+}
+
 h1 {
   border: 1px solid silver;
   padding: 10px;
@@ -68,44 +76,6 @@ h1 {
 .token {
   display: flex;
   position: relative;
-
-  .poll {
-    list-style: none;
-
-    li {
-      cursor: pointer;
-
-      &:before {
-        content: url('../../assets/radio.svg');
-      }
-
-      &.selected:before {
-        content: url('../../assets/radio_checked.svg');
-      }
-
-      .votes {
-        display: inline;
-        border: 1px solid silver;
-        border-radius: 5px;
-        margin-left: 5px;
-        padding: 4px;
-
-        span:not(:first-child) {
-          margin-left: 4px;
-        }
-      }
-
-      > span {
-        border: 1px solid transparent;
-        padding: 4px 4px;
-        border-radius: 5px;
-
-        &:hover {
-          border-color: silver;
-        }
-      }
-    }
-  }
 
   .open {
     display: none;
@@ -277,6 +247,49 @@ h1 {
   }
 
   .md {
+
+    ::ng-deep {
+      @import "md";
+    }
+
+    .poll {
+      list-style: none;
+
+      li {
+        cursor: pointer;
+
+        &:before {
+          content: url('../../assets/radio.svg');
+        }
+
+        &.selected:before {
+          content: url('../../assets/radio_checked.svg');
+        }
+
+        .votes {
+          display: inline;
+          border: 1px solid silver;
+          border-radius: 5px;
+          margin-left: 5px;
+          padding: 4px;
+
+          span:not(:first-child) {
+            margin-left: 4px;
+          }
+        }
+
+        > span {
+          border: 1px solid transparent;
+          padding: 4px 4px;
+          border-radius: 5px;
+
+          &:hover {
+            border-color: silver;
+          }
+        }
+      }
+    }
+
     flex: 1;
     overflow-x: scroll;
     position: relative;

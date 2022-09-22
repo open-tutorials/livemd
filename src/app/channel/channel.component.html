@@ -1,7 +1,12 @@
+<header>
+  <a href="https://www.epic1h.com" target="_blank">
+    <img alt="Epic One Hour" src="assets/epic1h.svg" width="150" height="28">
+  </a>
+</header>
+
 <div class="me">
   {{me.avatar | avatar}}
 </div>
-
 
 <ng-container *ngFor="let t of tokens;let line = index">
   <div *ngIf="t.type !== 'space'"
@@ -142,3 +147,7 @@
     </div>
   </div>
 </ng-container>
+
+<p>
+  <small>Права вообще не защищены! Пользуйтесь на здоровье 😂</small>
+</p>
