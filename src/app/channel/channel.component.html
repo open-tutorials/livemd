@@ -10,7 +10,7 @@
        [class.opened]="channel.progress[me.id] >= line"
        [class.unlocked]="!channel.locked || channel.progress[channel.owner] >= line"
        [attr.data-type]="t.type">
-    <div *ngIf="me.id !== channel.owner" class="open">
+    <div *ngIf="!channel.locked || me.id !== channel.owner" class="open">
       <button
         (click)="setProgress(channel.locked ? channel.progress[channel.owner] : findChapter(channel.progress[me.id] || 0))">
 
@@ -49,9 +49,9 @@
                     (click)="putMark(line, channel.marks[me.id][line] !== 'problem' ? 'problem' : null)">
               🔥
             </button>
-            <button [class.marked]="channel.marks[me.id][line] === 'hand'"
-                    (click)="putMark(line, channel.marks[me.id][line] !== 'hand' ? 'hand' : null)">
-              ✋
+            <button [class.marked]="channel.marks[me.id][line] === 'shit'"
+                    (click)="putMark(line, channel.marks[me.id][line] !== 'shit' ? 'shit' : null)">
+              💩
             </button>
             <button [class.marked]="channel.marks[me.id][line] === 'like'"
                     (click)="putMark(line, channel.marks[me.id][line] !== 'like' ? 'like' : null)">

@@ -19,7 +19,7 @@ export const AVATARS: { [key: string]: string } = {
 
 export const MARKS: { [key: string]: string } = {
   'problem': '🔥',
-  'hand': '✋',
+  'shit': '💩',
   'like': '👍'
 };
 

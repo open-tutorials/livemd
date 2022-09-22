@@ -45,7 +45,7 @@ export class ChannelComponent implements OnInit, AfterViewInit {
 
   @HostBinding('attr.data-mode')
   get mode(): Mode {
-    return this.channel?.owner === this.me?.id ? Mode.owner : Mode.member;
+    return this.channel?.locked && this.channel?.owner === this.me?.id ? Mode.owner : Mode.member;
   }
 
   me = this.meManager.me;
