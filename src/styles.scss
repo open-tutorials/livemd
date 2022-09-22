@@ -86,11 +86,11 @@ ul {
   }
 
   li.task:before {
-    content: url('assets/task.svg');
+    content: url('assets/checkbox.svg');
   }
 
   li.task.checked:before {
-    content: url('assets/task_checked.svg');
+    content: url('assets/checkbox_checked.svg');
   }
 }
 

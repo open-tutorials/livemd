@@ -25,8 +25,10 @@ class Channel {
   marks = {};
   comments = {};
   progress = {};
+  polls = {};
   baseUrl;
   imagesUrl;
+  locked;
 
   constructor(defs = {}) {
     Object.assign(this, defs);
@@ -97,8 +99,7 @@ app.get('*', function (request, response) {
 });
 
 app.post('/api/channels', (req, res) => {
-  const [slug, owner, markdown, baseUrl, imagesUrl] =
-    [req.body.slug, req.body.owner, req.body.markdown, req.body.baseUrl, req.body.imagesUrl];
+  const {slug, owner, markdown, baseUrl, imagesUrl, locked} = req.body;
 
   if (!!slug && slug.length < 4) {
     res.status(404).send('Slug should be more than 4 letters');
@@ -106,7 +107,7 @@ app.post('/api/channels', (req, res) => {
   }
 
   const id = slug || shortid.generate();
-  const channel = new Channel({id, markdown, owner, baseUrl, imagesUrl});
+  const channel = new Channel({id, markdown, owner, baseUrl, imagesUrl, locked});
   channels[id] = channel;
 
   res.send({id});
@@ -156,9 +157,12 @@ app.post('/api/channels/:id/join', (req, res) => {
       pusher.trigger(channel.id, 'member_updated', {member});
     }
 
-    const marks = channel.marks[id];
-    if (!marks) {
+    if (!channel.marks[id]) {
       channel.marks[id] = {};
+    }
+
+    if (!channel.polls[id]) {
+      channel.polls[id] = {};
     }
 
   }
@@ -189,6 +193,33 @@ app.post('/api/channels/:id/members/:member/marks/:line', (req, res) => {
 
   console.log('put mark', channel.id, member, line, mark);
   pusher.trigger(channel.id, 'put_mark', {member, line, mark});
+
+  res.status(200).send();
+
+  dirty[channel.id] = channel;
+});
+
+app.post('/api/channels/:id/members/:member/polls/:line', (req, res) => {
+  const [id, member, line] = [req.params.id, req.params.member, req.params.line];
+  const channel = channels[id];
+  if (!channel) {
+    res.status(404).send('Channel not found');
+    return;
+  }
+
+  if (!channel.members[member]) {
+    res.status(404).send('Member not found');
+  }
+
+  if (!channel.polls[member]) {
+    channel.polls[member] = {};
+  }
+
+  const {option} = req.body;
+  channel.polls[member][line] = option;
+
+  console.log('vote poll', channel.id, member, line, option);
+  pusher.trigger(channel.id, 'vote_poll', {member, line, option});
 
   res.status(200).send();
 

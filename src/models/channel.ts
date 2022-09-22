@@ -6,11 +6,13 @@ export class Channel {
   owner!: string;
   members!: { [key: string]: Member };
   marks!: { [key: string]: { [key: number]: string | null } };
+  polls!: { [key: string]: { [key: number]: number } };
   comments!: { [key: number]: { [key: string]: string } };
   progress!: { [key: string]: number };
   markdown!: string;
   baseUrl!: string;
   imagesUrl!: string;
+  locked!: boolean;
 }
 
 export class ChannelUpdate {
@@ -28,6 +30,9 @@ export class ChannelUpdate {
 
   @Field()
   slug!: string;
+
+  @Field()
+  locked!: boolean;
 
   constructor(defs: Partial<ChannelUpdate> = {}) {
     Object.assign(this, defs);

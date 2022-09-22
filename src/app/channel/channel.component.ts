@@ -28,6 +28,7 @@ export enum Mode {
 }
 
 type PutMarkEvent = { member: string, line: number, mark: string };
+type VotePollEvent = { member: string, line: number, option: number };
 type PutCommentEvent = { member: string, line: number, comment: string };
 type SetProgressEvent = { member: string, line: number };
 type MemberJoinedEvent = { member: Member };
@@ -50,11 +51,13 @@ export class ChannelComponent implements OnInit, AfterViewInit {
   me = this.meManager.me;
   form = this.fb.group({});
   pusher: { public?: any, private?: any } = {};
+  tokens: any[] = [];
 
   private _channel!: Channel;
 
   set channel(channel: Channel) {
     this._channel = channel;
+    this.tokens = marked.lexer(channel.markdown);
     marked.setOptions(getMarkedOptions(channel.baseUrl, channel.imagesUrl));
     this.bindEvents();
   }
@@ -133,6 +136,24 @@ export class ChannelComponent implements OnInit, AfterViewInit {
       .subscribe(response => console.log(response));
   }
 
+  votePoll(line: number, option: number) {
+    if (!this.channel.polls[this.me.id]) {
+      this.channel.polls[this.me.id] = {};
+    }
+
+    this.channel.polls[this.me.id][line] = option;
+
+    this.channelsService.votePoll(this.channel.id, line, option)
+      .subscribe(response => console.log(response));
+  }
+
+  findChapter(line: number) {
+    const from = line + 1;
+    const next = this.tokens.slice(from)
+      .findIndex(t => t.type == 'hr');
+    return next !== -1 ? from + next : this.tokens.length - 1;
+  }
+
   private bindEvents() {
     const pusher = new Pusher('4fb08c17a97f4b75ef66', {
       cluster: 'eu',
@@ -153,6 +174,14 @@ export class ChannelComponent implements OnInit, AfterViewInit {
           return;
         }
         this.channel.marks[member][line] = mark;
+        this.cd.detectChanges();
+      });
+
+      channel.bind('vote_poll', ({member, line, option}: VotePollEvent) => {
+        if (member === this.me.id) {
+          return;
+        }
+        this.channel.polls[member][line] = option;
         this.cd.detectChanges();
       });
 
@@ -186,9 +215,11 @@ export class ChannelComponent implements OnInit, AfterViewInit {
 
       channel.bind('member_joined', ({member}: MemberJoinedEvent) => {
         this.channel.members[member.id] = member;
-        const marks = this.channel.marks[member.id];
-        if (!marks) {
+        if (!this.channel.marks[member.id]) {
           this.channel.marks[member.id] = {};
+        }
+        if (!this.channel.polls[member.id]) {
+          this.channel.polls[member.id] = {};
         }
         this.cd.detectChanges();
       });

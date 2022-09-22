@@ -69,6 +69,44 @@ h1 {
   display: flex;
   position: relative;
 
+  .poll {
+    list-style: none;
+
+    li {
+      cursor: pointer;
+
+      &:before {
+        content: url('../../assets/radio.svg');
+      }
+
+      &.selected:before {
+        content: url('../../assets/radio_checked.svg');
+      }
+
+      .votes {
+        display: inline;
+        border: 1px solid silver;
+        border-radius: 5px;
+        margin-left: 5px;
+        padding: 4px;
+
+        span:not(:first-child) {
+          margin-left: 4px;
+        }
+      }
+
+      > span {
+        border: 1px solid transparent;
+        padding: 4px 4px;
+        border-radius: 5px;
+
+        &:hover {
+          border-color: silver;
+        }
+      }
+    }
+  }
+
   .open {
     display: none;
     position: absolute;
@@ -85,6 +123,13 @@ h1 {
       height: 80px;
       cursor: pointer;
       background: none;
+
+      svg {
+        position: absolute;
+        left: 40px;
+        z-index: 2;
+        transform: rotate(-45deg);
+      }
 
       &:hover {
         span {
@@ -250,6 +295,7 @@ h1 {
       border: none;
       border-radius: 5px;
       background: transparent;
+
       &:hover {
         background: greenyellow;
       }

@@ -17,7 +17,8 @@ export class CreateChannelComponent implements OnInit {
     markdown: [MARKDOWN, Validators.required],
     baseUrl: ['https://github.com/{your_repository}/blob/main/'],
     imagesUrl: ['https://raw.githubusercontent.com/{your_repository}/main'],
-    slug: [null]
+    slug: [null],
+    locked: [false]
   });
 
   constructor(private fb: FormBuilder,
@@ -39,8 +40,8 @@ export class CreateChannelComponent implements OnInit {
   }
 
   create() {
-    const {markdown, baseUrl, imagesUrl, slug} = this.form.getRawValue();
-    this.channelsService.create(markdown, baseUrl, imagesUrl, slug)
+    const {markdown, baseUrl, imagesUrl, slug, locked} = this.form.getRawValue();
+    this.channelsService.create(markdown, baseUrl, imagesUrl, slug, locked)
       .subscribe(({id}) => {
         this.router.navigate([id],
           {relativeTo: this.route});

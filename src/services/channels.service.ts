@@ -21,7 +21,7 @@ export class ChannelsService {
     return this.http.post<Channel>(endpoint, serialize(me));
   }
 
-  create(markdown: string, baseUrl: string, imagesUrl: string, slug: string): Observable<Channel> {
+  create(markdown: string, baseUrl: string, imagesUrl: string, slug: string, locked: boolean): Observable<Channel> {
     const {me} = this.meManager;
     const endpoint = getEndpoint('channels');
     const channel = new ChannelUpdate({
@@ -29,6 +29,7 @@ export class ChannelsService {
       baseUrl,
       imagesUrl,
       slug,
+      locked,
       owner: me.id
     });
     return this.http.post<Channel>(endpoint, serialize(channel));
@@ -38,6 +39,12 @@ export class ChannelsService {
     const {me} = this.meManager;
     const endpoint = getEndpoint('channels', channel, 'members', me.id, 'marks', line);
     return this.http.post<Channel>(endpoint, {mark});
+  }
+
+  votePoll(channel: string, line: number, option: number) {
+    const {me} = this.meManager;
+    const endpoint = getEndpoint('channels', channel, 'members', me.id, 'polls', line);
+    return this.http.post<Channel>(endpoint, {option});
   }
 
   comment(channel: string, line: number, comment: string | null) {

@@ -9,7 +9,7 @@ import { TimerComponent } from 'src/app/timer/timer.component';
 import { WelcomeComponent } from 'src/app/welcome/welcome.component';
 import { GetAvatar } from 'src/pipes/avatar.pipe';
 import { GetDepth } from 'src/pipes/depth.pipe';
-import { GetMark } from 'src/pipes/mark.pipe';
+import { GetMark, GetVoted } from 'src/pipes/mark.pipe';
 import { GetTokens, Md2Html } from 'src/pipes/markdown.pipe';
 import { Token2Html } from 'src/pipes/token2html.pipe';
 import { ChannelResolver } from 'src/resolvers/channel.resolver';
@@ -31,6 +31,7 @@ export function routerErrorHandle(error: Error) {
     GetDepth,
     GetAvatar,
     GetMark,
+    GetVoted,
     Md2Html
   ],
   imports: [
