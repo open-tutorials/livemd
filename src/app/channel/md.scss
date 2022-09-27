@@ -4,6 +4,25 @@ img {
   border: 1px solid silver;
 }
 
+.person {
+  border: 1px solid transparent;
+  border-radius: 5px;
+  padding: 5px;
+  text-decoration: none;
+  &:hover {
+    border-color: silver;
+  }
+  img {
+    border-radius: 50%;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    vertical-align: middle;
+    margin-bottom: 2px;
+  }
+}
+
 details {
   display: inline-block;
   margin: 5px 0;

@@ -1,8 +1,16 @@
 @import "~highlight.js/styles/github.css";
 
-html, body {
+body {
   font-family: 'Roboto', sans-serif;
-  padding: 10px 40px;
+  padding: 20px 40px;
+  margin: 0;
+}
+
+@media (max-device-width: 677px) {
+  body {
+    padding: 10px;
+    font-size: 12px;
+  }
 }
 
 button, textarea, input {

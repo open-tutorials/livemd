@@ -123,8 +123,35 @@ const poll: any = {
     throw new Error('Was not implemented');
   }
 };
+
+const person: any = {
+  name: 'person',
+  level: 'inline',
+  start(src: string) {
+    return src.match(/^@\[/)?.index;
+  },
+  tokenizer(src: string, tokens: any[]): any {
+    const rule = /^@\[([^\|]+)\|([^\|]+)(?:\|(.+))*\]/;
+    const match = rule.exec(src);
+    console.log(match);
+    if (match) {
+      const [raw, name, link, avatar] = match;
+      const token = {
+        type: 'person',
+        raw,
+        name,
+        link,
+        avatar
+      };
+      return token;
+    }
+  },
+  renderer(token: any) {
+    return `<a class="person" target="_blank" href="${token.link}"><img src="${token.avatar}"> ${token.name} 🤙</a>`;
+  }
+};
 // @ts-ignore-end
-marked.use({extensions: [summary, details, timer, poll]});
+marked.use({extensions: [summary, details, timer, person, poll]});
 
 if (environment.production) {
   enableProdMode();

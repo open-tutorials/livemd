@@ -4,15 +4,47 @@
   <meta charset="utf-8">
   <title>Live Markdown</title>
   <base href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/png" href="favicon.png">
   <script src="https://js.pusher.com/7.0.3/pusher.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Source+Code+Pro:wght@500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Source+Code+Pro:wght@500&display=swap"
+        rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@500&display=swap" rel="stylesheet">
 </head>
 <body>
-  <app-root></app-root>
+<app-root></app-root>
+<script>
+  // adjust view port
+  (function () {
+    var viewport;
+
+    var reload = function () {
+      if (!!viewport) {
+        viewport.parentNode.removeChild(viewport);
+      }
+
+      viewport = document.createElement('meta');
+      viewport.setAttribute('name', 'viewport');
+      var width = window.screen.availWidth < 660
+        ? 'width=768' : 'width=device-width';
+      var content = [width];
+      if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
+        content.push('maximum-scale=1.0');
+        content.push('user-scalable=0');
+      }
+      viewport.setAttribute('content', content.join(', '));
+      document.head.appendChild(viewport);
+    };
+
+    reload();
+    window.addEventListener('resize', function () {
+      reload();
+    });
+    window.addEventListener('orientationchange', function () {
+      reload();
+    });
+  })();
+</script>
 </body>
 </html>
