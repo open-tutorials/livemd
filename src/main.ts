@@ -133,7 +133,6 @@ const person: any = {
   tokenizer(src: string, tokens: any[]): any {
     const rule = /^@\[([^\|]+)\|([^\|]+)(?:\|(.+))*\]/;
     const match = rule.exec(src);
-    console.log(match);
     if (match) {
       const [raw, name, link, avatar] = match;
       const token = {

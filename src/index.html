@@ -9,7 +9,9 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&family=Roboto:wght@400;700&family=Source+Code+Pro:wght@500&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&family=Roboto:wght@400;700&family=Source+Code+Pro:wght@500&display=swap"
+    rel="stylesheet">
 </head>
 <body>
 <app-root></app-root>
@@ -17,32 +19,21 @@
   // adjust view port
   (function () {
     var viewport;
+    if (!!viewport) {
+      viewport.parentNode.removeChild(viewport);
+    }
 
-    var reload = function () {
-      if (!!viewport) {
-        viewport.parentNode.removeChild(viewport);
-      }
-
-      viewport = document.createElement('meta');
-      viewport.setAttribute('name', 'viewport');
-      var width = window.screen.availWidth < 660
-        ? 'width=768' : 'width=device-width';
-      var content = [width];
-      if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
-        content.push('maximum-scale=1.0');
-        content.push('user-scalable=0');
-      }
-      viewport.setAttribute('content', content.join(', '));
-      document.head.appendChild(viewport);
-    };
-
-    reload();
-    window.addEventListener('resize', function () {
-      reload();
-    });
-    window.addEventListener('orientationchange', function () {
-      reload();
-    });
+    viewport = document.createElement('meta');
+    viewport.setAttribute('name', 'viewport');
+    var width = window.screen.availWidth < 660
+      ? 'width=768' : 'width=device-width';
+    var content = [width];
+    if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
+      content.push('maximum-scale=1.0');
+      content.push('user-scalable=0');
+    }
+    viewport.setAttribute('content', content.join(', '));
+    document.head.appendChild(viewport);
   })();
 </script>
 </body>
