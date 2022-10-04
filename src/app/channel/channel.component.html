@@ -4,7 +4,7 @@
   </a>
 </header>
 
-<div class="me">
+<div class="me" (click)="current = me.id">
   {{me.avatar | avatar}}
 </div>
 
@@ -41,29 +41,29 @@
       </button>
     </div>
 
-    <div class="marks" [class.marked]="!!channel.marks[me.id][line]">
+    <div class="marks" [class.marked]="!!channel.marks[current][line]">
       <div class="my">
-        <ng-container *ngIf="channel.marks[me.id][line] as mark">
+        <ng-container *ngIf="channel.marks[current][line] as mark">
           {{mark | mark}}
         </ng-container>
       </div>
       <div class="tools">
         <div class="content">
           <div class="buttons">
-            <button [class.marked]="channel.marks[me.id][line] === 'problem'"
-                    (click)="putMark(line, channel.marks[me.id][line] !== 'problem' ? 'problem' : null)">
+            <button [class.marked]="channel.marks[current][line] === 'problem'"
+                    (click)="putMark(line, current, channel.marks[current][line] !== 'problem' ? 'problem' : null)">
               🔥
             </button>
-            <button [class.marked]="channel.marks[me.id][line] === 'shit'"
-                    (click)="putMark(line, channel.marks[me.id][line] !== 'shit' ? 'shit' : null)">
+            <button [class.marked]="channel.marks[current][line] === 'shit'"
+                    (click)="putMark(line, current, channel.marks[current][line] !== 'shit' ? 'shit' : null)">
               💩
             </button>
-            <button [class.marked]="channel.marks[me.id][line] === 'like'"
-                    (click)="putMark(line, channel.marks[me.id][line] !== 'like' ? 'like' : null)">
+            <button [class.marked]="channel.marks[current][line] === 'like'"
+                    (click)="putMark(line, current, channel.marks[current][line] !== 'like' ? 'like' : null)">
               👍
             </button>
           </div>
-          <textarea [formControl]="getCommentControl(line)"
+          <textarea [formControl]="getCommentControl(line, current)"
                     placeholder="Комментарий"></textarea>
         </div>
       </div>
@@ -140,7 +140,7 @@
       <div class="comments">
         <ng-container *ngFor="let comment of (channel.comments[line] | keyvalue)">
           <div *ngIf="channel.members[comment.key] as member">
-            <b>{{member.avatar | avatar}} {{member.name}}</b>
+            <b (click)="current = member.id">{{member.avatar | avatar}} {{member.name}}</b>
             <div [outerHTML]="comment.value | md2Html"></div>
           </div>
         </ng-container>

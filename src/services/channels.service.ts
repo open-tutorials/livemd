@@ -35,9 +35,8 @@ export class ChannelsService {
     return this.http.post<Channel>(endpoint, serialize(channel));
   }
 
-  mark(channel: string, line: number, mark: string | null) {
-    const {me} = this.meManager;
-    const endpoint = getEndpoint('channels', channel, 'members', me.id, 'marks', line);
+  mark(channel: string, line: number, member: string, mark: string | null) {
+    const endpoint = getEndpoint('channels', channel, 'members', member, 'marks', line);
     return this.http.post<Channel>(endpoint, {mark});
   }
 
@@ -47,9 +46,8 @@ export class ChannelsService {
     return this.http.post<Channel>(endpoint, {option});
   }
 
-  comment(channel: string, line: number, comment: string | null) {
-    const {me} = this.meManager;
-    const endpoint = getEndpoint('channels', channel, 'members', me.id, 'comments', line);
+  comment(channel: string, member: string, line: number, comment: string | null) {
+    const endpoint = getEndpoint('channels', channel, 'members', member, 'comments', line);
     return this.http.post<Channel>(endpoint, {comment});
   }
 

@@ -48,10 +48,16 @@ export class ChannelComponent implements OnInit, AfterViewInit {
     return this.channel?.locked && this.channel?.owner === this.me?.id ? Mode.owner : Mode.member;
   }
 
+  @HostBinding('attr.data-am-owner')
+  get amOwner(): boolean {
+    return this.channel?.owner === this.me?.id;
+  }
+
   me = this.meManager.me;
   form = this.fb.group({});
   pusher: { public?: any, private?: any } = {};
   tokens: any[] = [];
+  current = this.me.id;
 
   private _channel!: Channel;
 
@@ -94,38 +100,37 @@ export class ChannelComponent implements OnInit, AfterViewInit {
     }, 500);
   }
 
-  putMark(line: number, mark: string | null) {
+  putMark(line: number, member: string, mark: string | null) {
     this.channel.marks[this.me.id][line] = mark;
 
-    this.channelsService.mark(this.channel.id, line, mark)
+    this.channelsService.mark(this.channel.id, line, member, mark)
       .subscribe(response => console.log(response));
   }
 
-  getCommentControl(line: number): FormControl {
-    const name = line.toString();
+  getCommentControl(line: number, member: string): FormControl {
+    const name = [line, member].join('_');
     let control = this.form.get(name) as FormControl;
     if (!control) {
-      control = this.fb.control((this.channel.comments[line] || {})[this.me.id] || null);
+      control = this.fb.control((this.channel.comments[line] || {})[member] || null);
       control.valueChanges.subscribe(comment =>
-        this.putComment(line, comment));
+        this.putComment(line, comment, member));
       this.form.addControl(name, control);
     }
     return control;
   }
 
-  putComment(line: number, comment: string) {
+  putComment(line: number, comment: string, member: string) {
     if (!this.channel.comments[line]) {
       this.channel.comments[line] = {};
     }
 
-    const {id} = this.me;
     if (!!comment) {
-      this.channel.comments[line][id] = comment;
+      this.channel.comments[line][member] = comment;
     } else {
-      delete this.channel.comments[line][id];
+      delete this.channel.comments[line][member];
     }
 
-    this.channelsService.comment(this.channel.id, line, comment || null)
+    this.channelsService.comment(this.channel.id, member, line, comment || null)
       .subscribe(response => console.log(response));
   }
 

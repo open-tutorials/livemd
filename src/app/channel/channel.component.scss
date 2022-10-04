@@ -33,7 +33,7 @@ h1 {
 :host([data-mode=member]) {
   .token {
     &:not(.opened) {
-      .md .content {
+      .md {
         filter: blur(4px);
       }
 
@@ -71,6 +71,17 @@ h1 {
         }
       }
     }
+  }
+}
+
+:host([data-am-owner=true]) {
+  .token {
+    .comments b {
+      cursor: pointer;
+    }
+  }
+  .me {
+    cursor: pointer;
   }
 }
 
@@ -248,8 +259,7 @@ h1 {
   }
 
   .md {
-    display: flex;
-    flex-direction: column;
+
     ::ng-deep {
       @import "md";
     }
@@ -293,7 +303,8 @@ h1 {
     }
 
     flex: 1;
-    position: relative;
+    display: flex;
+    flex-direction: column;
     padding: 0 10px;
     margin-left: 5px;
     border-left: 1px solid silver;
@@ -316,7 +327,10 @@ h1 {
     }
 
     .members {
-      margin-top: 5px;
+      &:empty {
+        display: none;
+      }
+      margin: 5px 0;
 
       > div {
         display: inline-block;
@@ -344,6 +358,11 @@ h1 {
     }
 
     .progress {
+      &:empty {
+        display: none;
+      }
+      margin-top: 5px;
+
       display: flex;
       align-content: flex-start;
       user-select: none;
@@ -358,6 +377,9 @@ h1 {
     }
 
     .comments {
+      &:empty {
+        display: none;
+      }
       margin-top: 5px;
       background: aliceblue;
       padding: 10px;
