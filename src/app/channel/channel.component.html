@@ -116,33 +116,34 @@
           </ng-container>
           <div *ngSwitchDefault [outerHTML]="t | token2Html"></div>
         </ng-container>
+      </div>
 
-        <div class="members">
-          <ng-container *ngFor="let member of channel.members | keyvalue">
-            <ng-container *ngIf="member.key !== me.id">
-              <div *ngIf="channel.marks[member.key][line] as mark"
-                   [attr.title]="member.value.name">
-                {{member.value.avatar | avatar}}
-                <span>{{mark | mark}}</span>
-              </div>
-            </ng-container>
-          </ng-container>
-        </div>
-        <div class="progress">
-          <ng-container *ngFor="let m of channel.members | keyvalue">
-            <div *ngIf="m.key !== channel.owner && m.key !== me.id && channel.progress[m.key] === line">
-              {{m.value.avatar | avatar}}
+      <div class="members">
+        <ng-container *ngFor="let member of channel.members | keyvalue">
+          <ng-container *ngIf="member.key !== me.id">
+            <div *ngIf="channel.marks[member.key][line] as mark"
+                 [attr.title]="member.value.name">
+              {{member.value.avatar | avatar}}
+              <span>{{mark | mark}}</span>
             </div>
           </ng-container>
-        </div>
-        <div class="comments">
-          <ng-container *ngFor="let comment of (channel.comments[line] | keyvalue)">
-            <div *ngIf="channel.members[comment.key] as member">
-              <b>{{member.avatar | avatar}} {{member.name}}</b>
-              <div [outerHTML]="comment.value | md2Html"></div>
-            </div>
-          </ng-container>
-        </div>
+        </ng-container>
+      </div>
+
+      <div class="progress">
+        <ng-container *ngFor="let m of channel.members | keyvalue">
+          <div *ngIf="m.key !== channel.owner && m.key !== me.id && channel.progress[m.key] === line">
+            {{m.value.avatar | avatar}}
+          </div>
+        </ng-container>
+      </div>
+      <div class="comments">
+        <ng-container *ngFor="let comment of (channel.comments[line] | keyvalue)">
+          <div *ngIf="channel.members[comment.key] as member">
+            <b>{{member.avatar | avatar}} {{member.name}}</b>
+            <div [outerHTML]="comment.value | md2Html"></div>
+          </div>
+        </ng-container>
       </div>
     </div>
   </div>

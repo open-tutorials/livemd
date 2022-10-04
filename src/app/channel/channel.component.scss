@@ -7,6 +7,7 @@
 header {
   display: flex;
   justify-content: flex-end;
+
   img {
     display: block;
   }
@@ -247,7 +248,8 @@ h1 {
   }
 
   .md {
-
+    display: flex;
+    flex-direction: column;
     ::ng-deep {
       @import "md";
     }
@@ -291,12 +293,15 @@ h1 {
     }
 
     flex: 1;
-    overflow-x: scroll;
     position: relative;
     padding: 0 10px;
     margin-left: 5px;
     border-left: 1px solid silver;
     border-right: 1px solid silver;
+
+    .content {
+      overflow-x: scroll;
+    }
 
     .unlock {
       width: 100%;
@@ -314,15 +319,20 @@ h1 {
       margin-top: 5px;
 
       > div {
+        display: inline-block;
         position: relative;
         font-size: 30px;
         width: 35px;
         user-select: none;
 
+        &:not(:first-child) {
+          margin-left: 5px;
+        }
+
         span {
           position: absolute;
-          bottom: 0;
-          right: 0;
+          bottom: -5px;
+          right: -5px;
           border-radius: 50%;
           display: flex;
           align-items: center;
