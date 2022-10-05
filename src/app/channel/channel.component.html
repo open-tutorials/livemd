@@ -137,14 +137,21 @@
           </div>
         </ng-container>
       </div>
-      <div class="comments">
-        <ng-container *ngFor="let comment of (channel.comments[line] | keyvalue)">
-          <div *ngIf="channel.members[comment.key] as member">
-            <b (click)="current = member.id">{{member.avatar | avatar}} {{member.name}}</b>
-            <div [outerHTML]="comment.value | md2Html"></div>
-          </div>
-        </ng-container>
-      </div>
+      <ng-container *ngIf="(channel.comments[line] | keyvalue) as comments">
+        <div *ngIf="comments.length > 0" class="comments">
+          <button (click)="state.comments[line] = !state.comments[line]">
+            {{state.comments[line] ? '↑' : '↓'}} ... <sup>{{comments.length}}</sup>
+          </button>
+          <ng-container *ngIf="state.comments[line]">
+            <ng-container *ngFor="let comment of comments">
+              <div *ngIf="channel.members[comment.key] as member">
+                <b (click)="current = member.id">{{member.avatar | avatar}} {{member.name}}</b>
+                <div [outerHTML]="comment.value | md2Html"></div>
+              </div>
+            </ng-container>
+          </ng-container>
+        </div>
+      </ng-container>
     </div>
   </div>
 </ng-container>

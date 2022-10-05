@@ -58,6 +58,7 @@ export class ChannelComponent implements OnInit, AfterViewInit {
   pusher: { public?: any, private?: any } = {};
   tokens: any[] = [];
   current = this.me.id;
+  state: { comments: { [key: number]: boolean } } = {comments: {}};
 
   private _channel!: Channel;
 
@@ -112,8 +113,10 @@ export class ChannelComponent implements OnInit, AfterViewInit {
     let control = this.form.get(name) as FormControl;
     if (!control) {
       control = this.fb.control((this.channel.comments[line] || {})[member] || null);
-      control.valueChanges.subscribe(comment =>
-        this.putComment(line, comment, member));
+      control.valueChanges.subscribe(comment => {
+        this.putComment(line, comment, member);
+        this.state.comments[line] = true;
+      });
       this.form.addControl(name, control);
     }
     return control;

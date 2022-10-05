@@ -386,6 +386,22 @@ h1 {
       border-radius: 5px;
       font-size: .85em;
 
+      button {
+        cursor: pointer;
+        display: block;
+        background: white;
+        border-radius: 5px;
+        border: 1px solid silver;
+        padding: 2px 5px;
+        &:hover {
+          background: seashell;
+        }
+      }
+
+      > div:not(:first-child) {
+        margin-top: 10px;
+      }
+
       &:empty {
         display: none;
       }
