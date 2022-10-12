@@ -1,9 +1,1 @@
 <div #timerRef>{{time}}</div>
-
-<ng-container *ngIf="manage">
-  <button *ngIf="timer === null; else stopTemplate" (click)="start()">▶️</button>
-  <ng-template #stopTemplate>
-    <button (click)="stop()">⏸️</button>
-  </ng-template>
-</ng-container>
-

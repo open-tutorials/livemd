@@ -25,6 +25,7 @@ class Channel {
   marks = {};
   comments = {};
   progress = {};
+  opened = {};
   polls = {};
   baseUrl;
   imagesUrl;
@@ -165,6 +166,19 @@ app.post('/api/channels/:id/join', (req, res) => {
       channel.polls[id] = {};
     }
 
+    if (!channel.progress[id]) {
+      channel.progress[id] = 0;
+    }
+
+    // reverse support
+    if(!channel.opened) {
+      channel.opened = {};
+    }
+
+    if (!channel.opened[id]) {
+      channel.opened[id] = 0;
+    }
+
   }
 
   res.send(channel);
@@ -252,6 +266,27 @@ app.post('/api/channels/:id/members/:member/comments/:line', (req, res) => {
   console.log('put comment', channel.id, member, line, comment);
   pusher.trigger(channel.id, 'put_comment', {member, line, comment});
 
+  res.status(200).send();
+
+  dirty[channel.id] = channel;
+});
+
+app.post('/api/channels/:id/members/:member/open', (req, res) => {
+  const [id, member] = [req.params.id, req.params.member];
+  const channel = channels[id];
+  if (!channel) {
+    res.status(404).send('Channel not found');
+    return;
+  }
+
+  if (!channel.members[member]) {
+    res.status(404).send('Member not found');
+  }
+
+  const {line} = req.body;
+  channel.opened[member] = line;
+
+  console.log('open', channel.id, member, line);
   res.status(200).send();
 
   dirty[channel.id] = channel;

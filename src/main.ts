@@ -73,30 +73,6 @@ const summary: any = {
   }
 };
 
-const timer: any = {
-  name: 'timer',
-  level: 'block',
-  start(src: string) {
-    return src.match(/^<timer>/)?.index;
-  },
-  tokenizer(src: string, tokens: any[]): any {
-    const rule = /^<timer\stime=\"([0-9\:]+)\">(((?!<timer)(?:.|\n))+)<\/timer>/;
-    const match = rule.exec(src);
-    if (match) {
-      const [raw, time] = match;
-      const token = {
-        type: 'timer',
-        raw,
-        time
-      };
-      return token;
-    }
-  },
-  renderer(token: any) {
-    return `<p>Render is unavailable</p>`;
-  }
-};
-
 const poll: any = {
   name: 'poll',
   level: 'block',
@@ -149,8 +125,59 @@ const person: any = {
     return `<a class="person" target="_blank" href="${token.link}"><img src="${token.avatar}"> ${token.name} 🤙</a>`;
   }
 };
+
+const hr: any = {
+  name: 'hr',
+  level: 'block',
+  start(src: string) {
+    return src.match(/^\*\*\*\s*\d+\:\d+/)?.index;
+  },
+  tokenizer(src: string, tokens: any[]): any {
+    const rule = /^\*\*\*\s*(\d+\:\d+)\s*\*\*\*/;
+    const match = rule.exec(src);
+    if (match) {
+      const [raw, time] = match;
+      const token = {
+        type: 'hr',
+        raw,
+        time
+      };
+      return token;
+    }
+  },
+  renderer(token: any) {
+    throw new Error('Not implemented');
+  }
+};
+
+const block: any = {
+  name: 'block',
+  level: 'block',
+  start(src: string) {
+    return src.match(/^<block>/)?.index;
+  },
+  tokenizer(src: string, tokens: any[]): any {
+    const rule = /^<block>(((?!<block>)(?:.|\n))+)<\/block>/;
+    const match = rule.exec(src);
+    if (match) {
+      let [raw, text] = match;
+      text = text.trim();
+      const token = {
+        type: 'block',
+        raw: raw,
+        text: text.trim(),
+        tokens: this.lexer.blockTokens(text)
+      };
+      return token;
+    }
+  },
+  renderer(token: any) {
+    return `<block>${this.parser.parse(token.tokens)}</block>`;
+  }
+};
+
 // @ts-ignore-end
-marked.use({extensions: [summary, details, timer, person, poll]});
+marked.use({extensions: [summary, details, person, poll, hr, block]});
 
 if (environment.production) {
   enableProdMode();

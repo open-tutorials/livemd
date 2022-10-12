@@ -11,8 +11,6 @@ import {
 import { FormBuilder, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { marked } from 'marked';
-import { debounceTime, Subject, tap } from 'rxjs';
-import { TimerEvent, TimerEvents } from 'src/app/timer/timer-events.service';
 import { environment } from 'src/environments/environment';
 import { MeManager } from 'src/managers/me.manager';
 import { Channel } from 'src/models/channel';
@@ -79,7 +77,6 @@ export class ChannelComponent implements OnInit, AfterViewInit {
   constructor(private cd: ChangeDetectorRef,
               private channelsService: ChannelsService,
               private meManager: MeManager,
-              private events: TimerEvents,
               private route: ActivatedRoute,
               private renderer: Renderer2,
               private fb: FormBuilder) {
@@ -134,6 +131,13 @@ export class ChannelComponent implements OnInit, AfterViewInit {
     }
 
     this.channelsService.comment(this.channel.id, member, line, comment || null)
+      .subscribe(response => console.log(response));
+  }
+
+  open(line: number) {
+    this.channel.opened[this.me.id] = line;
+
+    this.channelsService.open(this.channel.id, line)
       .subscribe(response => console.log(response));
   }
 
@@ -243,19 +247,10 @@ export class ChannelComponent implements OnInit, AfterViewInit {
       const channel = pusher.subscribe(['private', this.channel.id].join('-'));
       this.pusher.private = channel;
       if (this.me.id !== this.channel.owner) {
-        channel.bind('client-timers', ({id, type, time}: TimerEvent) =>
-          this.events.dispatch({id, type, time}));
+        // channel.bind('client-timers', data => {});
       }
     }
 
-  }
-
-  startTimer(id: number, time: string) {
-    this.pusher.private?.trigger('client-timers', {id, type: 'started', time});
-  }
-
-  stopTimer(id: number, time: string) {
-    this.pusher.private?.trigger('client-timers', {id, type: 'stopped', time});
   }
 
 }

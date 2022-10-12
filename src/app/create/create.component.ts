@@ -37,6 +37,11 @@ export class CreateChannelComponent implements OnInit {
     if (!!imagesUrl) {
       this.form.patchValue({imagesUrl});
     }
+
+    const slug = localStorage['slug'];
+    if (!!slug) {
+      this.form.patchValue({slug});
+    }
   }
 
   create() {
@@ -49,6 +54,11 @@ export class CreateChannelComponent implements OnInit {
 
     localStorage.setItem('baseUrl', baseUrl);
     localStorage.setItem('imagesUrl', imagesUrl);
+    if (!!slug) {
+      localStorage.setItem('slug', slug);
+    } else {
+      localStorage.removeItem('slug');
+    }
   }
 
 }

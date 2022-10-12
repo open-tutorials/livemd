@@ -51,6 +51,12 @@ export class ChannelsService {
     return this.http.post<Channel>(endpoint, {comment});
   }
 
+  open(channel: string, line: number) {
+    const {me} = this.meManager;
+    const endpoint = getEndpoint('channels', channel, 'members', me.id, 'open');
+    return this.http.post<Channel>(endpoint, {line});
+  }
+
   progress(channel: string, line: number) {
     const {me} = this.meManager;
     const endpoint = getEndpoint('channels', channel, 'members', me.id, 'progress');

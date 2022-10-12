@@ -6,7 +6,7 @@ body {
   margin: 0;
 }
 
-@media (max-width: 677px) {
+@media (max-width: 768px) {
   body {
     padding: 10px;
     font-size: 12px;
@@ -35,5 +35,5 @@ body::after {
   height: 0;
   overflow: hidden;
   z-index: -1; // hide images
-  content: url(assets/checkbox.svg) url(assets/checkbox_checked.svg) url(assets/radio.svg) url(assets/radio_checked.svg); // load images
+  content: url(assets/checkbox.svg) url(assets/checkbox_checked.svg) url(assets/radio.svg) url(assets/radio_checked.svg) url(assets/hand.svg); // load images
 }

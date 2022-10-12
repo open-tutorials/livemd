@@ -1,14 +1,13 @@
 import {
   ChangeDetectionStrategy, ChangeDetectorRef,
   Component,
-  ElementRef, EventEmitter,
+  ElementRef, EventEmitter, HostListener,
   Input,
   NgZone,
   OnInit, Output,
   ViewChild
 } from '@angular/core';
 import { filter } from 'rxjs';
-import { TimerEvents } from 'src/app/timer/timer-events.service';
 
 const SECONDS_IN_MINUTE = 60;
 
@@ -25,7 +24,7 @@ function pad(num: number) {
 export class TimerComponent implements OnInit {
 
   @Input()
-  id!: number;
+  id!: string;
 
   @Input()
   set time(time: string) {
@@ -40,80 +39,52 @@ export class TimerComponent implements OnInit {
   }
 
   @Input()
-  manage!: boolean;
-
-  @Input()
   remained!: number;
 
   @Output()
-  started = new EventEmitter<string>();
-
-  @Output()
-  stopped = new EventEmitter<string>();
+  finished = new EventEmitter<string>();
 
   @ViewChild('timerRef')
   timerRef!: ElementRef<HTMLDivElement>;
 
   timer: any = null;
 
-  constructor(private events: TimerEvents,
-              private cd: ChangeDetectorRef,
+  constructor(private cd: ChangeDetectorRef,
               private zone: NgZone) {
   }
 
   ngOnInit() {
-    this.events.broadcast$.pipe(filter(({id}) => this.id === id))
-      .subscribe(({type, time}) => {
-        switch (type) {
-          case 'started':
-            this.doStart(time);
-            break;
-          case 'stopped':
-            this.doStop(time);
-            break;
-        }
-      });
-  }
-
-  private doStart(time: string | null = null) {
+    const time = localStorage.getItem(this.id);
     if (!!time) {
       this.time = time;
     }
+    this.remained > 0 ? this.start() : this.stop();
+  }
+
+  start() {
     const tick = () => {
       if (this.remained-- > 0) {
         this.render();
+        localStorage.setItem(this.id, this.time);
         this.timer = setTimeout(() => tick(), 1000);
+      } else {
+        this.finished.emit();
       }
     };
 
     clearInterval(this.timer);
-    this.timer = -1;
     this.cd.detectChanges();
 
     this.zone.runOutsideAngular(() => tick());
   }
 
-  private doStop(time: string | null = null) {
-    if (!!time) {
-      this.time = time;
-    }
-    clearInterval(this.timer);
-    this.timer = null;
-    this.cd.detectChanges();
+  @HostListener('dblclick')
+  stop() {
+    this.finished.emit();
   }
 
   render() {
     this.timerRef.nativeElement.innerHTML = this.time;
-  }
-
-  start() {
-    this.doStart();
-    this.started.emit(this.time);
-  }
-
-  stop() {
-    this.doStop();
-    this.stopped.emit(this.time);
   }
 
 }

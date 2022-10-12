@@ -8,6 +8,7 @@ export class Channel {
   marks!: { [key: string]: { [key: number]: string | null } };
   polls!: { [key: string]: { [key: number]: number } };
   comments!: { [key: number]: { [key: string]: string } };
+  opened!: { [key: string]: number };
   progress!: { [key: string]: number };
   markdown!: string;
   baseUrl!: string;
