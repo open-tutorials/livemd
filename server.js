@@ -29,7 +29,6 @@ class Channel {
   polls = {};
   baseUrl;
   imagesUrl;
-  locked;
 
   constructor(defs = {}) {
     Object.assign(this, defs);
@@ -100,7 +99,7 @@ app.get('*', function (request, response) {
 });
 
 app.post('/api/channels', (req, res) => {
-  const {slug, owner, markdown, baseUrl, imagesUrl, locked} = req.body;
+  const {slug, owner, markdown, baseUrl, imagesUrl} = req.body;
 
   if (!!slug && slug.length < 4) {
     res.status(404).send('Slug should be more than 4 letters');
@@ -108,7 +107,7 @@ app.post('/api/channels', (req, res) => {
   }
 
   const id = slug || shortid.generate();
-  const channel = new Channel({id, markdown, owner, baseUrl, imagesUrl, locked});
+  const channel = new Channel({id, markdown, owner, baseUrl, imagesUrl});
   channels[id] = channel;
 
   res.send({id});

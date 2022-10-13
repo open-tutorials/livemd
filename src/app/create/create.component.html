@@ -6,10 +6,6 @@
   <input formControlName="baseUrl" placeholder="Base URL">
   <input formControlName="imagesUrl" placeholder="URL for images">
   <input formControlName="slug" placeholder="Slug">
-  <div>
-    <input id="locked" type="checkbox" formControlName="locked">
-    <label for="locked">Locked</label>
-  </div>
   <button [disabled]="!form.valid"
           (click)="create()">Create a channel
   </button>

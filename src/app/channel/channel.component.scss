@@ -30,52 +30,6 @@ h1 {
   cursor: default;
 }
 
-:host([data-mode=member]) {
-  .token {
-    &:not(.opened) {
-      .md {
-        filter: blur(4px);
-        user-select: none;
-        cursor: not-allowed;
-      }
-
-      .locked {
-        display: block;
-      }
-    }
-
-    &.opened {
-      .marks:hover {
-        button {
-          opacity: 1;
-        }
-
-        .tools {
-          display: flex;
-        }
-      }
-    }
-  }
-}
-
-:host([data-mode=owner]) {
-  .token {
-    &:not(.unlocked) {
-      .md .content {
-        opacity: .5;
-      }
-    }
-
-    &.opened {
-      .marks:hover {
-        .tools {
-          display: flex;
-        }
-      }
-    }
-  }
-}
-
 :host([data-am-owner=true]) {
   .token {
     .comments b {
@@ -90,6 +44,30 @@ h1 {
 .token {
   display: flex;
   position: relative;
+
+  &:not(.opened) {
+    .md {
+      filter: blur(4px);
+      user-select: none;
+      cursor: not-allowed;
+    }
+
+    .locked {
+      display: block;
+    }
+  }
+
+  &.opened {
+    .marks:hover {
+      button {
+        opacity: 1;
+      }
+
+      .tools {
+        display: flex;
+      }
+    }
+  }
 
   .open {
     display: none;
@@ -164,14 +142,14 @@ h1 {
     z-index: 5;
   }
 
-  &.first.unlocked:not(.opened),
-  &.unlocked.opened + &.unlocked:not(.opened) {
+  &.first:not(.opened),
+  &.opened + &:not(.opened) {
     .open {
       display: block;
     }
   }
 
-  &.unlocked {
+  &.opened {
     .marks .progress {
       background: lightgreen;
     }

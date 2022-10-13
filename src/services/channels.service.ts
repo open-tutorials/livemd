@@ -21,7 +21,7 @@ export class ChannelsService {
     return this.http.post<Channel>(endpoint, serialize(me));
   }
 
-  create(markdown: string, baseUrl: string, imagesUrl: string, slug: string, locked: boolean): Observable<Channel> {
+  create(markdown: string, baseUrl: string, imagesUrl: string, slug: string): Observable<Channel> {
     const {me} = this.meManager;
     const endpoint = getEndpoint('channels');
     const channel = new ChannelUpdate({
@@ -29,7 +29,6 @@ export class ChannelsService {
       baseUrl,
       imagesUrl,
       slug,
-      locked,
       owner: me.id
     });
     return this.http.post<Channel>(endpoint, serialize(channel));

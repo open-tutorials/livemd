@@ -13,7 +13,6 @@ export class Channel {
   markdown!: string;
   baseUrl!: string;
   imagesUrl!: string;
-  locked!: boolean;
 }
 
 export class ChannelUpdate {
@@ -31,9 +30,6 @@ export class ChannelUpdate {
 
   @Field()
   slug!: string;
-
-  @Field()
-  locked!: boolean;
 
   constructor(defs: Partial<ChannelUpdate> = {}) {
     Object.assign(this, defs);

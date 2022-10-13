@@ -13,14 +13,13 @@
        class="token"
        [class.first]="line === 0"
        [class.opened]="channel.progress[me.id] > 0 && channel.progress[me.id] >= line"
-       [class.unlocked]="!channel.locked || channel.progress[channel.owner] >= line"
        [attr.data-line]="line"
        [attr.data-opened]="channel.opened[me.id]"
        [attr.data-progress]="channel.progress[me.id]"
        [attr.data-type]="t.type">
-    <div class="open" *ngIf="channel.opened[me.id] >= channel.progress[me.id] || me.id !== channel.owner">
+    <div class="open" *ngIf="channel.opened[me.id] >= channel.progress[me.id]">
       <button
-        (click)="setProgress(channel.locked ? channel.progress[channel.owner] : findChapter(channel.progress[me.id] || 0))">
+        (click)="setProgress(findChapter(channel.progress[me.id] || 0))">
         <img *ngIf="channel.progress[me.id] === 0" src="assets/hand.svg">
 
         <span></span>
@@ -63,22 +62,12 @@
       <div class="content">
         <ng-container [ngSwitch]="t.type">
 
-          <ng-template #chapterTemplate>
-            <hr>
-          </ng-template>
-
           <ng-container *ngSwitchCase="'hr'">
             <app-timer class="timer" *ngIf="channel.progress[me.id] == line && channel.opened[me.id] < line"
                        [id]="channel.id + '_timer_' + line"
                        [time]="t.time || '00:05'"
                        (finished)="open(line)"></app-timer>
-            <ng-container *ngIf="channel.locked;else chapterTemplate">
-              <button class="unlock" *ngIf="me.id === channel.owner;else chapterTemplate"
-                      (dblclick)="setProgress(tokens.length - 1)"
-                      (click)="setProgress(line)">
-                <hr>
-              </button>
-            </ng-container>
+            <hr>
           </ng-container>
 
           <ng-container *ngSwitchCase="'poll'">

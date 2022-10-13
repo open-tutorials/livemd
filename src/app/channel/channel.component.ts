@@ -43,7 +43,7 @@ export class ChannelComponent implements OnInit, AfterViewInit {
 
   @HostBinding('attr.data-mode')
   get mode(): Mode {
-    return this.channel?.locked && this.channel?.owner === this.me?.id ? Mode.owner : Mode.member;
+    return this.channel?.owner === this.me?.id ? Mode.owner : Mode.member;
   }
 
   @HostBinding('attr.data-am-owner')
@@ -63,6 +63,7 @@ export class ChannelComponent implements OnInit, AfterViewInit {
   set channel(channel: Channel) {
     this._channel = channel;
     this.tokens = marked.lexer(channel.markdown);
+    console.log(channel.markdown);
     marked.setOptions(getMarkedOptions(channel.baseUrl, channel.imagesUrl));
     this.bindEvents();
   }
