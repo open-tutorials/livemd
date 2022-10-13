@@ -72,7 +72,7 @@
                        [id]="channel.id + '_timer_' + line"
                        [time]="t.time || '00:05'"
                        (finished)="open(line)"></app-timer>
-            <ng-container *ngIf="channel.locked">
+            <ng-container *ngIf="channel.locked;else chapterTemplate">
               <button class="unlock" *ngIf="me.id === channel.owner;else chapterTemplate"
                       (dblclick)="setProgress(tokens.length - 1)"
                       (click)="setProgress(line)">

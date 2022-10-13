@@ -35,6 +35,8 @@ h1 {
     &:not(.opened) {
       .md {
         filter: blur(4px);
+        user-select: none;
+        cursor: not-allowed;
       }
 
       .locked {
