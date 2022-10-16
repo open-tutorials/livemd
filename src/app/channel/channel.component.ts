@@ -63,7 +63,6 @@ export class ChannelComponent implements OnInit, AfterViewInit {
   set channel(channel: Channel) {
     this._channel = channel;
     this.tokens = marked.lexer(channel.markdown);
-    console.log(channel.markdown);
     marked.setOptions(getMarkedOptions(channel.baseUrl, channel.imagesUrl));
     this.bindEvents();
   }

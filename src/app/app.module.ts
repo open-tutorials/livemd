@@ -1,5 +1,5 @@
 import { HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA, Type } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
@@ -14,6 +14,7 @@ import { GetTokens, Md2Html } from 'src/pipes/markdown.pipe';
 import { Token2Html } from 'src/pipes/token2html.pipe';
 import { ChannelResolver } from 'src/resolvers/channel.resolver';
 import { AppComponent } from './app.component';
+import { CodeDiffComponent } from './code-diff/code-diff.component';
 
 export function routerErrorHandle(error: Error) {
   document.location.href = '/';
@@ -32,7 +33,8 @@ export function routerErrorHandle(error: Error) {
     GetAvatar,
     GetMark,
     GetVoted,
-    Md2Html
+    Md2Html,
+    CodeDiffComponent
   ],
   imports: [
     HttpClientModule,
@@ -71,6 +73,9 @@ export function routerErrorHandle(error: Error) {
   providers: [],
   bootstrap: [
     AppComponent
+  ],
+  schemas: [
+    NO_ERRORS_SCHEMA
   ]
 })
 export class AppModule {

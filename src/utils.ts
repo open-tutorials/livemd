@@ -32,3 +32,31 @@ export function getMarkedOptions(baseUrl: string, imagesUrl: string) {
 export function getEndpoint(...chunks: (string | number)[]) {
   return [environment.backend, ...chunks].join('/');
 }
+
+export function prepareHtmlContent(html: string) {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, 'text/html');
+
+  const error = doc.querySelector('parsererror');
+  if (!!error) {
+    console.error('parse html error', error);
+    return html;
+  }
+
+  parseElement(doc.body);
+  return doc.body.innerHTML;
+}
+
+function parseElement(element: Element) {
+  for (let i = 0; i < element.children.length; i++) {
+    const children = element.children[i];
+    parseElement(children);
+  }
+  insertContent(element);
+}
+
+function insertContent(element: Element) {
+  if (['CODE-DIFF', 'RIGHT', 'LEFT'].includes(element.tagName)) {
+    element.setAttribute('html', element.innerHTML);
+  }
+}
