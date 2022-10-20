@@ -156,20 +156,20 @@ export const block: any = {
   }
 };
 
-export const codeDiff: any = {
-  name: 'code-diff',
+export const diffCode: any = {
+  name: 'diff-code',
   level: 'block',
   start(src: string) {
-    return src.match(/^<code\-diff>/)?.index;
+    return src.match(/^<md\-diff-code>/)?.index;
   },
   tokenizer(src: string, tokens: any[]): any {
-    const rule = /^<code-diff>(((?!<code-diff>)(?:.|\n))+)<\/code-diff>/;
+    const rule = /^<md-diff-code>(((?!<md-diff-code>)(?:.|\n))+)<\/md-diff-code>/;
     const match = rule.exec(src);
     if (match) {
       let [raw] = match;
       const content = prepareHtmlContent(raw);
       const token = {
-        type: 'code-diff',
+        type: 'diff-code',
         raw: raw,
         content
       };

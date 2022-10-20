@@ -4,8 +4,18 @@ import { environment } from 'src/environments/environment';
 export function getMarkedOptions(baseUrl: string, imagesUrl: string) {
   const renderer = new marked.Renderer();
   renderer.link = function (href: string, title: string, text: string) {
-    const link = marked.Renderer.prototype.link.call(this, href, title, text);
-    return link.replace('<a', '<a target=\'_blank\' ');
+    return marked.Renderer.prototype.link.call(this, href, title, text)
+      .replace('<a', '<a target=\'_blank\' ');
+  };
+
+  renderer.code = function (code: string, language: string | undefined, isEscaped: boolean) {
+    if (language == 'mermaid') {
+      const el = document.createElement('md-mermaid');
+      el.setAttribute('code', code);
+      return el.outerHTML;
+    }
+    // default behaviour
+    return marked.Renderer.prototype.code.call(this, code, language, isEscaped);
   };
 
   renderer.listitem = function (text: string, task: boolean, checked) {
@@ -56,7 +66,7 @@ function parseElement(element: Element) {
 }
 
 function insertContent(element: Element) {
-  if (['CODE-DIFF', 'RIGHT', 'LEFT'].includes(element.tagName)) {
+  if (element.tagName.startsWith('MD-')) {
     element.setAttribute('html', element.innerHTML);
   }
 }

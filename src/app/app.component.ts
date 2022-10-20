@@ -1,6 +1,7 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { createCustomElement } from '@angular/elements';
-import { CodeDiffComponent } from 'src/app/code-diff/code-diff.component';
+import { DiffCodeComponent } from 'src/app/diff-code/diff-code.component';
+import { MermaidComponent } from 'src/app/mermaid/mermaid.component';
 
 @Component({
   selector: 'app-root',
@@ -13,9 +14,14 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (!customElements.get('code-diff')) {
-      const element = createCustomElement(CodeDiffComponent, {injector: this.injector});
-      customElements.define('code-diff', element);
+    if (!customElements.get('md-diff-code')) {
+      const element = createCustomElement(DiffCodeComponent, {injector: this.injector});
+      customElements.define('md-diff-code', element);
+    }
+
+    if (!customElements.get('md-mermaid')) {
+      const element = createCustomElement(MermaidComponent, {injector: this.injector});
+      customElements.define('md-mermaid', element);
     }
   }
 

@@ -14,7 +14,8 @@ import { GetTokens, Md2Html } from 'src/pipes/markdown.pipe';
 import { Token2Html } from 'src/pipes/token2html.pipe';
 import { ChannelResolver } from 'src/resolvers/channel.resolver';
 import { AppComponent } from './app.component';
-import { CodeDiffComponent } from './code-diff/code-diff.component';
+import { DiffCodeComponent } from 'src/app/diff-code/diff-code.component';
+import { MermaidComponent } from './mermaid/mermaid.component';
 
 export function routerErrorHandle(error: Error) {
   document.location.href = '/';
@@ -34,7 +35,8 @@ export function routerErrorHandle(error: Error) {
     GetMark,
     GetVoted,
     Md2Html,
-    CodeDiffComponent
+    DiffCodeComponent,
+    MermaidComponent
   ],
   imports: [
     HttpClientModule,

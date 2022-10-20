@@ -15,11 +15,11 @@ const LINE_HEIGHT = 19;
 declare var monaco: any;
 
 @Component({
-  selector: 'app-code-diff',
-  templateUrl: './code-diff.component.html',
-  styleUrls: ['./code-diff.component.scss']
+  selector: 'app-diff-code',
+  templateUrl: './diff-code.component.html',
+  styleUrls: ['./diff-code.component.scss']
 })
-export class CodeDiffComponent implements AfterViewInit {
+export class DiffCodeComponent implements AfterViewInit {
 
   public _editor: any;
 
@@ -43,8 +43,8 @@ export class CodeDiffComponent implements AfterViewInit {
     const parser = new DOMParser();
     const doc = parser.parseFromString(this.html, 'text/html');
     const elements = {
-      left: doc.body.querySelector('left'),
-      right: doc.body.querySelector('right')
+      left: doc.body.querySelector('md-diff-left'),
+      right: doc.body.querySelector('md-diff-right')
     };
 
     const decode = (html: string) => {
