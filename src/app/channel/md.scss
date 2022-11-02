@@ -24,9 +24,11 @@ img {
   border-radius: 5px;
   padding: 5px;
   text-decoration: none;
+
   &:hover {
     border-color: silver;
   }
+
   img {
     border-radius: 50%;
     display: inline-block;
@@ -146,4 +148,8 @@ details:not([open]) > p {
 p {
   margin: 5px 0;
   line-height: 1.75;
+}
+
+iframe.giphy-embed {
+  pointer-events: none;
 }
