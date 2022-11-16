@@ -78,7 +78,6 @@ export class TimerComponent implements OnInit {
     this.zone.runOutsideAngular(() => tick());
   }
 
-  @HostListener('dblclick')
   stop() {
     this.finished.emit();
   }

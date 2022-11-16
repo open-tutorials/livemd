@@ -1,8 +1,21 @@
 :host {
   display: block;
-  font-size: 40px;
   user-select: none;
-  text-shadow: 1px 1px white;
-  cursor: pointer;
+}
+
+div {
   opacity: .25;
+  font-size: 40px;
+  text-shadow: 1px 1px white;
+}
+
+button {
+  background-color: transparent;
+  border: none;
+  padding: 5px;
+  color: slategray;
+  &:hover {
+    color: black;
+    cursor: pointer;
+  }
 }

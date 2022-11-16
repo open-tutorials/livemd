@@ -1,5 +1,5 @@
 <header>
-  <a href="https://www.youtube.com/channel/UCYYx1A6P0GNZqD3GQd5pSXA" target="_blank">
+  <a href="https://www.youtube.com/@epic_one_hour" target="_blank">
     <img alt="Epic One Hour" src="assets/epic1h.svg" width="150" height="28">
   </a>
 </header>
@@ -17,16 +17,12 @@
        [attr.data-opened]="channel.opened[me.id]"
        [attr.data-progress]="channel.progress[me.id]"
        [attr.data-type]="t.type">
-    <div class="open" *ngIf="channel.opened[me.id] >= channel.progress[me.id]">
-      <button
-        (click)="setProgress(findChapter(channel.progress[me.id] || 0))">
-        <img *ngIf="channel.progress[me.id] === 0" src="assets/hand.svg">
-
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-    </div>
+    <button class="open" *ngIf="channel.opened[me.id] >= channel.progress[me.id]"
+            (click)="setProgress(findChapter(channel.progress[me.id] || 0))">
+      <div>Открыть</div>
+      <span></span>
+      <span></span>
+    </button>
 
     <div class="marks" [class.marked]="!!channel.marks[current][line]">
       <div class="my">
@@ -51,6 +47,7 @@
             </button>
           </div>
           <textarea [formControl]="getCommentControl(line, current)"
+                    rows="10"
                     placeholder="Комментарий"></textarea>
         </div>
       </div>

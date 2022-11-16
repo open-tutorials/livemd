@@ -148,8 +148,14 @@ details:not([open]) > p {
 p {
   margin: 5px 0;
   line-height: 1.75;
+  img {
+    margin: 0;
+    vertical-align: middle;
+  }
 }
 
 iframe.giphy-embed {
   pointer-events: none;
+  border-radius: 10px;
+  border: 1px solid silver;
 }
