@@ -8,7 +8,7 @@ import json from 'highlight.js/lib/languages/json';
 import diff from 'highlight.js/lib/languages/diff';
 import { marked } from 'marked';
 import mermaid from 'mermaid';
-import { block, diffCode, details, hr, person, poll, summary } from 'src/marked';
+import { block, diffCode, details, hr, person, poll, summary, badge } from 'src/marked';
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 
@@ -17,7 +17,6 @@ hljs.registerLanguage('json', json);
 hljs.registerLanguage('bash', bash);
 hljs.registerLanguage('css', css);
 hljs.registerLanguage('diff', diff);
-
 
 mermaid.initialize({
   startOnLoad: true,
@@ -34,7 +33,7 @@ marked.setOptions({
     return hljs.highlight(lang, code).value;
   }
 });
-marked.use({extensions: [summary, details, person, poll, hr, block, diffCode]});
+marked.use({extensions: [summary, details, person, poll, hr, block, badge, diffCode]});
 
 if (environment.production) {
   enableProdMode();

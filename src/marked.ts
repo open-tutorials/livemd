@@ -156,6 +156,31 @@ export const block: any = {
   }
 };
 
+export const badge: any = {
+  name: 'badge',
+  level: 'inline',
+  start(src: string) {
+    return src.match(/\~\"/)?.index;
+  },
+  tokenizer(src: string, tokens: any[]): any {
+    const rule = /^~\"(.+)\"/;
+    const match = rule.exec(src);
+    if (match) {
+      let [raw, text] = match;
+      text = text.trim();
+      const token = {
+        type: 'badge',
+        raw: raw,
+        text: text.trim()
+      };
+      return token;
+    }
+  },
+  renderer(token: any) {
+    return `<span class="badge">${token.text}</span>`;
+  }
+};
+
 export const diffCode: any = {
   name: 'diff-code',
   level: 'block',

@@ -70,6 +70,18 @@ code:not(pre > code) {
   margin-right: 2px;
 }
 
+.badge {
+  border-radius: 5px;
+  padding: 2px 5px;
+  background: rgba(100, 254, 0, 0.2);
+  margin-right: 2px;
+  font-size: .75em;
+  vertical-align: top;
+  position: relative;
+  top: -2.5px;
+  font-weight: bold;
+}
+
 pre, code {
   font-family: 'Source Code Pro', monospace;
 }
