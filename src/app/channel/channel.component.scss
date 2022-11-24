@@ -309,7 +309,7 @@ h1 {
     border-right: 1px solid silver;
 
     .content {
-      overflow-x: scroll;
+      /** overflow-x: scroll; **/
     }
 
     .unlock {
