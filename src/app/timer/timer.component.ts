@@ -3,7 +3,7 @@ import {
   Component,
   ElementRef, EventEmitter, HostListener,
   Input,
-  NgZone,
+  NgZone, OnDestroy,
   OnInit, Output,
   ViewChild
 } from '@angular/core';
@@ -21,7 +21,7 @@ function pad(num: number) {
   styleUrls: ['./timer.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TimerComponent implements OnInit {
+export class TimerComponent implements OnInit, OnDestroy {
 
   @Input()
   id!: string;
@@ -59,6 +59,10 @@ export class TimerComponent implements OnInit {
       this.time = time;
     }
     this.remained > 0 ? this.start() : this.stop();
+  }
+
+  ngOnDestroy() {
+    clearInterval(this.timer);
   }
 
   start() {
