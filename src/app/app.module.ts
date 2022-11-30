@@ -1,20 +1,27 @@
 import { HttpClientModule } from '@angular/common/http';
-import { NgModule, NO_ERRORS_SCHEMA, Type } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { ChannelComponent } from 'src/app/channel/channel.component';
 import { CreateChannelComponent } from 'src/app/create/create.component';
+import { DiffCodeComponent } from 'src/app/diff-code/diff-code.component';
 import { TimerComponent } from 'src/app/timer/timer.component';
 import { WelcomeComponent } from 'src/app/welcome/welcome.component';
 import { GetAvatar } from 'src/pipes/avatar.pipe';
 import { GetDepth } from 'src/pipes/depth.pipe';
 import { GetMark, GetVoted } from 'src/pipes/mark.pipe';
-import { GetTokens, Md2Html } from 'src/pipes/markdown.pipe';
+import {
+  GetAgendaPipe,
+  GetSlugPipe,
+  GetTokens,
+  Md2Html,
+  MdInline2Html
+} from 'src/pipes/markdown.pipe';
 import { Token2Html } from 'src/pipes/token2html.pipe';
 import { ChannelResolver } from 'src/resolvers/channel.resolver';
+import { AgendaComponent } from './agenda/agenda.component';
 import { AppComponent } from './app.component';
-import { DiffCodeComponent } from 'src/app/diff-code/diff-code.component';
 import { MermaidComponent } from './mermaid/mermaid.component';
 
 export function routerErrorHandle(error: Error) {
@@ -35,38 +42,33 @@ export function routerErrorHandle(error: Error) {
     GetMark,
     GetVoted,
     Md2Html,
+    MdInline2Html,
+    GetAgendaPipe,
+    GetSlugPipe,
     DiffCodeComponent,
-    MermaidComponent
+    MermaidComponent,
+    AgendaComponent
   ],
   imports: [
     HttpClientModule,
     BrowserModule,
     RouterModule.forRoot([
       {
+        path: ':channel',
+        resolve: {
+          channel: ChannelResolver
+        },
+        component: ChannelComponent
+      },
+      {
         path: '',
         pathMatch: 'full',
         component: CreateChannelComponent
-      },
-      {
-        path: ':channel',
-        children: [
-          {
-            path: '',
-            pathMatch: 'full',
-            component: WelcomeComponent
-          },
-          {
-            path: 'join',
-            resolve: {
-              channel: ChannelResolver
-            },
-            component: ChannelComponent
-          }
-        ]
       }
     ], {
-      scrollPositionRestoration: 'disabled',
-      anchorScrolling: 'disabled',
+      scrollPositionRestoration: 'enabled',
+      anchorScrolling: 'enabled',
+      scrollOffset: [0, 50],
       initialNavigation: 'enabled',
       errorHandler: routerErrorHandle
     }),

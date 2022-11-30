@@ -1,3 +1,4 @@
+import { trim } from 'lodash';
 import { marked } from 'marked';
 import { environment } from 'src/environments/environment';
 
@@ -30,6 +31,10 @@ export function getMarkedOptions(baseUrl: string, imagesUrl: string) {
       item = item.replace('<li>', '<li class="emoji">');
     }
     return item;
+  };
+
+  renderer.heading = function (text, level, raw, slugger) {
+    return marked.Renderer.prototype.heading.call(this, trim(text, '+'), level, raw, slugger);
   };
 
   renderer.html = function (html: string) {

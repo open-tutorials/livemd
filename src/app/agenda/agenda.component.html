@@ -1,0 +1,18 @@
+<div>
+
+  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+       width="48" height="48" viewBox="0 0 32 32">
+    <path fill="currentColor"
+          d="M4 6h18v2H4zm0 6h18v2H4zm0 6h18v2H4zm0 6h18v2H4zM26 6h2v2h-2zm0 6h2v2h-2zm0 6h2v2h-2zm0 6h2v2h-2z"></path>
+  </svg>
+
+</div>
+
+<ul>
+  <li *ngFor="let h of (tokens | agenda);let line = index">
+    <a [routerLink]="[]"
+       [fragment]="h.text | slug"
+       [innerHTML]="h.text | mdInline2Html"></a>
+  </li>
+
+</ul>

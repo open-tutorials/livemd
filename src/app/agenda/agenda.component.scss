@@ -1,0 +1,59 @@
+:host {
+  display: block;
+  position: fixed;
+  background-color: white;
+  z-index: 100;
+  top: 100px;
+  right: 60px;
+  border: 3px solid silver;
+  border-radius: 10px;
+  padding: 20px;
+  opacity: .25;
+
+  &:hover {
+    opacity: 1;
+    svg {
+      display: none;
+    }
+    ul {
+      display: block;
+    }
+  }
+
+  ::ng-deep {
+    code {
+      border-radius: 5px;
+      border: 1px solid silver;
+      padding: 2px 4px;
+      background: rgba(175, 184, 193, 0.2);
+      font-family: 'Source Code Pro', monospace;
+      margin-right: 2px;
+    }
+  }
+}
+
+svg {
+  display: block;
+}
+
+ul {
+  display: none;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  li {
+    padding: 5px 5px 5px 10px;
+
+    border-left: 3px solid transparent;
+
+    &:hover {
+      border-color: greenyellow;
+    }
+
+    a {
+      color: black;
+      text-decoration: none;
+    }
+  }
+}

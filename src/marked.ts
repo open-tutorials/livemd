@@ -205,4 +205,5 @@ export const diffCode: any = {
     return token.content;
   }
 };
+
 // @ts-ignore-end

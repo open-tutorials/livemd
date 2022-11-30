@@ -2,14 +2,15 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
-  ElementRef, HostBinding,
+  ElementRef,
+  HostBinding,
   OnInit,
   QueryList,
   Renderer2,
   ViewChildren
 } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { marked } from 'marked';
 import { environment } from 'src/environments/environment';
 import { MeManager } from 'src/managers/me.manager';
@@ -17,6 +18,7 @@ import { Channel } from 'src/models/channel';
 import { Member } from 'src/models/member';
 import { ChannelsService } from 'src/services/channels.service';
 import { getMarkedOptions } from 'src/utils';
+import Slugger = marked.Slugger;
 
 declare var Pusher: any;
 
@@ -62,8 +64,8 @@ export class ChannelComponent implements OnInit, AfterViewInit {
 
   set channel(channel: Channel) {
     this._channel = channel;
-    this.tokens = marked.lexer(channel.markdown);
     marked.setOptions(getMarkedOptions(channel.baseUrl, channel.imagesUrl));
+    this.tokens = marked.lexer(channel.markdown);
     this.bindEvents();
   }
 
@@ -77,6 +79,7 @@ export class ChannelComponent implements OnInit, AfterViewInit {
   constructor(private cd: ChangeDetectorRef,
               private channelsService: ChannelsService,
               private meManager: MeManager,
+              private router: Router,
               private route: ActivatedRoute,
               private renderer: Renderer2,
               private fb: FormBuilder) {
@@ -84,8 +87,31 @@ export class ChannelComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.route.data.subscribe(({channel}) =>
-      this.channel = channel);
+    this.route.data.subscribe(({channel}) => {
+      this.channel = channel;
+
+      if (this.channel.progress[this.me.id] === 0) {
+        const next = this.findChapter(0);
+        this.setProgress(next);
+      }
+    });
+
+    this.route.fragment.subscribe(fragment => {
+      const slugger = new Slugger();
+      for (let line = 0; line < this.tokens.length; line++) {
+        const token = this.tokens[line];
+        if (token.type === 'heading') {
+          const slug = slugger.slug(token.text);
+          if (slug === fragment) {
+            const next = this.findChapter(line);
+            if (this.channel.progress[this.me.id] < next) {
+              this.setProgress(next);
+            }
+            break;
+          }
+        }
+      }
+    });
   }
 
   ngAfterViewInit() {

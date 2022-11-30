@@ -1,13 +1,38 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { trim, trimStart } from 'lodash';
 import { marked } from 'marked';
 import Token = marked.Token;
+import Heading = marked.Tokens.Heading;
+import Slugger = marked.Slugger;
 
 @Pipe({name: 'tokens'})
 export class GetTokens implements PipeTransform {
 
   transform(markdown: string): any[] {
     return marked.lexer(markdown);
+  }
+
+}
+
+@Pipe({name: 'slug'})
+export class GetSlugPipe implements PipeTransform {
+  transform(text: string): string {
+    const slugger = new Slugger();
+    return slugger.slug(text);
+  }
+}
+
+@Pipe({name: 'agenda'})
+export class GetAgendaPipe implements PipeTransform {
+
+  transform(tokens: Token[]): Heading[] {
+    return tokens.filter(t => t.type === 'heading' && t.text.startsWith('+'))
+      .map((t: Token) => {
+        const heading = t as Heading;
+        heading.text = trimStart(heading.text, '+');
+        return heading;
+      });
   }
 
 }
@@ -33,6 +58,19 @@ export class Md2Html implements PipeTransform {
 
   transform(md: string): SafeHtml {
     const html = marked.parse(md);
+    return this.sr.bypassSecurityTrustHtml(html);
+  }
+
+}
+
+@Pipe({name: 'mdInline2Html'})
+export class MdInline2Html implements PipeTransform {
+
+  constructor(private sr: DomSanitizer) {
+  }
+
+  transform(md: string): SafeHtml {
+    const html = marked.parseInline(md);
     return this.sr.bypassSecurityTrustHtml(html);
   }
 

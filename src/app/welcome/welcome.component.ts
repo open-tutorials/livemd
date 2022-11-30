@@ -31,12 +31,10 @@ export class WelcomeComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     const {me} = this.meManager;
-    if (me.confirmed) {
-      this.form.patchValue({
-        avatar: me.avatar,
-        name: me.name
-      });
-    }
+    this.form.patchValue({
+      avatar: me.avatar,
+      name: me.name
+    });
   }
 
   ngAfterViewInit() {
@@ -46,7 +44,7 @@ export class WelcomeComponent implements OnInit, AfterViewInit {
   join() {
     const {avatar, name} = this.form.getRawValue();
     const {me} = this.meManager;
-    Object.assign(me, {avatar, name, confirmed: true});
+    Object.assign(me, {avatar, name});
     this.meManager.save();
 
     this.router.navigate(['join'], {relativeTo: this.route});
