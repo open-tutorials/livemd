@@ -124,6 +124,11 @@ export class ChannelComponent implements OnInit, AfterViewInit {
     }, 500);
   }
 
+  resetProgress() {
+    this.setProgress(0);
+    this.router.navigate([]);
+  }
+
   putMark(line: number, member: string, mark: string | null) {
     this.channel.marks[this.me.id][line] = mark;
 

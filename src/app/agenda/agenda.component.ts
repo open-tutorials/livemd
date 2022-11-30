@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { marked } from 'marked';
 import Token = marked.Token;
 
@@ -7,15 +7,15 @@ import Token = marked.Token;
   templateUrl: './agenda.component.html',
   styleUrls: ['./agenda.component.scss']
 })
-export class AgendaComponent implements OnInit {
+export class AgendaComponent {
 
   @Input()
   tokens!: Token[];
 
-  constructor() {
-  }
+  @Input()
+  progress!: Number;
 
-  ngOnInit(): void {
-  }
+  @Output()
+  block = new EventEmitter();
 
 }

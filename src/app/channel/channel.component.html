@@ -8,7 +8,10 @@
   {{me.avatar | avatar}}
 </div>
 
-<app-agenda [tokens]="tokens"></app-agenda>
+<app-agenda [tokens]="tokens"
+            [progress]="channel.progress[me.id]"
+            (block)="resetProgress()">
+</app-agenda>
 
 <ng-container *ngFor="let t of tokens;let line = index">
   <div *ngIf="t.type !== 'space'"

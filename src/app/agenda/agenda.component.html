@@ -1,18 +1,29 @@
 <div>
 
-  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  <svg data-open xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
        width="48" height="48" viewBox="0 0 32 32">
-    <path fill="currentColor"
-          d="M4 6h18v2H4zm0 6h18v2H4zm0 6h18v2H4zm0 6h18v2H4zM26 6h2v2h-2zm0 6h2v2h-2zm0 6h2v2h-2zm0 6h2v2h-2z"></path>
+    <path d="M4 6h18v2H4zm0 6h18v2H4zm0 6h18v2H4zm0 6h18v2H4zM26 6h2v2h-2zm0 6h2v2h-2zm0 6h2v2h-2zm0 6h2v2h-2z"></path>
   </svg>
 
 </div>
 
-<ul>
-  <li *ngFor="let h of (tokens | agenda);let line = index">
-    <a [routerLink]="[]"
-       [fragment]="h.text | slug"
-       [innerHTML]="h.text | mdInline2Html"></a>
-  </li>
+<div data-agenda>
+  <button (click)="block.emit()">
+    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+         width="18" height="18" viewBox="0 0 24 24">
+      <path
+        d="M20 12c0-1.103-.897-2-2-2h-1V7c0-2.757-2.243-5-5-5S7 4.243 7 7v3H6c-1.103 0-2 .897-2 2v8c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2v-8zM9 7c0-1.654 1.346-3 3-3s3 1.346 3 3v3H9V7z"></path>
+    </svg>
+  </button>
 
-</ul>
+  <ul>
+    <li *ngFor="let h of (tokens | agenda);let line = index"
+        [attr.data-depth]="h.depth">
+      <a [routerLink]="[]"
+         [fragment]="h.text | slug"
+         [innerHTML]="h.text | mdInline2Html"></a>
+    </li>
+
+  </ul>
+
+</div>
