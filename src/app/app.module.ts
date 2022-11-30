@@ -12,7 +12,6 @@ import { GetAvatar } from 'src/pipes/avatar.pipe';
 import { GetDepth } from 'src/pipes/depth.pipe';
 import { GetMark, GetVoted } from 'src/pipes/mark.pipe';
 import {
-  GetAgendaPipe,
   GetSlugPipe,
   GetTokens,
   Md2Html,
@@ -43,7 +42,6 @@ export function routerErrorHandle(error: Error) {
     GetVoted,
     Md2Html,
     MdInline2Html,
-    GetAgendaPipe,
     GetSlugPipe,
     DiffCodeComponent,
     MermaidComponent,

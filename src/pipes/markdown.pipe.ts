@@ -23,20 +23,6 @@ export class GetSlugPipe implements PipeTransform {
   }
 }
 
-@Pipe({name: 'agenda'})
-export class GetAgendaPipe implements PipeTransform {
-
-  transform(tokens: Token[]): Heading[] {
-    return tokens.filter(t => t.type === 'heading' && t.text.startsWith('+'))
-      .map((t: Token) => {
-        const heading = t as Heading;
-        heading.text = trimStart(heading.text, '+');
-        return heading;
-      });
-  }
-
-}
-
 @Pipe({name: 'token2Html'})
 export class Token2Html implements PipeTransform {
 

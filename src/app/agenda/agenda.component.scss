@@ -1,18 +1,23 @@
 :host {
   display: block;
-  position: fixed;
+  position: absolute;
   background-color: white;
   z-index: 100;
   top: 100px;
   right: 60px;
-  border: 3px solid silver;
   border-radius: 10px;
-  padding: 20px;
   opacity: .5;
-  transition: all 500ms;
+  transition: opacity 500ms;
+
+  &[data-sticky=true] {
+    top: 10px;
+    position: fixed;
+  }
 
   &:hover {
     opacity: 1;
+    padding: 20px;
+    border: 2px solid silver;
 
     [data-open] {
       display: none;
@@ -22,26 +27,35 @@
       display: block;
     }
   }
-
-  ::ng-deep {
-    code {
-      border-radius: 5px;
-      border: 1px solid silver;
-      padding: 2px 4px;
-      background: rgba(175, 184, 193, 0.2);
-      font-family: 'Source Code Pro', monospace;
-      margin-right: 2px;
-    }
-  }
 }
 
 [data-open] {
-  display: block;
-  fill: silver;
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  background-color: lightgray;
+  border-radius: 100%;
+  width: 48px;
+  height: 48px;
+
+  [data-icon] {
+    fill: black;
+  }
+
+  [data-done] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    fill: transparent;
+    transform: rotate(-90deg);
+    border-radius: 50%;
+  }
 }
 
 [data-agenda] {
   display: none;
+
   button {
     border: none;
     background: none;
@@ -49,10 +63,12 @@
     position: absolute;
     top: 10px;
     right: 5px;
+
     svg {
       fill: silver;
     }
   }
+
   ul {
     list-style: none;
     margin: 0;
@@ -66,7 +82,7 @@
         padding-left: 25px;
       }
 
-      &:hover {
+      &[data-passed=true], &:hover {
         border-color: greenyellow;
       }
 
