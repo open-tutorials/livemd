@@ -83,7 +83,7 @@ export class AgendaComponent implements OnInit, OnDestroy {
 
   checkInit() {
     const e = this.hostRef.nativeElement;
-    this.renderer.setAttribute(e, 'data-init', (window.scrollY === 0).toString());
+    this.renderer.setAttribute(e, 'data-init', (window.scrollY <= TOP_POSITION).toString());
   }
 
   ngOnDestroy() {
