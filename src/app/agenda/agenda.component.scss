@@ -16,16 +16,27 @@
 
   &:hover {
     opacity: 1;
-    padding: 20px;
-    border: 2px solid silver;
-
     [data-open] {
       display: none;
     }
 
     [data-agenda] {
-      display: block;
+      display: block !important;
     }
+  }
+
+  &[data-init=true], &:hover {
+    padding: 20px;
+    border: 2px solid silver;
+    opacity: 1;
+  }
+
+  &[data-init=false] [data-agenda] {
+    display: none;
+  }
+
+  &[data-init=true] [data-open] {
+    display: none;
   }
 }
 
@@ -54,7 +65,6 @@
 }
 
 [data-agenda] {
-  display: none;
 
   button {
     border: none;

@@ -10,6 +10,7 @@ import {
   ViewChildren
 } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { marked } from 'marked';
 import { environment } from 'src/environments/environment';
@@ -66,6 +67,12 @@ export class ChannelComponent implements OnInit, AfterViewInit {
     this._channel = channel;
     marked.setOptions(getMarkedOptions(channel.baseUrl, channel.imagesUrl));
     this.tokens = marked.lexer(channel.markdown);
+
+    const title = this.tokens.find(t => t.type === 'heading');
+    if (!!title) {
+      this.title.setTitle(title.text);
+    }
+
     this.bindEvents();
   }
 
@@ -82,6 +89,7 @@ export class ChannelComponent implements OnInit, AfterViewInit {
               private router: Router,
               private route: ActivatedRoute,
               private renderer: Renderer2,
+              private title: Title,
               private fb: FormBuilder) {
 
   }

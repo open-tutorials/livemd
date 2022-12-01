@@ -306,17 +306,6 @@ app.post('/api/channels/:id/members/:member/progress', (req, res) => {
   const {line} = req.body;
   channel.progress[member] = line;
 
-  if (member === channel.owner) {
-    for (let m of Object.keys(channel.progress)) {
-      if (m !== channel.owner && channel.progress[m] > line) {
-        channel.progress[m] = line;
-      }
-    }
-  }
-
-  console.log('set progress', channel.id, member, line);
-  pusher.trigger(channel.id, 'set_progress', {member, line});
-
   res.status(200).send();
 
   dirty[channel.id] = channel;

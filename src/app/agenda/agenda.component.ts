@@ -67,13 +67,23 @@ export class AgendaComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.ngZone.runOutsideAngular(() => {
       this.listeners.scroll = this.renderer.listen(window, 'scroll', () => {
+        this.checkInit();
+
         if ((window.scrollY > TOP_POSITION && !this.sticky)
           || (window.scrollY <= TOP_POSITION && this.sticky)) {
           this.sticky = scrollY > TOP_POSITION;
-          this.renderer.setAttribute(this.hostRef.nativeElement, 'data-sticky', this.sticky.toString());
+          const e = this.hostRef.nativeElement;
+          this.renderer.setAttribute(e, 'data-sticky', this.sticky.toString());
         }
       });
     });
+
+    this.checkInit();
+  }
+
+  checkInit() {
+    const e = this.hostRef.nativeElement;
+    this.renderer.setAttribute(e, 'data-init', (window.scrollY === 0).toString());
   }
 
   ngOnDestroy() {
