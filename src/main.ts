@@ -34,7 +34,7 @@ marked.setOptions({
   }
 });
 marked.use({
-  extensions: [summary, details, person, poll, hr, block, badge]
+  extensions: [badge, summary, details, person, poll, hr, block]
 });
 
 if (environment.production) {

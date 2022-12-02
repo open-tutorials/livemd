@@ -32,23 +32,26 @@ export class MakeCodeComponent implements AfterViewInit {
     const parser = new DOMParser();
     const doc = parser.parseFromString(highlighted, 'text/html');
 
-    doc.body.querySelectorAll(HLJS_PLACEHOLDERS).forEach(s => {
-      const match = PLACEHOLDER_TEMPLATE.exec(s.innerHTML);
+    const placeholders = doc.body.querySelectorAll(HLJS_PLACEHOLDERS);
+    for (let i = 0; i < placeholders.length; i++) {
+      const placeholder = placeholders[i];
+      const match = PLACEHOLDER_TEMPLATE.exec(placeholder.innerHTML);
       if (!!match) {
-        s.innerHTML = '';
+        placeholder.innerHTML = '';
         const [, left, answer, right] = match;
         if (!!left) {
-          s.appendChild(document.createTextNode(left));
+          placeholder.appendChild(document.createTextNode(left));
         }
-        const placeholder = document.createElement('md-placeholder');
-        placeholder.setAttribute('value', answer);
-        placeholder.setAttribute('context', this.context);
-        s.appendChild(placeholder);
+        const p = document.createElement('md-placeholder');
+        p.setAttribute('value', answer);
+        p.setAttribute('context', [this.context, i].join('|'));
+        placeholder.appendChild(p);
         if (!!right) {
-          s.appendChild(document.createTextNode(right));
+          placeholder.appendChild(document.createTextNode(right));
         }
       }
-    });
+    }
+
     this.codeRef.nativeElement.innerHTML = doc.body.innerHTML;
   }
 }

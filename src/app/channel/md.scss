@@ -64,7 +64,8 @@ details {
 code:not(pre > code),
 p code:not(pre > code),
 block code:not(pre > code),
-ul code:not(pre > code) {
+ul code:not(pre > code),
+details code:not(pre > code) {
   border-radius: 5px;
   border: 1px solid silver;
   padding: 2px 4px;
@@ -73,7 +74,9 @@ ul code:not(pre > code) {
   margin-right: 2px;
 }
 
-.badge, p .badge {
+.badge,
+p .badge,
+details .badge {
   border-radius: 5px;
   padding: 2px 5px;
   background: rgba(100, 254, 0, 0.2);
@@ -85,11 +88,13 @@ ul code:not(pre > code) {
   font-weight: bold;
 }
 
-pre {
+pre,
+details pre {
   margin: 20px 0;
 }
 
-blockquote {
+blockquote,
+details pre {
   border-left: 3px solid silver;
   padding-left: 10px;
   color: darkgreen;
@@ -99,7 +104,12 @@ summary + br {
   display: none;
 }
 
-ul, ol, block ul, block ol {
+ul,
+block ul,
+details ul,
+ol,
+block ol,
+details ol {
   margin: 10px 0;
 
   li img {
@@ -112,7 +122,8 @@ ul, ol, block ul, block ol {
   }
 }
 
-table {
+table,
+details table {
   border: 1px solid silver;
   border-collapse: collapse;
 
