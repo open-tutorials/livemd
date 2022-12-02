@@ -2,7 +2,7 @@ import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular
 import hljs from 'highlight.js/lib/core';
 
 const PLACEHOLDER_TEMPLATE = /([\'\"]*)\?\|((?:(?!\}\?)(?:.))+)\|\?([\'\"]*)/;
-const HLJS_STRING_SELECTOR = '.hljs-string, .hljs-comment';
+const HLJS_PLACEHOLDERS = '.hljs-string, .hljs-comment';
 
 @Component({
   selector: 'app-make-code',
@@ -29,7 +29,7 @@ export class MakeCodeComponent implements AfterViewInit {
     const parser = new DOMParser();
     const doc = parser.parseFromString(highlighted, 'text/html');
 
-    doc.body.querySelectorAll(HLJS_STRING_SELECTOR).forEach(s => {
+    doc.body.querySelectorAll(HLJS_PLACEHOLDERS).forEach(s => {
       const match = PLACEHOLDER_TEMPLATE.exec(s.innerHTML);
       if (!!match) {
         s.innerHTML = '';

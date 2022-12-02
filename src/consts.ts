@@ -43,18 +43,20 @@ Just copy your markdown and create a online channel for your friends!
 
 Please type hello <md-placeholder value="hello"></md-placeholder>
 
-\`\`\`html make-code
+\`\`\`html placeholders
 <body>
+    <!-- form -->
     <<!--?|form|?-->>
+        <!-- primary -->
         <input class="?|primary|?">
     </form>
 </body>
 \`\`\`
 
-\`\`\`js make-code
+\`\`\`js placeholders
 describe('Sign up', () => {
 
-    /*?|Math.random|?*/();
+    const rnd = /*?|Math.random|?*/();
 
     it.only('should do register user', () => {
 
@@ -69,6 +71,8 @@ describe('Sign up', () => {
 \`\`\`
 
 </md-make-code>
+
+***
 
 # +What can you do?
 
@@ -94,5 +98,4 @@ Tasks
 
 This content is hidden!
 </details>
-***
 `;

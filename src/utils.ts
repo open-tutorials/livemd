@@ -14,7 +14,7 @@ export function getMarkedOptions(baseUrl: string, imagesUrl: string) {
       throw new Error('Language is not defined');
     }
 
-    const rule = /([\w]+)\smake-code$/;
+    const rule = /([\w]+)\splaceholders$/;
     const match = rule.exec(language);
     if (!!match) {
       const [, language] = match;
