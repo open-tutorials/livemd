@@ -280,6 +280,8 @@ h1 {
         cursor: pointer;
 
         &:before {
+          margin-right: 5px;
+          vertical-align: middle;
           content: url('../../assets/radio.svg');
         }
 
