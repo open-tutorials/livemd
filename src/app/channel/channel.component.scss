@@ -94,6 +94,7 @@ h1 {
       background-color: greenyellow;
       border: 2px solid white;
       box-shadow: 2px 2px 2px silver;
+
       &:hover {
         background-color: lightgreen;
       }
@@ -257,10 +258,6 @@ h1 {
   .md {
     position: relative;
 
-    ::ng-deep {
-      @import "md";
-    }
-
     .poll {
       list-style: none;
 
@@ -309,6 +306,9 @@ h1 {
 
     .content {
       /** overflow-x: scroll; **/
+      > ::ng-deep {
+        @import "md";
+      }
     }
 
     .unlock {

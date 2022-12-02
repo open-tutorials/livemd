@@ -1,7 +1,7 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { createCustomElement } from '@angular/elements';
 import { DiffCodeComponent } from 'src/app/diff-code/diff-code.component';
-import { AppPlaceholderComponent } from 'src/app/make-code/app-placeholder/app-placeholder.component';
+import { AppPlaceholderComponent } from 'src/app/placeholder/app-placeholder.component';
 import { MakeCodeComponent } from 'src/app/make-code/make-code.component';
 import { MermaidComponent } from 'src/app/mermaid/mermaid.component';
 

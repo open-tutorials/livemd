@@ -10,7 +10,19 @@ export function getMarkedOptions(baseUrl: string, imagesUrl: string) {
   };
 
   renderer.code = function (code: string, language: string | undefined, isEscaped: boolean) {
-    if (language == 'mermaid') {
+    if (!language) {
+      throw new Error('Language is not defined');
+    }
+
+    const rule = /([\w]+)\smake-code$/;
+    const match = rule.exec(language);
+    if (!!match) {
+      const [, language] = match;
+      const el = document.createElement('md-make-code');
+      el.setAttribute('code', code);
+      el.setAttribute('language', language);
+      return el.outerHTML;
+    } else if (language == 'mermaid') {
       const el = document.createElement('md-mermaid');
       el.setAttribute('code', code);
       return el.outerHTML;
@@ -38,7 +50,9 @@ export function getMarkedOptions(baseUrl: string, imagesUrl: string) {
   };
 
   renderer.html = function (html: string) {
-    return html.replace(/src\=\"((?!http).+)\"/, `src="${imagesUrl}/$1"`);
+    return html
+      .replace('<img', '<img class="md"')
+      .replace(/src\=\"((?!http).+)\"/, `src="${imagesUrl}/$1"`);
   };
 
   return {baseUrl: baseUrl + '/', renderer};
@@ -50,13 +64,16 @@ export function getEndpoint(...chunks: (string | number)[]) {
 
 export function prepareHtmlContent(html: string) {
   const parser = new DOMParser();
-  const doc = parser.parseFromString(html, 'text/html');
+  const doc = parser.parseFromString('<!DOCTYPE html>' + html, 'text/html');
 
   const error = doc.querySelector('parsererror');
   if (!!error) {
     console.error('parse html error', error);
     return html;
   }
+
+  console.log(html);
+  console.log(doc.body);
 
   parseElement(doc.body);
   return doc.body.innerHTML;

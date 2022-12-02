@@ -1,5 +1,4 @@
 // @ts-ignore-start
-import { prepareHtmlContent } from 'src/utils';
 
 export const details: any = {
   name: 'details',
@@ -178,56 +177,6 @@ export const badge: any = {
   },
   renderer(token: any) {
     return `<span class="badge">${token.text}</span>`;
-  }
-};
-
-export const diffCode: any = {
-  name: 'diff-code',
-  level: 'block',
-  start(src: string) {
-    return src.match(/^<md\-diff-code>/)?.index;
-  },
-  tokenizer(src: string, tokens: any[]): any {
-    const rule = /^<md-diff-code>(((?!<md-diff-code>)(?:.|\n))+)<\/md-diff-code>/;
-    const match = rule.exec(src);
-    if (match) {
-      let [raw] = match;
-      const content = prepareHtmlContent(raw);
-      const token = {
-        type: 'diff-code',
-        raw: raw,
-        content
-      };
-      return token;
-    }
-  },
-  renderer(token: any) {
-    return token.content;
-  }
-};
-
-export const makeCode: any = {
-  name: 'make-code',
-  level: 'block',
-  start(src: string) {
-    return src.match(/^<md\-make\-code>/)?.index;
-  },
-  tokenizer(src: string, tokens: any[]): any {
-    const rule = /^<md\-make\-code>(((?!<md\-make\-code>)(?:.|\n))+)<\/md\-make\-code>/;
-    const match = rule.exec(src);
-    if (match) {
-      let [raw] = match;
-      const content = prepareHtmlContent(raw);
-      const token = {
-        type: 'make-code',
-        raw: raw,
-        content
-      };
-      return token;
-    }
-  },
-  renderer(token: any) {
-    return token.content;
   }
 };
 

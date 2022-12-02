@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { ChannelComponent } from 'src/app/channel/channel.component';
 import { CreateChannelComponent } from 'src/app/create/create.component';
 import { DiffCodeComponent } from 'src/app/diff-code/diff-code.component';
-import { AppPlaceholderComponent } from 'src/app/make-code/app-placeholder/app-placeholder.component';
+import { AppPlaceholderComponent } from 'src/app/placeholder/app-placeholder.component';
 import { MakeCodeComponent } from 'src/app/make-code/make-code.component';
 import { TimerComponent } from 'src/app/timer/timer.component';
 import { WelcomeComponent } from 'src/app/welcome/welcome.component';
@@ -19,6 +19,8 @@ import {
   Md2Html,
   MdInline2Html
 } from 'src/pipes/markdown.pipe';
+import { MaximumPipe } from 'src/pipes/minimum.pipe';
+import { TextWidthPipe } from 'src/pipes/text-width.pipe';
 import { Token2Html } from 'src/pipes/token2html.pipe';
 import { ChannelResolver } from 'src/resolvers/channel.resolver';
 import { AgendaComponent } from './agenda/agenda.component';
@@ -45,6 +47,8 @@ export function routerErrorHandle(error: Error) {
     Md2Html,
     MdInline2Html,
     GetSlugPipe,
+    TextWidthPipe,
+    MaximumPipe,
     DiffCodeComponent,
     MermaidComponent,
     AgendaComponent,

@@ -10,8 +10,7 @@ export class Token2Html implements PipeTransform {
   }
 
   transform(token: Token): SafeHtml {
-    const html = marked.parser([token])
-      .replace(/☐/gi, '');
+    const html = marked.parser([token]);
     return this.sr.bypassSecurityTrustHtml(html);
   }
 

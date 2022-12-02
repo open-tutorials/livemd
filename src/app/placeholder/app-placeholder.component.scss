@@ -1,0 +1,49 @@
+:host {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 3px;
+  border: 2px solid #808080;
+  max-width: 100%;
+  height: 30px;
+  box-sizing: border-box;
+  padding: 0px 10px 0 5px;
+  vertical-align: middle;
+  font-style: normal;
+
+  &[data-right=true] {
+    border-color: #6AC948;
+  }
+
+  &[data-dirty=true] {
+    &[data-right=false] {
+      border-color: #FF4440;
+    }
+  }
+}
+
+button {
+  display: block;
+  background-color: transparent;
+  padding: 0;
+  margin: 0 5px 0 0;
+  border: none;
+  cursor: pointer;
+
+  svg {
+    display: block;
+  }
+}
+
+input {
+  border: 0;
+  width: 20px;
+  max-width: 100%;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 16px;
+  padding: 0;
+  border-radius: 0;
+
+  &:focus {
+    outline: 0;
+  }
+}

@@ -37,11 +37,40 @@ export const MARKS: { [key: string]: string } = {
 };
 
 export const MARKDOWN = `Hello! This is a live markdown!
-# How it works?
+# +How it works?
 
 Just copy your markdown and create a online channel for your friends!
 
-# What can you do?
+Please type hello <md-placeholder value="hello"></md-placeholder>
+
+\`\`\`html make-code
+<body>
+    <<!--?|form|?-->>
+        <input class="?|primary|?">
+    </form>
+</body>
+\`\`\`
+
+\`\`\`js make-code
+describe('Sign up', () => {
+
+    /*?|Math.random|?*/();
+
+    it.only('should do register user', () => {
+
+        // open https://demo.realworld.io/
+        cy.visit('https://demo.realworld.io/');
+
+        // click Sign Up link in app header
+        cy.get('?|.navbar a[href$="/register"]|?').click();
+
+    });
+});
+\`\`\`
+
+</md-make-code>
+
+# +What can you do?
 
 > Sure, you can use common markdown markup.
 
@@ -56,8 +85,6 @@ Do you like?
 * ❓ books
 * 💀 music
 
-# Interaction
-
 Tasks
 * [x] books
 * [ ] music
@@ -65,7 +92,7 @@ Tasks
 <details>
     <summary>Do you really want to see it?</summary>
 
-    <iframe src="https://giphy.com/embed/3ohzdYjwEQuR1J7dte" width="480" height="217" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/alien-sigourney-weaver-ripley-3ohzdYjwEQuR1J7dte">via GIPHY</a></p>
+This content is hidden!
 </details>
 ***
 `;
