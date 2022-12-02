@@ -1,0 +1,10 @@
+<ng-container [formGroup]="form">
+  <ng-template #checkTemplate>
+    <div></div>
+  </ng-template>
+  <button *ngIf="answer == undefined; else checkTemplate"
+          id="help"
+          (click)="help()">
+  </button>
+  <input #inputRef formControlName="answer" (focusout)="check()">
+</ng-container>

@@ -6,6 +6,8 @@ import { RouterModule } from '@angular/router';
 import { ChannelComponent } from 'src/app/channel/channel.component';
 import { CreateChannelComponent } from 'src/app/create/create.component';
 import { DiffCodeComponent } from 'src/app/diff-code/diff-code.component';
+import { AppPlaceholderComponent } from 'src/app/make-code/app-placeholder/app-placeholder.component';
+import { MakeCodeComponent } from 'src/app/make-code/make-code.component';
 import { TimerComponent } from 'src/app/timer/timer.component';
 import { WelcomeComponent } from 'src/app/welcome/welcome.component';
 import { GetAvatar } from 'src/pipes/avatar.pipe';
@@ -45,7 +47,9 @@ export function routerErrorHandle(error: Error) {
     GetSlugPipe,
     DiffCodeComponent,
     MermaidComponent,
-    AgendaComponent
+    AgendaComponent,
+    MakeCodeComponent,
+    AppPlaceholderComponent
   ],
   imports: [
     HttpClientModule,

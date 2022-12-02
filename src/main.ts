@@ -8,16 +8,7 @@ import json from 'highlight.js/lib/languages/json';
 import diff from 'highlight.js/lib/languages/diff';
 import { marked } from 'marked';
 import mermaid from 'mermaid';
-import {
-  block,
-  diffCode,
-  details,
-  hr,
-  person,
-  poll,
-  summary,
-  badge
-} from 'src/marked';
+import { block, diffCode, details, hr, person, poll, summary, badge, makeCode } from 'src/marked';
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 
@@ -43,7 +34,7 @@ marked.setOptions({
   }
 });
 marked.use({
-  extensions: [summary, details, person, poll, hr, block, badge, diffCode]
+  extensions: [summary, details, person, poll, hr, block, badge, diffCode, makeCode]
 });
 
 if (environment.production) {

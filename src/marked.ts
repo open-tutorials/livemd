@@ -206,4 +206,29 @@ export const diffCode: any = {
   }
 };
 
+export const makeCode: any = {
+  name: 'make-code',
+  level: 'block',
+  start(src: string) {
+    return src.match(/^<md\-make\-code>/)?.index;
+  },
+  tokenizer(src: string, tokens: any[]): any {
+    const rule = /^<md\-make\-code>(((?!<md\-make\-code>)(?:.|\n))+)<\/md\-make\-code>/;
+    const match = rule.exec(src);
+    if (match) {
+      let [raw] = match;
+      const content = prepareHtmlContent(raw);
+      const token = {
+        type: 'make-code',
+        raw: raw,
+        content
+      };
+      return token;
+    }
+  },
+  renderer(token: any) {
+    return token.content;
+  }
+};
+
 // @ts-ignore-end
