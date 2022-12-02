@@ -1,4 +1,4 @@
-img {
+img, p img, block img, ul img, ol img {
   margin: 5px 0;
   border-radius: 10px;
   border: 1px solid silver;
@@ -19,7 +19,7 @@ img {
   }
 }
 
-.person {
+.person, p .person {
   border: 1px solid transparent;
   border-radius: 5px;
   padding: 5px;
@@ -61,7 +61,10 @@ details {
   }
 }
 
-code:not(pre > code) {
+code:not(pre > code),
+p code:not(pre > code),
+block code:not(pre > code),
+ul code:not(pre > code) {
   border-radius: 5px;
   border: 1px solid silver;
   padding: 2px 4px;
@@ -70,7 +73,7 @@ code:not(pre > code) {
   margin-right: 2px;
 }
 
-.badge {
+.badge, p .badge {
   border-radius: 5px;
   padding: 2px 5px;
   background: rgba(100, 254, 0, 0.2);
@@ -96,7 +99,7 @@ summary + br {
   display: none;
 }
 
-ul, ol {
+ul, ol, block ul, block ol {
   margin: 10px 0;
 
   li img {
@@ -123,7 +126,7 @@ table {
   }
 }
 
-ul {
+ul:not(.poll) {
   list-style: none;
   padding-left: 20px;
 
@@ -156,13 +159,14 @@ details:not([open]) > p {
 p {
   margin: 5px 0;
   line-height: 1.75;
+
   img {
     margin: 0;
     vertical-align: middle;
   }
 }
 
-iframe.giphy-embed {
+iframe.giphy-embed, details iframe.giphy-embed {
   pointer-events: none;
   border-radius: 10px;
   border: 1px solid silver;

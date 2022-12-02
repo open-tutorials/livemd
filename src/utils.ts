@@ -50,9 +50,7 @@ export function getMarkedOptions(baseUrl: string, imagesUrl: string) {
   };
 
   renderer.html = function (html: string) {
-    return html
-      .replace('<img', '<img class="md"')
-      .replace(/src\=\"((?!http).+)\"/, `src="${imagesUrl}/$1"`);
+    return html.replace(/src\=\"((?!http).+)\"/, `src="${imagesUrl}/$1"`);
   };
 
   return {baseUrl: baseUrl + '/', renderer};
