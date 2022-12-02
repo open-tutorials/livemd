@@ -94,12 +94,14 @@ details .badge {
 }
 
 pre,
-details pre {
+details pre,
+block pre {
   margin: 20px 0;
 }
 
 blockquote,
-details pre {
+details blockquote,
+block blockquote {
   border-left: 3px solid silver;
   padding-left: 10px;
   color: darkgreen;
