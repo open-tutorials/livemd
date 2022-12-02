@@ -20,6 +20,9 @@ export class MakeCodeComponent implements AfterViewInit {
   @Input()
   language!: string;
 
+  @Input()
+  context!: string;
+
   ngAfterViewInit() {
     this.render();
   }
@@ -39,6 +42,7 @@ export class MakeCodeComponent implements AfterViewInit {
         }
         const placeholder = document.createElement('md-placeholder');
         placeholder.setAttribute('value', answer);
+        placeholder.setAttribute('context', this.context);
         s.appendChild(placeholder);
         if (!!right) {
           s.appendChild(document.createTextNode(right));

@@ -14,13 +14,14 @@ export function getMarkedOptions(baseUrl: string, imagesUrl: string) {
       throw new Error('Language is not defined');
     }
 
-    const rule = /([\w]+)\splaceholders$/;
+    const rule = /([\w]+)\splaceholders(?:\s([\w\_\-]+))*$/;
     const match = rule.exec(language);
     if (!!match) {
-      const [, language] = match;
+      const [, language, context] = match;
       const el = document.createElement('md-make-code');
       el.setAttribute('code', code);
       el.setAttribute('language', language);
+      el.setAttribute('context', context);
       return el.outerHTML;
     } else if (language == 'mermaid') {
       const el = document.createElement('md-mermaid');

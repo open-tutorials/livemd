@@ -1,14 +1,4 @@
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  HostBinding,
-  OnInit,
-  QueryList,
-  Renderer2,
-  ViewChildren
-} from '@angular/core';
+import { ChangeDetectorRef, Component, HostBinding, OnInit, Renderer2 } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -40,7 +30,7 @@ type MemberUpdatedEvent = { member: Member };
   templateUrl: './channel.component.html',
   styleUrls: ['./channel.component.scss']
 })
-export class ChannelComponent implements OnInit, AfterViewInit {
+export class ChannelComponent implements OnInit {
 
   consts = {baseUrl: environment.baseUrl};
 
@@ -80,9 +70,6 @@ export class ChannelComponent implements OnInit, AfterViewInit {
     return this._channel;
   }
 
-  @ViewChildren('pointerRef')
-  pointerRefs!: QueryList<ElementRef<HTMLDivElement>>;
-
   constructor(private cd: ChangeDetectorRef,
               private channelsService: ChannelsService,
               private meManager: MeManager,
@@ -120,16 +107,6 @@ export class ChannelComponent implements OnInit, AfterViewInit {
         }
       }
     });
-  }
-
-  ngAfterViewInit() {
-    this.pointerRefs.changes.subscribe(refs => {
-      // console.log(refs);
-    });
-
-    setInterval(() => {
-      const refs = this.pointerRefs.toArray();
-    }, 500);
   }
 
   resetProgress() {

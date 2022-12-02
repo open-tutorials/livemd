@@ -166,7 +166,8 @@ p {
   }
 }
 
-iframe.giphy-embed, details iframe.giphy-embed {
+iframe.giphy-embed,
+details iframe.giphy-embed {
   pointer-events: none;
   border-radius: 10px;
   border: 1px solid silver;
