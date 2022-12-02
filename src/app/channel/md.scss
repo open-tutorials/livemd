@@ -1,4 +1,9 @@
-img, p img, block img, ul img, ol img {
+img,
+p img,
+block img,
+ul img,
+ol img,
+details img {
   margin: 5px 0;
   border-radius: 10px;
   border: 1px solid silver;
@@ -137,7 +142,9 @@ details table {
   }
 }
 
-ul:not(.poll) {
+ul:not(.poll),
+block ul,
+details ul {
   list-style: none;
   padding-left: 20px;
 
