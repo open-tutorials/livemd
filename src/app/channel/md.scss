@@ -3,7 +3,8 @@ p img,
 block img,
 ul img,
 ol img,
-details img {
+details img,
+blockquote img {
   margin: 5px 0;
   border-radius: 10px;
   border: 1px solid silver;
@@ -114,9 +115,11 @@ summary + br {
 ul,
 block ul,
 details ul,
+blockquote ul,
 ol,
 block ol,
-details ol {
+details ol,
+blockquote ol {
   margin: 10px 0;
 
   li img {

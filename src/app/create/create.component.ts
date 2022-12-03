@@ -16,7 +16,7 @@ export class CreateChannelComponent implements OnInit {
   form = this.fb.group({
     markdown: [MARKDOWN, Validators.required],
     baseUrl: ['https://github.com/{your_repository}/blob/main/'],
-    imagesUrl: ['https://raw.githubusercontent.com/{your_repository}/main'],
+    imagesUrl: ['https://raw.githubusercontent.com/{your_repository}/main/'],
     slug: [null]
   });
 
