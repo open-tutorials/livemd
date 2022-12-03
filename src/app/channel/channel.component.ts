@@ -152,6 +152,7 @@ export class ChannelComponent implements OnInit {
 
   open(line: number) {
     this.channel.opened[this.me.id] = line;
+    this.cd.detectChanges();
 
     this.channelsService.open(this.channel.id, line)
       .subscribe(response => console.log(response));
