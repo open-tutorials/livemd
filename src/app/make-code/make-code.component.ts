@@ -1,4 +1,11 @@
-import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Input,
+  ViewChild,
+  ViewEncapsulation
+} from '@angular/core';
 import hljs from 'highlight.js/lib/core';
 
 const PLACEHOLDER_TEMPLATE = /([\'\"]*)\?\|((?:(?!\}\?)(?:.))+)\|\?([\'\"]*)/;
@@ -7,7 +14,8 @@ const HLJS_PLACEHOLDERS = '.hljs-string, .hljs-comment';
 @Component({
   selector: 'app-make-code',
   templateUrl: './make-code.component.html',
-  styleUrls: ['./make-code.component.scss']
+  styleUrls: ['./make-code.component.scss'],
+  encapsulation: ViewEncapsulation.ShadowDom
 })
 export class MakeCodeComponent implements AfterViewInit {
 

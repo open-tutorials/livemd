@@ -1,11 +1,19 @@
-import { ChangeDetectorRef, Component, HostBinding, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  HostBinding,
+  Input,
+  OnInit,
+  ViewEncapsulation
+} from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Md5 } from 'ts-md5';
 
 @Component({
   selector: 'app-placeholder',
   templateUrl: './app-placeholder.component.html',
-  styleUrls: ['./app-placeholder.component.scss']
+  styleUrls: ['./app-placeholder.component.scss'],
+  encapsulation: ViewEncapsulation.ShadowDom
 })
 export class AppPlaceholderComponent implements OnInit {
 

@@ -1,10 +1,4 @@
-img,
-p img,
-block img,
-ul img,
-ol img,
-details img,
-blockquote img {
+img {
   margin: 5px 0;
   border-radius: 10px;
   border: 1px solid silver;
@@ -25,7 +19,7 @@ blockquote img {
   }
 }
 
-.person, p .person {
+.person {
   border: 1px solid transparent;
   border-radius: 5px;
   padding: 5px;
@@ -67,12 +61,7 @@ details {
   }
 }
 
-code:not(pre > code),
-p code:not(pre > code),
-block code:not(pre > code),
-ul code:not(pre > code),
-details code:not(pre > code),
-blockquote code:not(pre > code){
+code:not(pre > code) {
   border-radius: 5px;
   border: 1px solid silver;
   padding: 2px 4px;
@@ -81,9 +70,11 @@ blockquote code:not(pre > code){
   margin-right: 2px;
 }
 
-.badge,
-p .badge,
-details .badge {
+pre {
+  margin: 20px 0;
+}
+
+.badge {
   border-radius: 5px;
   padding: 2px 5px;
   background: rgba(100, 254, 0, 0.2);
@@ -95,15 +86,7 @@ details .badge {
   font-weight: bold;
 }
 
-pre,
-details pre,
-block pre {
-  margin: 20px 0;
-}
-
-blockquote,
-details blockquote,
-block blockquote {
+blockquote {
   border-left: 3px solid silver;
   padding-left: 10px;
   color: darkgreen;
@@ -113,14 +96,7 @@ summary + br {
   display: none;
 }
 
-ul,
-block ul,
-details ul,
-blockquote ul,
-ol,
-block ol,
-details ol,
-blockquote ol {
+ul, ol {
   margin: 10px 0;
 
   li img {
@@ -133,8 +109,7 @@ blockquote ol {
   }
 }
 
-table,
-details table {
+table {
   border: 1px solid silver;
   border-collapse: collapse;
 
@@ -148,9 +123,7 @@ details table {
   }
 }
 
-ul:not(.poll),
-block ul,
-details ul {
+ul:not(.poll) {
   list-style: none;
   padding-left: 20px;
 
@@ -190,8 +163,7 @@ p {
   }
 }
 
-iframe.giphy-embed,
-details iframe.giphy-embed {
+iframe.giphy-embed {
   pointer-events: none;
   border-radius: 10px;
   border: 1px solid silver;

@@ -116,6 +116,7 @@ export class ChannelComponent implements OnInit {
 
   putMark(line: number, member: string, mark: string | null) {
     this.channel.marks[this.me.id][line] = mark;
+    this.cd.detectChanges();
 
     this.channelsService.mark(this.channel.id, line, member, mark)
       .subscribe(response => console.log(response));
@@ -129,6 +130,7 @@ export class ChannelComponent implements OnInit {
       control.valueChanges.subscribe(comment => {
         this.putComment(line, comment, member);
         this.state.comments[line] = true;
+        this.cd.detectChanges();
       });
       this.form.addControl(name, control);
     }
@@ -146,6 +148,8 @@ export class ChannelComponent implements OnInit {
       delete this.channel.comments[line][member];
     }
 
+    this.cd.detectChanges();
+
     this.channelsService.comment(this.channel.id, member, line, comment || null)
       .subscribe(response => console.log(response));
   }
@@ -160,6 +164,7 @@ export class ChannelComponent implements OnInit {
 
   setProgress(line: number) {
     this.channel.progress[this.me.id] = line;
+    this.cd.detectChanges();
 
     this.channelsService.progress(this.channel.id, line)
       .subscribe(response => console.log(response));
@@ -171,6 +176,7 @@ export class ChannelComponent implements OnInit {
     }
 
     this.channel.polls[this.me.id][line] = option;
+    this.cd.detectChanges();
 
     this.channelsService.votePoll(this.channel.id, line, option)
       .subscribe(response => console.log(response));
