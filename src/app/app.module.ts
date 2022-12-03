@@ -67,6 +67,10 @@ export function routerErrorHandle(error: Error) {
         component: ChannelComponent
       },
       {
+        path: ':channel/join',
+        redirectTo: '/:channel'
+      },
+      {
         path: '',
         pathMatch: 'full',
         component: CreateChannelComponent

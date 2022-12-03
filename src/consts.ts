@@ -41,7 +41,9 @@ export const MARKDOWN = `Hello! This is a live markdown!
 
 Just copy your markdown and create a online channel for your friends!
 
-Please type hello <md-placeholder value="hello"></md-placeholder>
+Berlin, the <md-placeholder value="capital"></md-placeholder> city of Germany.
+
+It is renowned for its exceptional range of <md-placeholder value="landmarks"></md-placeholder>, vibrant cultural scene and way of <md-placeholder value="life"></md-placeholder> that's somehow all go yet relaxed.
 
 \`\`\`html placeholders
 <body>
