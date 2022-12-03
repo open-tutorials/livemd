@@ -1,8 +1,10 @@
+import { ViewportScroller } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule, Scroll } from '@angular/router';
+import { filter } from 'rxjs';
 import { ChannelComponent } from 'src/app/channel/channel.component';
 import { CreateChannelComponent } from 'src/app/create/create.component';
 import { DiffCodeComponent } from 'src/app/diff-code/diff-code.component';
@@ -93,5 +95,16 @@ export function routerErrorHandle(error: Error) {
   ]
 })
 export class AppModule {
+
+  constructor(router: Router, viewportScroller: ViewportScroller) {
+    viewportScroller.setOffset([0, 50]);
+    router.events.pipe(filter(e => e instanceof Scroll))
+      .subscribe(x => {
+        const e = x as Scroll;
+        if (!!e.anchor) {
+          setTimeout(() => viewportScroller.scrollToAnchor(e.anchor as string), 500);
+        }
+      });
+  }
 
 }
