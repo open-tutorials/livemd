@@ -71,7 +71,8 @@ code:not(pre > code),
 p code:not(pre > code),
 block code:not(pre > code),
 ul code:not(pre > code),
-details code:not(pre > code) {
+details code:not(pre > code),
+blockquote code:not(pre > code){
   border-radius: 5px;
   border: 1px solid silver;
   padding: 2px 4px;
