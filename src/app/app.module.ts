@@ -78,8 +78,8 @@ export function routerErrorHandle(error: Error) {
         component: CreateChannelComponent
       }
     ], {
-      scrollPositionRestoration: 'enabled',
-      anchorScrolling: 'enabled',
+      scrollPositionRestoration: 'disabled',
+      anchorScrolling: 'disabled',
       scrollOffset: [0, 50],
       initialNavigation: 'enabled',
       errorHandler: routerErrorHandle
@@ -102,7 +102,7 @@ export class AppModule {
       .subscribe(x => {
         const e = x as Scroll;
         if (!!e.anchor) {
-          setTimeout(() => viewportScroller.scrollToAnchor(e.anchor as string), 500);
+          setTimeout(() => viewportScroller.scrollToAnchor(e.anchor as string));
         }
       });
   }
