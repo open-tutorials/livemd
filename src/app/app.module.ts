@@ -103,6 +103,8 @@ export class AppModule {
         const e = x as Scroll;
         if (!!e.anchor) {
           setTimeout(() => viewportScroller.scrollToAnchor(e.anchor as string));
+        } else {
+          viewportScroller.scrollToPosition([0, 0]);
         }
       });
   }
