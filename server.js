@@ -2,7 +2,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const Pusher = require('pusher');
-const shortid = require('shortid');
 const path = require('path');
 const fs = require('fs');
 const adler = require('adler-32');
@@ -96,13 +95,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cors());
 
-app.get('/example.md', function (request, response) {
+app.get('/example', function (request, response) {
   response.sendFile(path.resolve(__dirname, 'example.md'));
 });
-// app.use(express.static('dist/livemd'));
-//app.get('*', function (request, response) {
-//  response.sendFile(path.resolve(__dirname, 'dist/livemd/index.html'));
-//});
 
 app.post('/api/channels/:id/auth', (req, res) => {
   const id = req.params.id;
@@ -293,6 +288,12 @@ app.post('/api/channels/:id/members/:member/progress', (req, res) => {
   res.status(200).send();
 
   dirty[channel.id] = channel;
+});
+
+// for production
+app.use(express.static('dist/livemd'));
+app.get('*', function (request, response) {
+  response.sendFile(path.resolve(__dirname, 'dist/livemd/index.html'));
 });
 
 const port = process.env.PORT || 4300;

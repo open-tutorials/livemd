@@ -41,7 +41,7 @@ export const MARKS: { [key: string]: string } = {
 export const TUTORIALS: { [key: string]: Tutorial } = {
   // for testing
   'example': {
-    source: 'http://localhost:4300/example.md',
+    source: 'http://localhost:4300/example',
     baseUrl: 'https://github.com/breslavsky/hello-cypress/blob/main',
     assetsUrl: 'https://raw.githubusercontent.com/breslavsky/hello-cypress/main'
   },
