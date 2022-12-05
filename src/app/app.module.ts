@@ -59,6 +59,11 @@ export function routerErrorHandle(error: Error) {
     BrowserModule,
     RouterModule.forRoot([
       {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: '/example'
+      },
+      {
         path: ':channel',
         resolve: {
           channel: ChannelResolver,

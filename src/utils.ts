@@ -54,7 +54,7 @@ export function getMarkedOptions(baseUrl: string, assetsUrl: string) {
     return html.replace(/src\=\"((?!http).+)\"/, `src="${assetsUrl}/$1"`);
   };
 
-  return {baseUrl, renderer};
+  return {baseUrl: baseUrl + '/', renderer};
 }
 
 export function getEndpoint(...chunks: (string | number)[]) {

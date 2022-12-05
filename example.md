@@ -1,6 +1,6 @@
-Hello! This is a live markdown!
+Это живой Markdown!
 
-# +How it works?
+# +Как это работает?
 
 Just copy your markdown and create a online channel for your friends!
 
