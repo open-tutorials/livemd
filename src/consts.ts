@@ -95,7 +95,7 @@ export const TUTORIALS: { [key: string]: Tutorial } = {
     assetsUrl: 'https://raw.githubusercontent.com/breslavsky/hello-cypress/main'
   },
   'finish_mama_project': {
-    source: 'https://raw.githubusercontent.com/breslavsky/hello-cypress/main/tutorials/deep_cypress.md',
+    source: 'https://raw.githubusercontent.com/breslavsky/hello-cypress/main/tutorials/finish_mama_project.md',
     baseUrl: 'https://github.com/breslavsky/hello-cypress/blob/main',
     assetsUrl: 'https://raw.githubusercontent.com/breslavsky/hello-cypress/main'
   },
