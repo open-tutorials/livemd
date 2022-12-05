@@ -5,8 +5,19 @@ import { environment } from 'src/environments/environment';
 export function getMarkedOptions(baseUrl: string, assetsUrl: string) {
   const renderer = new marked.Renderer();
   renderer.link = function (href: string, title: string, text: string) {
-    return marked.Renderer.prototype.link.call(this, href, title, text)
-      .replace('<a', '<a target=\'_blank\' ');
+    const normalHref = (() => {
+      if (/^http/.test(href)) {
+        return href;
+      }
+      return href.startsWith('/') ? baseUrl + href : baseUrl + '/' + href;
+    })();
+
+    const link = document.createElement('a');
+    link.setAttribute('target', '_blank');
+    link.setAttribute('href', normalHref);
+    link.setAttribute('title', title);
+    link.innerHTML = text;
+    return link.outerHTML;
   };
 
   renderer.code = function (code: string, language: string | undefined, isEscaped: boolean) {
@@ -54,7 +65,7 @@ export function getMarkedOptions(baseUrl: string, assetsUrl: string) {
     return html.replace(/src\=\"((?!http).+)\"/, `src="${assetsUrl}/$1"`);
   };
 
-  return {baseUrl: baseUrl + '/', renderer};
+  return {baseUrl, renderer};
 }
 
 export function getEndpoint(...chunks: (string | number)[]) {
