@@ -2,7 +2,7 @@ import { trim } from 'lodash';
 import { marked } from 'marked';
 import { environment } from 'src/environments/environment';
 
-export function getMarkedOptions(baseUrl: string, imagesUrl: string) {
+export function getMarkedOptions(baseUrl: string, assetsUrl: string) {
   const renderer = new marked.Renderer();
   renderer.link = function (href: string, title: string, text: string) {
     return marked.Renderer.prototype.link.call(this, href, title, text)
@@ -51,10 +51,10 @@ export function getMarkedOptions(baseUrl: string, imagesUrl: string) {
   };
 
   renderer.html = function (html: string) {
-    return html.replace(/src\=\"((?!http).+)\"/, `src="${imagesUrl}/$1"`);
+    return html.replace(/src\=\"((?!http).+)\"/, `src="${assetsUrl}/$1"`);
   };
 
-  return {baseUrl: baseUrl + '/', renderer};
+  return {baseUrl, renderer};
 }
 
 export function getEndpoint(...chunks: (string | number)[]) {

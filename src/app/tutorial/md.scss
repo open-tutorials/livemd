@@ -72,6 +72,53 @@ code:not(pre > code) {
 
 pre {
   margin: 20px 0;
+  position: relative;
+
+  & > code.language-js,
+  & > code.language-html,
+  & > code.language-python {
+    display: block;
+    padding-top: 10px;
+
+    &::before {
+      content: "code";
+      color: grey;
+      position: absolute;
+      top: -5px;
+      left: 0px;
+      font-size: .65em;
+    }
+  }
+
+  & > code.language-js::before {
+    content: "Java Script";
+  }
+
+  & > code.language-html::before {
+    content: "HTML";
+  }
+
+  & > code.language-python::before {
+    content: "Python";
+  }
+
+  & > code.language-bash {
+    display: block;
+    padding: 20px 10px 10px 10px;
+    background-color: black;
+    color: white;
+    border-radius: 5px;
+
+    &::before {
+      content: "TERMINAL";
+      color: white;
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      background-color: black;
+      font-size: .65em;
+    }
+  }
 }
 
 .badge {

@@ -19,16 +19,12 @@ class Member {
 
 class Channel {
   id;
-  markdown;
   members = {};
-  owner;
   marks = {};
   comments = {};
   progress = {};
   opened = {};
   polls = {};
-  baseUrl;
-  imagesUrl;
 
   constructor(defs = {}) {
     Object.assign(this, defs);
@@ -47,14 +43,21 @@ function getFile(id) {
 }
 
 function loadChannel(id) {
+  let channel;
   const file = getFile(id);
   if (fs.existsSync(file)) {
     // we need deserialization
-    const channel = JSON.parse(fs.readFileSync(file, {encoding: 'utf8'}));
-    channels[id] = channel;
-    return channel;
+    channel = JSON.parse(fs.readFileSync(file, {encoding: 'utf8'}));
+    // for transition period
+    delete channel['markdown'];
+    delete channel['baseUrl'];
+    delete channel['imagesUrl'];
+    delete channel['owner'];
+  } else {
+    channel = new Channel({id});
   }
-  return null;
+  channels[id] = channel;
+  return channel;
 }
 
 function saveChannel(channel) {
@@ -93,27 +96,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cors());
 
-app.use(express.static('dist/livemd'));
-app.get('*', function (request, response) {
-  response.sendFile(path.resolve(__dirname, 'dist/livemd/index.html'));
+app.get('/example.md', function (request, response) {
+  response.sendFile(path.resolve(__dirname, 'example.md'));
 });
-
-app.post('/api/channels', (req, res) => {
-  const {slug, owner, markdown, baseUrl, imagesUrl} = req.body;
-
-  if (!!slug && slug.length < 4) {
-    res.status(404).send('Slug should be more than 4 letters');
-    return;
-  }
-
-  const id = slug || shortid.generate();
-  const channel = new Channel({id, markdown, owner, baseUrl, imagesUrl});
-  channels[id] = channel;
-
-  res.send({id});
-
-  dirty[channel.id] = channel;
-});
+// app.use(express.static('dist/livemd'));
+//app.get('*', function (request, response) {
+//  response.sendFile(path.resolve(__dirname, 'dist/livemd/index.html'));
+//});
 
 app.post('/api/channels/:id/auth', (req, res) => {
   const id = req.params.id;
@@ -137,11 +126,6 @@ app.post('/api/channels/:id/auth', (req, res) => {
 app.post('/api/channels/:id/join', (req, res) => {
   const id = req.params.id;
   const channel = channels[id] || loadChannel(id);
-  if (!channel) {
-    res.status(404).send('Channel not found');
-    return;
-  }
-
   {
     const {id, name, avatar} = req.body;
     let member = channel.members[id];
@@ -170,7 +154,7 @@ app.post('/api/channels/:id/join', (req, res) => {
     }
 
     // reverse support
-    if(!channel.opened) {
+    if (!channel.opened) {
       channel.opened = {};
     }
 

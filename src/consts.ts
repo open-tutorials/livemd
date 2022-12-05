@@ -1,3 +1,5 @@
+import { Tutorial } from 'src/models/tutorial';
+
 export const AVATARS: { [key: string]: string } = {
   'santa': '🎅',
   'vampire': '🧛',
@@ -36,68 +38,96 @@ export const MARKS: { [key: string]: string } = {
   'like': '👍'
 };
 
-export const MARKDOWN = `Hello! This is a live markdown!
-# +How it works?
+export const TUTORIALS: { [key: string]: Tutorial } = {
+  // for testing
+  'example': {
+    source: 'http://localhost:4300/example.md',
+    baseUrl: 'https://github.com/breslavsky/hello-cypress/blob/main',
+    assetsUrl: 'https://raw.githubusercontent.com/breslavsky/hello-cypress/main'
+  },
 
-Just copy your markdown and create a online channel for your friends!
+  // manual testing
+  'became_a_tester': {
+    source: 'https://raw.githubusercontent.com/breslavsky/hello-cypress/main/tutorials/became_a_tester.md',
+    baseUrl: 'https://github.com/breslavsky/hello-cypress/blob/main',
+    assetsUrl: 'https://raw.githubusercontent.com/breslavsky/hello-cypress/main'
+  },
+  'bug_tracking': {
+    source: 'https://raw.githubusercontent.com/breslavsky/hello-cypress/main/tutorials/bug_tracking.md',
+    baseUrl: 'https://github.com/breslavsky/hello-cypress/blob/main',
+    assetsUrl: 'https://raw.githubusercontent.com/breslavsky/hello-cypress/main'
+  },
+  'perfect_bug_reports': {
+    source: 'https://raw.githubusercontent.com/breslavsky/hello-cypress/main/tutorials/perfect_bug_reports.md',
+    baseUrl: 'https://github.com/breslavsky/hello-cypress/blob/main',
+    assetsUrl: 'https://raw.githubusercontent.com/breslavsky/hello-cypress/main'
+  },
 
-Berlin, the <md-placeholder value="capital"></md-placeholder> city of Germany.
+  // cypress
+  'cypress_test_flight': {
+    source: 'https://raw.githubusercontent.com/breslavsky/hello-cypress/main/tutorials/cypress_test_flight.md',
+    baseUrl: 'https://github.com/breslavsky/hello-cypress/blob/main',
+    assetsUrl: 'https://raw.githubusercontent.com/breslavsky/hello-cypress/main'
+  },
+  'best_selectors': {
+    source: 'https://raw.githubusercontent.com/breslavsky/hello-cypress/main/tutorials/best_selectors.md',
+    baseUrl: 'https://github.com/breslavsky/hello-cypress/blob/main',
+    assetsUrl: 'https://raw.githubusercontent.com/breslavsky/hello-cypress/main'
+  },
+  'test_mama_project': {
+    source: 'https://raw.githubusercontent.com/breslavsky/hello-cypress/main/tutorials/test_mama_project.md',
+    baseUrl: 'https://github.com/breslavsky/hello-cypress/blob/main',
+    assetsUrl: 'https://raw.githubusercontent.com/breslavsky/hello-cypress/main'
+  },
+  'my_first_refactor': {
+    source: 'https://raw.githubusercontent.com/breslavsky/hello-cypress/main/tutorials/my_first_refactor.md',
+    baseUrl: 'https://github.com/breslavsky/hello-cypress/blob/main',
+    assetsUrl: 'https://raw.githubusercontent.com/breslavsky/hello-cypress/main'
+  },
+  'fake_data': {
+    source: 'https://raw.githubusercontent.com/breslavsky/hello-cypress/main/tutorials/fake_data.md',
+    baseUrl: 'https://github.com/breslavsky/hello-cypress/blob/main',
+    assetsUrl: 'https://raw.githubusercontent.com/breslavsky/hello-cypress/main'
+  },
+  'deep_cypress': {
+    source: 'https://raw.githubusercontent.com/breslavsky/hello-cypress/main/tutorials/deep_cypress.md',
+    baseUrl: 'https://github.com/breslavsky/hello-cypress/blob/main',
+    assetsUrl: 'https://raw.githubusercontent.com/breslavsky/hello-cypress/main'
+  },
+  'finish_mama_project': {
+    source: 'https://raw.githubusercontent.com/breslavsky/hello-cypress/main/tutorials/deep_cypress.md',
+    baseUrl: 'https://github.com/breslavsky/hello-cypress/blob/main',
+    assetsUrl: 'https://raw.githubusercontent.com/breslavsky/hello-cypress/main'
+  },
 
-It is renowned for its exceptional range of <md-placeholder value="landmarks"></md-placeholder>, vibrant cultural scene and way of <md-placeholder value="life"></md-placeholder> that's somehow all go yet relaxed.
+  // common
 
-\`\`\`html placeholders
-<body>
-    <!-- form -->
-    <<!--?|form|?-->>
-        <!-- primary -->
-        <input class="?|primary|?">
-    </form>
-</body>
-\`\`\`
+  'install_node_js': {
+    source: 'https://raw.githubusercontent.com/breslavsky/hello-cypress/main/tutorials/install_node_js.md',
+    baseUrl: 'https://github.com/breslavsky/hello-cypress/blob/main',
+    assetsUrl: 'https://raw.githubusercontent.com/breslavsky/hello-cypress/main'
+  },
 
-\`\`\`js placeholders
-describe('Sign up', () => {
+  // challenges
 
-    const rnd = /*?|Math.random|?*/();
+  'save_the_world': {
+    source: 'https://raw.githubusercontent.com/breslavsky/hello-cypress/main/challenges/save_the_world.md',
+    baseUrl: 'https://github.com/breslavsky/hello-cypress/blob/main',
+    assetsUrl: 'https://raw.githubusercontent.com/breslavsky/hello-cypress/main'
+  },
 
-    it.only('should do register user', () => {
+  // streams
 
-        // open https://demo.realworld.io/
-        cy.visit('https://demo.realworld.io/');
+  'memes_teach': {
+    source: 'https://raw.githubusercontent.com/breslavsky/hello-cypress/main/streams/memes_teach.md',
+    baseUrl: 'https://github.com/breslavsky/hello-cypress/blob/main',
+    assetsUrl: 'https://raw.githubusercontent.com/breslavsky/hello-cypress/main'
+  },
 
-        // click Sign Up link in app header
-        cy.get('?|.navbar a[href$="/register"]|?').click();
-
-    });
-});
-\`\`\`
-
-</md-make-code>
-
-***
-
-# +What can you do?
-
-> Sure, you can use common markdown markup.
-
-What to do today:
-* play guitar
-* go to party
-* meet with friends
-
-> We support emoji 🙀 lists.
-
-Do you like?
-* ❓ books
-* 💀 music
-
-Tasks
-* [x] books
-* [ ] music
-
-<details>
-    <summary>Do you really want to see it?</summary>
-
-This content is hidden!
-</details>
-`;
+  // experiments
+  'startup_onboarding': {
+    source: 'https://raw.githubusercontent.com/breslavsky/hello-cypress/main/tutorials/startup_onboarding.md',
+    baseUrl: 'https://github.com/breslavsky/hello-cypress/blob/main',
+    assetsUrl: 'https://raw.githubusercontent.com/breslavsky/hello-cypress/main'
+  }
+};

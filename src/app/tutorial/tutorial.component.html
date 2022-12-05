@@ -4,7 +4,7 @@
   </a>
 </header>
 
-<div class="me" (click)="current = me.id">
+<div class="me" (click)="current = me.id" [attr.title]="me.name">
   {{me.avatar | avatar}}
 </div>
 
@@ -106,7 +106,8 @@
 
       <div class="progress">
         <ng-container *ngFor="let m of channel.members | keyvalue">
-          <div *ngIf="m.key !== channel.owner && m.key !== me.id && channel.progress[m.key] === line">
+          <div *ngIf="m.key !== me.id && channel.progress[m.key] === line"
+               [attr.title]="m.value.name">
             {{m.value.avatar | avatar}}
           </div>
         </ng-container>

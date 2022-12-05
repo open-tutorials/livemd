@@ -29,18 +29,6 @@ h1 {
   cursor: default;
 }
 
-:host([data-am-owner=true]) {
-  .token {
-    .comments b {
-      cursor: pointer;
-    }
-  }
-
-  .me {
-    cursor: pointer;
-  }
-}
-
 .token {
   display: flex;
   position: relative;

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, HostBinding, OnInit, Renderer2 } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, Renderer2 } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -7,16 +7,12 @@ import { environment } from 'src/environments/environment';
 import { MeManager } from 'src/managers/me.manager';
 import { Channel } from 'src/models/channel';
 import { Member } from 'src/models/member';
+import { Tutorial } from 'src/models/tutorial';
 import { ChannelsService } from 'src/services/channels.service';
 import { getMarkedOptions } from 'src/utils';
 import Slugger = marked.Slugger;
 
 declare var Pusher: any;
-
-export enum Mode {
-  member = 'member',
-  owner = 'owner'
-}
 
 type PutMarkEvent = { member: string, line: number, mark: string };
 type VotePollEvent = { member: string, line: number, option: number };
@@ -26,23 +22,11 @@ type MemberJoinedEvent = { member: Member };
 type MemberUpdatedEvent = { member: Member };
 
 @Component({
-  selector: 'app-channel',
-  templateUrl: './channel.component.html',
-  styleUrls: ['./channel.component.scss']
+  selector: 'app-tutorial',
+  templateUrl: './tutorial.component.html',
+  styleUrls: ['./tutorial.component.scss']
 })
-export class ChannelComponent implements OnInit {
-
-  consts = {baseUrl: environment.baseUrl};
-
-  @HostBinding('attr.data-mode')
-  get mode(): Mode {
-    return this.channel?.owner === this.me?.id ? Mode.owner : Mode.member;
-  }
-
-  @HostBinding('attr.data-am-owner')
-  get amOwner(): boolean {
-    return this.channel?.owner === this.me?.id;
-  }
+export class TutorialComponent implements OnInit {
 
   me = this.meManager.me;
   form = this.fb.group({});
@@ -52,22 +36,31 @@ export class ChannelComponent implements OnInit {
   state: { comments: { [key: number]: boolean } } = {comments: {}};
 
   private _channel!: Channel;
+  private _tutorial!: Tutorial;
 
   set channel(channel: Channel) {
     this._channel = channel;
-    marked.setOptions(getMarkedOptions(channel.baseUrl, channel.imagesUrl));
-    this.tokens = marked.lexer(channel.markdown);
-
-    const title = this.tokens.find(t => t.type === 'heading');
-    if (!!title) {
-      this.title.setTitle(title.text);
-    }
 
     this.bindEvents();
   }
 
   get channel() {
     return this._channel;
+  }
+
+  set tutorial(tutorial: Tutorial) {
+    this._tutorial = tutorial;
+    marked.setOptions(getMarkedOptions(tutorial.baseUrl, tutorial.assetsUrl));
+    this.tokens = marked.lexer(tutorial.markdown as string);
+
+    const title = this.tokens.find(t => t.type === 'heading');
+    if (!!title) {
+      this.title.setTitle(title.text);
+    }
+  }
+
+  get tutorial() {
+    return this._tutorial;
   }
 
   constructor(private cd: ChangeDetectorRef,
@@ -82,8 +75,8 @@ export class ChannelComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.data.subscribe(({channel}) => {
-      this.channel = channel;
+    this.route.data.subscribe(({tutorial, channel}) => {
+      [this.tutorial, this.channel] = [tutorial, channel];
 
       if (this.channel.progress[this.me.id] === 0) {
         const next = this.findChapter(0);
@@ -240,7 +233,7 @@ export class ChannelComponent implements OnInit {
           return;
         }
 
-        if (member === this.channel.owner && this.channel.progress[this.me.id] > line) {
+        if (this.channel.progress[this.me.id] > line) {
           this.channel.progress[this.me.id] = line;
         }
 
@@ -269,9 +262,6 @@ export class ChannelComponent implements OnInit {
     {
       const channel = pusher.subscribe(['private', this.channel.id].join('-'));
       this.pusher.private = channel;
-      if (this.me.id !== this.channel.owner) {
-        // channel.bind('client-timers', data => {});
-      }
     }
 
   }

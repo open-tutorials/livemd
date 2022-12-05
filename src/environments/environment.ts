@@ -4,8 +4,7 @@
 
 export const environment = {
   production: false,
-  backend: 'http://localhost:4300/api',
-  baseUrl: 'https://md.epic1h.com'
+  backend: 'http://localhost:4300/api'
 };
 
 /*

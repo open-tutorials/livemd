@@ -6,6 +6,7 @@ import css from 'highlight.js/lib/languages/css';
 import javascript from 'highlight.js/lib/languages/javascript';
 import json from 'highlight.js/lib/languages/json';
 import diff from 'highlight.js/lib/languages/diff';
+import python from 'highlight.js/lib/languages/diff';
 import { marked } from 'marked';
 import mermaid from 'mermaid';
 import { block, details, hr, person, poll, summary, badge } from 'src/marked';
@@ -16,6 +17,7 @@ hljs.registerLanguage('javascript', javascript);
 hljs.registerLanguage('json', json);
 hljs.registerLanguage('bash', bash);
 hljs.registerLanguage('css', css);
+hljs.registerLanguage('python', python);
 hljs.registerLanguage('diff', diff);
 
 mermaid.initialize({
