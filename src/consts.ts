@@ -113,7 +113,7 @@ export const TUTORIALS: { [key: string]: Tutorial } = {
   // challenges
 
   'save_the_world': {
-    source: 'https://raw.githubusercontent.com/breslavsky/hello-cypress/main/challenges/save_the_world.md',
+    source: 'https://raw.githubusercontent.com/breslavsky/hello-cypress/main/quest/save_the_world.md',
     baseUrl: 'https://github.com/breslavsky/hello-cypress/blob/main',
     assetsUrl: 'https://raw.githubusercontent.com/breslavsky/hello-cypress/main'
   },
