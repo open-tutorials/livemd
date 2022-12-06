@@ -94,13 +94,16 @@ export function routerErrorHandle(error: Error) {
 })
 export class AppModule {
 
+  timer: any;
+
   constructor(router: Router, viewportScroller: ViewportScroller) {
     viewportScroller.setOffset([0, 50]);
     router.events.pipe(filter(e => e instanceof Scroll))
       .subscribe(x => {
         const e = x as Scroll;
         if (!!e.anchor) {
-          setTimeout(() => viewportScroller.scrollToAnchor(e.anchor as string));
+          clearTimeout(this.timer);
+          this.timer = setTimeout(() => viewportScroller.scrollToAnchor(e.anchor as string));
         } else {
           viewportScroller.scrollToPosition([0, 0]);
         }
