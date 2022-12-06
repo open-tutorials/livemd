@@ -95,7 +95,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cors());
 
-app.get('/example', function (request, response) {
+app.get('/api/example', function (request, response) {
   response.sendFile(path.resolve(__dirname, 'example.md'));
 });
 

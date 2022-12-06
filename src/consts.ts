@@ -1,3 +1,4 @@
+import { environment } from 'src/environments/environment';
 import { Tutorial } from 'src/models/tutorial';
 
 export const AVATARS: { [key: string]: string } = {
@@ -41,7 +42,8 @@ export const MARKS: { [key: string]: string } = {
 export const TUTORIALS: { [key: string]: Tutorial } = {
   // for testing
   'example': {
-    source: 'http://localhost:4300/example',
+    source: environment.production
+      ? 'https://md.epic1h.com/api/example' : 'http://localhost:4300/api/example',
     baseUrl: 'https://github.com/breslavsky/hello-cypress/blob/main',
     assetsUrl: 'https://raw.githubusercontent.com/breslavsky/hello-cypress/main'
   },
