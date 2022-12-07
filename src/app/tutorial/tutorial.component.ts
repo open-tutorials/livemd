@@ -1,4 +1,11 @@
-import { ChangeDetectorRef, Component, OnInit, Renderer2 } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  Injector,
+  OnDestroy,
+  OnInit,
+  Renderer2
+} from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -9,6 +16,7 @@ import { Channel } from 'src/models/channel';
 import { Member } from 'src/models/member';
 import { Tutorial } from 'src/models/tutorial';
 import { ChannelsService } from 'src/services/channels.service';
+import { HeapService } from 'src/services/heap.service';
 import { getMarkedOptions } from 'src/utils';
 import Slugger = marked.Slugger;
 
@@ -26,7 +34,7 @@ type MemberUpdatedEvent = { member: Member };
   templateUrl: './tutorial.component.html',
   styleUrls: ['./tutorial.component.scss']
 })
-export class TutorialComponent implements OnInit {
+export class TutorialComponent implements OnInit, OnDestroy {
 
   me = this.meManager.me;
   form = this.fb.group({});
@@ -65,6 +73,7 @@ export class TutorialComponent implements OnInit {
 
   constructor(private cd: ChangeDetectorRef,
               private channelsService: ChannelsService,
+              private heapService: HeapService,
               private meManager: MeManager,
               private router: Router,
               private route: ActivatedRoute,
@@ -75,13 +84,16 @@ export class TutorialComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.data.subscribe(({tutorial, channel}) => {
+    this.route.data.subscribe(({tutorial, channel, heap}) => {
       [this.tutorial, this.channel] = [tutorial, channel];
+
+      console.log(heap);
 
       if (this.channel.progress[this.me.id] === 0) {
         const next = this.findChapter(0);
         this.setProgress(next);
       }
+
     });
 
     this.route.fragment.subscribe(fragment => {
@@ -100,6 +112,10 @@ export class TutorialComponent implements OnInit {
         }
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.heapService.stop();
   }
 
   resetProgress() {

@@ -8,6 +8,7 @@ import {
   ViewChild
 } from '@angular/core';
 import { filter } from 'rxjs';
+import { HeapService } from 'src/services/heap.service';
 
 const SECONDS_IN_MINUTE = 60;
 
@@ -22,6 +23,8 @@ function pad(num: number) {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TimerComponent implements OnInit, OnDestroy {
+
+  private heap = this.heapService.heap;
 
   @Input()
   id!: string;
@@ -49,12 +52,13 @@ export class TimerComponent implements OnInit, OnDestroy {
 
   timer: any = null;
 
-  constructor(private cd: ChangeDetectorRef,
+  constructor(private heapService: HeapService,
+              private cd: ChangeDetectorRef,
               private zone: NgZone) {
   }
 
   ngOnInit() {
-    const time = localStorage.getItem(this.id);
+    const time = this.heap.timers?.[this.id];
     if (!!time) {
       this.time = time;
     }
@@ -69,7 +73,7 @@ export class TimerComponent implements OnInit, OnDestroy {
     const tick = () => {
       if (this.remained-- > 0) {
         this.render();
-        localStorage.setItem(this.id, this.time);
+        this.heapService.put({timers: {[this.id]: this.time}});
         this.timer = setTimeout(() => tick(), 1000);
       } else {
         this.finished.emit();

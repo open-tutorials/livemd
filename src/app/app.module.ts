@@ -23,6 +23,7 @@ import { MaximumPipe } from 'src/pipes/minimum.pipe';
 import { TextWidthPipe } from 'src/pipes/text-width.pipe';
 import { Token2Html } from 'src/pipes/token2html.pipe';
 import { ChannelResolver } from 'src/resolvers/channel.resolver';
+import { HeapResolver } from 'src/resolvers/heap.resolver';
 import { TutorialResolver } from 'src/resolvers/tutorial.resolver';
 import { AgendaComponent } from './agenda/agenda.component';
 import { AppComponent } from './app.component';
@@ -69,7 +70,15 @@ export function routerErrorHandle(error: Error) {
           channel: ChannelResolver,
           tutorial: TutorialResolver
         },
-        component: TutorialComponent
+        children: [
+          {
+            path: '',
+            resolve: {
+              heap: HeapResolver
+            },
+            component: TutorialComponent
+          }
+        ]
       },
       {
         path: ':channel/join',
@@ -80,6 +89,7 @@ export function routerErrorHandle(error: Error) {
       anchorScrolling: 'disabled',
       scrollOffset: [0, 50],
       initialNavigation: 'enabled',
+      paramsInheritanceStrategy: 'always',
       errorHandler: routerErrorHandle
     }),
     ReactiveFormsModule

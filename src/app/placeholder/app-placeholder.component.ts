@@ -7,6 +7,7 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import { HeapService } from 'src/services/heap.service';
 import { Md5 } from 'ts-md5';
 
 @Component({
@@ -20,14 +21,16 @@ export class AppPlaceholderComponent implements OnInit {
   private _value!: string;
   private _hash!: string;
 
+  private heap = this.heapService.heap;
+
   @Input()
   context!: string;
 
   @Input()
   set value(value: string) {
     this._value = value;
-    this._hash = Md5.hashStr([this.context, value].join('|'));
-    this.answerControl.setValue(localStorage[this._hash] || null, {emitEvent: false});
+    this._hash = Md5.hashStr([this.context, value].join('_'));
+    this.answerControl.setValue(this.heap.placeholders?.[this._hash] || null, {emitEvent: false});
   }
 
   get value() {
@@ -46,13 +49,14 @@ export class AppPlaceholderComponent implements OnInit {
 
   answerControl = this.fb.control(null);
 
-  constructor(private fb: FormBuilder,
+  constructor(private heapService: HeapService,
+              private fb: FormBuilder,
               private cd: ChangeDetectorRef) {
   }
 
   ngOnInit() {
     this.answerControl.valueChanges.subscribe((value: string | null) => {
-      localStorage.setItem(this._hash, value || '');
+      this.heapService.put({placeholders: {[this._hash]: value || ''}});
       this.cd.detectChanges();
     });
   }

@@ -1,4 +1,3 @@
-import { Field } from 'serialize-ts';
 import { Member } from 'src/models/member';
 
 export class Channel {

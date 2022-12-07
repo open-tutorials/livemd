@@ -5,6 +5,7 @@ const Pusher = require('pusher');
 const path = require('path');
 const fs = require('fs');
 const adler = require('adler-32');
+const {merge} = require("lodash");
 
 class Member {
   id;
@@ -24,6 +25,7 @@ class Channel {
   progress = {};
   opened = {};
   polls = {};
+  secrets = {};
 
   constructor(defs = {}) {
     Object.assign(this, defs);
@@ -32,18 +34,36 @@ class Channel {
 
 const channels = {};
 
-function getFile(id) {
+class Heap {
+  channel;
+  member;
+  placeholders = {};
+
+  constructor(defs = {}) {
+    Object.assign(this, defs);
+  }
+}
+
+const heaps = {};
+
+function getChannelFolder(id) {
   const [, p1, p2,] = id.match(/^(.{2})(.{2})/i);
 
   const c1 = adler.str(p1) % 10;
   const c2 = adler.str(p2) % 10;
 
-  return [process.env.DEV_MODE ? 'channels' : '/var/run/app', c1, c2, id].join('/') + '.json';
+  return path.resolve(process.env.DEV_MODE ? 'channels' : '/var/run/app', c1.toString(), c2.toString());
+}
+
+function getChannelFile(id) {
+  const folder = getChannelFolder(id);
+  console.debug('channel folder =', folder);
+  return path.resolve(folder, id + '.json');
 }
 
 function loadChannel(id) {
   let channel;
-  const file = getFile(id);
+  const file = getChannelFile(id);
   if (fs.existsSync(file)) {
     // we need deserialization
     channel = JSON.parse(fs.readFileSync(file, {encoding: 'utf8'}));
@@ -60,7 +80,7 @@ function loadChannel(id) {
 }
 
 function saveChannel(channel) {
-  const file = getFile(channel.id);
+  const file = getChannelFile(channel.id);
   const folder = path.dirname(file);
   if (!fs.existsSync(folder)) {
     fs.mkdirSync(folder, {recursive: true});
@@ -69,13 +89,62 @@ function saveChannel(channel) {
   fs.writeFileSync(file, JSON.stringify(channel, null, 2), {encoding: 'utf8'});
 }
 
-let dirty = {};
+function getHeapFile(channel, member) {
+  const folder = path.resolve(getChannelFolder(channel), channel);
+  console.debug('heap folder =', folder);
+  return path.resolve(folder, member + '.json');
+}
+
+function loadHeap(channel, member) {
+  let heap;
+  const file = getHeapFile(channel, member);
+  if (fs.existsSync(file)) {
+    // we need deserialization
+    heap = JSON.parse(fs.readFileSync(file, {encoding: 'utf8'}));
+  } else {
+    heap = new Heap({channel, member, placeholders: {hello: 'anton'}});
+  }
+
+  if (!heaps[channel]) {
+    heaps[channel] = {};
+  }
+
+  heaps[channel][member] = heap;
+  return heap;
+}
+
+function saveHeap(heap) {
+  console.log('save heap =', heap);
+  const file = getHeapFile(heap.channel, heap.member);
+  const folder = path.dirname(file);
+  if (!fs.existsSync(folder)) {
+    fs.mkdirSync(folder, {recursive: true});
+  }
+
+  fs.writeFileSync(file, JSON.stringify(heap, null, 2), {encoding: 'utf8'});
+}
+
+let dirty = {
+  channels: {},
+  heaps: {}
+};
 
 function saveDirty() {
-  const save = Object.values(dirty);
-  console.log('save dirty', save.map(c => c.id));
-  save.forEach(channel => saveChannel(channel));
-  dirty = {};
+  {
+    const save = Object.values(dirty.channels);
+    console.log('save dirty channels', save.map(c => c.id));
+    save.forEach(channel => saveChannel(channel));
+  }
+
+  {
+    const save = Object.values(dirty.heaps);
+    console.log('save dirty heaps', save.map(c => c.member));
+    save.forEach(heap => saveHeap(heap));
+  }
+  dirty = {
+    channels: {},
+    heaps: {}
+  };
 
   setTimeout(saveDirty, 5000);
 }
@@ -161,7 +230,23 @@ app.post('/api/channels/:id/join', (req, res) => {
 
   res.send(channel);
 
-  dirty[channel.id] = channel;
+  dirty.channels[channel.id] = channel;
+});
+
+app.get('/api/channels/:channel/heaps/:member', (req, res) => {
+  const {channel, member} = req.params;
+  // checkSecret(channel, member);
+  res.send(heaps[channel]?.[member] || loadHeap(channel, member));
+});
+
+app.post('/api/channels/:channel/heaps/:member', (req, res) => {
+  const {channel, member} = req.params;
+  // checkSecret(channel, member);
+  let heap = heaps[channel]?.[member] || loadHeap(channel, member);
+  merge(heap, req.body);
+  res.status(200).send();;
+
+  dirty.heaps[heap.id] = heap;
 });
 
 app.post('/api/channels/:id/members/:member/marks/:line', (req, res) => {
@@ -188,7 +273,7 @@ app.post('/api/channels/:id/members/:member/marks/:line', (req, res) => {
 
   res.status(200).send();
 
-  dirty[channel.id] = channel;
+  dirty.channels[channel.id] = channel;
 });
 
 app.post('/api/channels/:id/members/:member/polls/:line', (req, res) => {
@@ -215,7 +300,7 @@ app.post('/api/channels/:id/members/:member/polls/:line', (req, res) => {
 
   res.status(200).send();
 
-  dirty[channel.id] = channel;
+  dirty.channels[channel.id] = channel;
 });
 
 app.post('/api/channels/:id/members/:member/comments/:line', (req, res) => {
@@ -246,7 +331,7 @@ app.post('/api/channels/:id/members/:member/comments/:line', (req, res) => {
 
   res.status(200).send();
 
-  dirty[channel.id] = channel;
+  dirty.channels[channel.id] = channel;
 });
 
 app.post('/api/channels/:id/members/:member/open', (req, res) => {
@@ -267,7 +352,7 @@ app.post('/api/channels/:id/members/:member/open', (req, res) => {
   console.log('open', channel.id, member, line);
   res.status(200).send();
 
-  dirty[channel.id] = channel;
+  dirty.channels[channel.id] = channel;
 });
 
 app.post('/api/channels/:id/members/:member/progress', (req, res) => {
@@ -287,7 +372,7 @@ app.post('/api/channels/:id/members/:member/progress', (req, res) => {
 
   res.status(200).send();
 
-  dirty[channel.id] = channel;
+  dirty.channels[channel.id] = channel;
 });
 
 // for production

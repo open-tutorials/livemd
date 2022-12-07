@@ -12,6 +12,9 @@ export class Me {
   id!: string;
 
   @Field()
+  secret!: string;
+
+  @Field()
   name!: string;
 
   @Field()
@@ -33,6 +36,10 @@ export class MeManager {
     if (!!raw) {
       try {
         this.me = deserialize(JSON.parse(raw), Me);
+        if (!this.me.secret) {
+          this.me.secret = generate();
+          this.save();
+        }
       } catch (e) {
         console.error(e);
         this.create();
@@ -115,7 +122,7 @@ export class MeManager {
       }
     ];
 
-    this.me = new Me({id: generate()});
+    this.me = new Me({id: generate(), secret: generate()});
     Object.assign(this.me, lottery[random(0, lottery.length - 1)]);
     this.save();
   }
