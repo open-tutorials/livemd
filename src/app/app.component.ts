@@ -1,6 +1,7 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { createCustomElement } from '@angular/elements';
 import { DiffCodeComponent } from 'src/app/diff-code/diff-code.component';
+import { MessageComponent } from 'src/app/message/message.component';
 import { AppPlaceholderComponent } from 'src/app/placeholder/app-placeholder.component';
 import { MakeCodeComponent } from 'src/app/make-code/make-code.component';
 import { MermaidComponent } from 'src/app/mermaid/mermaid.component';
@@ -34,6 +35,11 @@ export class AppComponent implements OnInit {
     if (!customElements.get('md-placeholder')) {
       const element = createCustomElement(AppPlaceholderComponent, {injector: this.injector});
       customElements.define('md-placeholder', element);
+    }
+
+    if (!customElements.get('md-message')) {
+      const element = createCustomElement(MessageComponent, {injector: this.injector});
+      customElements.define('md-message', element);
     }
   }
 

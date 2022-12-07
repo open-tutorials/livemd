@@ -1,5 +1,15 @@
 Это живой Markdown!
 
+```json message
+{
+  "from": {
+    "name": "Антон",
+    "avatar": "https://s.epic1h.com/api/public/dl/nfCyhZhd?inline=true"
+  },
+  "src": "https://drive.google.com/uc?export=view&id=1l1kBR3XI1xDaSX02jLY8FfzxLibosE3P"
+}
+```
+
 # +Как это работает?
 
 Just copy your markdown and create a online channel for your friends!

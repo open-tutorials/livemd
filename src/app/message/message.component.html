@@ -1,0 +1,13 @@
+<ng-container *ngIf="!!message">
+  <div data-overlay *ngIf="!accepted" (click)="play()">
+    <div *ngIf="!!message.from" data-master>
+      <img [src]="message.from.avatar" width="80" height="80">
+      <div data-from>{{message.from.name}}</div>
+    </div>
+    <img src="assets/message.gif" width="200" height="150">
+  </div>
+
+  <video #videoRef controls preload="metadata">
+    <source [src]="message.src" type="video/mp4"/>
+  </video>
+</ng-container>
