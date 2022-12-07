@@ -37,11 +37,14 @@ export function getMarkedOptions(baseUrl: string, assetsUrl: string) {
       }
     }
     {
-      const rule = /json\smessage$/;
+      const rule = /json\smessage\s([\w\_\-]+)$/;
       const match = rule.exec(language);
+      console.log(match);
       if (!!match) {
+        const [, id] = match;
         const el = document.createElement('md-message');
         el.setAttribute('config', code);
+        el.setAttribute('id', id);
         return el.outerHTML;
       }
     }

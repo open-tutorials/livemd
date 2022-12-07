@@ -1,7 +1,7 @@
 <ng-container *ngIf="!!message">
   <div data-overlay *ngIf="!accepted" (click)="play()">
     <div *ngIf="!!message.from" data-master>
-      <img [src]="message.from.avatar" width="80" height="80">
+      <img [src]="message.from.avatar" width="120" height="120">
       <div data-from>{{message.from.name}}</div>
     </div>
     <img src="assets/message.gif" width="200" height="150">

@@ -2,7 +2,7 @@
 
 Проект может быть полезен для создания интерактивных туториалов.
 
-```json message
+```json message hello_from_anton
 {
   "from": {
     "name": "Антон",

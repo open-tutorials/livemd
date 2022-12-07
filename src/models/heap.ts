@@ -10,4 +10,7 @@ export class Heap {
   @Field({serializer: new KeyValueSerializer()})
   timers: { [key: string]: string } = {};
 
+  @Field({serializer: new KeyValueSerializer()})
+  messages: { [key: string]: boolean } = {};
+
 }

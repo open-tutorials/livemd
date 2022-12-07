@@ -1,6 +1,5 @@
-import { Field, Model } from '@junte/serialize-ts';
+import { Field, Model } from 'serialize-ts';
 import { Master } from 'src/models/master';
-import { merge } from "lodash";
 
 @Model()
 export class Message {
@@ -11,7 +10,4 @@ export class Message {
   @Field()
   src!: string;
 
-  constructor(defs: Partial<Message>) {
-    merge(this, defs);
-  }
 }
