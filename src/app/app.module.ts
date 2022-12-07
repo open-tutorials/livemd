@@ -7,6 +7,7 @@ import { Router, RouterModule, Scroll } from '@angular/router';
 import { filter } from 'rxjs';
 import { TutorialComponent } from 'src/app/tutorial/tutorial.component';
 import { DiffCodeComponent } from 'src/app/diff-code/diff-code.component';
+import { MessageComponent } from 'src/app/message/message.component';
 import { AppPlaceholderComponent } from 'src/app/placeholder/app-placeholder.component';
 import { MakeCodeComponent } from 'src/app/make-code/make-code.component';
 import { TimerComponent } from 'src/app/timer/timer.component';
@@ -53,7 +54,8 @@ export function routerErrorHandle(error: Error) {
     MermaidComponent,
     AgendaComponent,
     MakeCodeComponent,
-    AppPlaceholderComponent
+    AppPlaceholderComponent,
+    MessageComponent
   ],
   imports: [
     HttpClientModule,

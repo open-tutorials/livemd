@@ -2,6 +2,16 @@
 
 Проект может быть полезен для создания интерактивных туториалов.
 
+```json message
+{
+  "from": {
+    "name": "Антон",
+    "avatar": "https://s.epic1h.com/api/public/dl/nfCyhZhd?inline=true"
+  },
+  "src": "https://drive.google.com/uc?export=view&id=1l1kBR3XI1xDaSX02jLY8FfzxLibosE3P"
+}
+```
+
 # +Как это работает?
 
 Мы взяли стандартный Markdown синтаксис, добавили в него немного от Google Docs и Notion.
