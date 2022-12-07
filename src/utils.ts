@@ -24,17 +24,29 @@ export function getMarkedOptions(baseUrl: string, assetsUrl: string) {
     if (!language) {
       throw new Error('Language is not defined');
     }
+    {
+      const rule = /([\w]+)\splaceholders(?:\s([\w\_\-]+))*$/;
+      const match = rule.exec(language);
+      if (!!match) {
+        const [, language, context] = match;
+        const el = document.createElement('md-make-code');
+        el.setAttribute('code', code);
+        el.setAttribute('language', language);
+        el.setAttribute('context', context);
+        return el.outerHTML;
+      }
+    }
+    {
+      const rule = /json\smessage$/;
+      const match = rule.exec(language);
+      if (!!match) {
+        const el = document.createElement('md-message');
+        el.setAttribute('config', code);
+        return el.outerHTML;
+      }
+    }
 
-    const rule = /([\w]+)\splaceholders(?:\s([\w\_\-]+))*$/;
-    const match = rule.exec(language);
-    if (!!match) {
-      const [, language, context] = match;
-      const el = document.createElement('md-make-code');
-      el.setAttribute('code', code);
-      el.setAttribute('language', language);
-      el.setAttribute('context', context);
-      return el.outerHTML;
-    } else if (language == 'mermaid') {
+    if (language == 'mermaid') {
       const el = document.createElement('md-mermaid');
       el.setAttribute('code', code);
       return el.outerHTML;
