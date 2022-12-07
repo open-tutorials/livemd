@@ -1,10 +1,21 @@
 <ng-container *ngIf="!!message">
-  <div data-overlay *ngIf="!accepted" (click)="play()">
+  <div data-overlay *ngIf="!opened" (click)="play()">
     <div *ngIf="!!message.from" data-master>
       <img [src]="message.from.avatar" width="120" height="120">
       <div data-from>{{message.from.name}}</div>
     </div>
-    <img src="assets/message.gif" width="200" height="150">
+    <img *ngIf="!accepted;else repeatTemplate" src="assets/message.gif" width="200" height="150">
+
+    <ng-template #repeatTemplate>
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+           width="60" height="60"
+           viewBox="0 0 24 24">
+        <g linecap="round" stroke-linejoin="round" stroke-width="2">
+          <path d="M19.933 13.041a8 8 0 1 1-9.925-8.788C13.907 3.251 17.943 5.26 19.433 9"></path>
+          <path d="M20 4v5h-5"></path>
+        </g>
+      </svg>
+    </ng-template>
   </div>
 
   <video #videoRef controls preload="metadata">

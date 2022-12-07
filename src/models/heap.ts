@@ -5,12 +5,12 @@ import { KeyValueSerializer } from 'src/serializers/key-value';
 export class Heap {
 
   @Field({serializer: new KeyValueSerializer()})
-  placeholders: { [key: string]: string } = {};
+  placeholders!: { [key: string]: string };
 
   @Field({serializer: new KeyValueSerializer()})
-  timers: { [key: string]: string } = {};
+  timers!: { [key: string]: string };
 
   @Field({serializer: new KeyValueSerializer()})
-  messages: { [key: string]: boolean } = {};
+  messages!: { [key: string]: boolean };
 
 }

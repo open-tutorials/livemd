@@ -37,7 +37,6 @@ const channels = {};
 class Heap {
   channel;
   member;
-  placeholders = {};
 
   constructor(defs = {}) {
     Object.assign(this, defs);
@@ -102,7 +101,7 @@ function loadHeap(channel, member) {
     // we need deserialization
     heap = JSON.parse(fs.readFileSync(file, {encoding: 'utf8'}));
   } else {
-    heap = new Heap({channel, member, placeholders: {hello: 'anton'}});
+    heap = new Heap({channel, member});
   }
 
   if (!heaps[channel]) {

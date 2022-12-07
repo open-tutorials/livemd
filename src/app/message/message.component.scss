@@ -27,7 +27,7 @@ video {
   background: white;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
   flex-direction: column;
 
   [data-master] {
@@ -40,6 +40,12 @@ video {
       font-size: 20px;
       font-weight: bold;
     }
+  }
+
+  svg {
+    padding-top: 20px;
+    stroke: silver;
+    fill: none;
   }
 
   img {

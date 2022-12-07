@@ -21,11 +21,12 @@ export class MessageComponent {
 
   message!: Message;
   accepted = false;
+  opened = false;
 
   @Input()
   set id(id: string) {
     this._id = id;
-    this.accepted = this.headService.heap.messages[id] || false;
+    this.accepted = this.headService.heap.messages?.[id] || false;
   }
 
   get id() {
@@ -45,9 +46,12 @@ export class MessageComponent {
   }
 
   play() {
-    this.accepted = true;
+    this.opened = true;
+    if(!this.accepted) {
+      this.accepted = true;
+      this.headService.put({messages: {[this.id]: true}});
+    }
     this.cd.detectChanges();
-    this.headService.put({messages: {[this.id]: true}});
     this.videoRef.nativeElement.play();
   }
 
