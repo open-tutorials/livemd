@@ -7,6 +7,7 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import { trim } from 'lodash';
 import { HeapService } from 'src/services/heap.service';
 import { Md5 } from 'ts-md5';
 
@@ -39,7 +40,7 @@ export class AppPlaceholderComponent implements OnInit {
 
   @HostBinding('attr.data-right')
   get right() {
-    return this.answerControl.value === this.value;
+    return trim(this.answerControl.value) === this.value;
   }
 
   @HostBinding('attr.data-dirty')

@@ -58,18 +58,23 @@ export function getMarkedOptions(baseUrl: string, assetsUrl: string) {
     return marked.Renderer.prototype.code.call(this, code, language, isEscaped);
   };
 
-  renderer.listitem = function (text: string, task: boolean, checked) {
-    let item = marked.Renderer.prototype.listitem.call(this, text, task, checked);
+  renderer.checkbox = function () {
+    return '<!-- checkbox -->';
+  };
 
+  renderer.listitem = function (text: string, task: boolean, checked) {
+    const li = document.createElement('li');
+    li.innerHTML = text;
     if (task) {
-      item = item
-        .replace('<input disabled="" type="checkbox"> ', '')
-        .replace('<input checked="" disabled="" type="checkbox"> ', '')
-        .replace('<li>', '<li class="task' + (checked ? ' checked' : '') + '">');
+      li.classList.add('task');
+      if (checked) {
+        li.classList.add('done');
+      }
+      li.setAttribute('text', text);
     } else if (/^(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])/.test(text)) {
-      item = item.replace('<li>', '<li class="emoji">');
+      li.setAttribute('class', 'emoji');
     }
-    return item;
+    return li.outerHTML;
   };
 
   renderer.heading = function (text, level, raw, slugger) {

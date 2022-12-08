@@ -20,6 +20,7 @@ class Member {
 class Channel {
   id;
   members = {};
+  owner;
   marks = {};
   comments = {};
   progress = {};
@@ -202,6 +203,11 @@ app.post('/api/channels/:id/join', (req, res) => {
       Object.assign(member, {name, avatar});
 
       pusher.trigger(channel.id, 'member_updated', {member});
+    }
+
+    if(!channel.owner) {
+      console.log('set member as owner');
+      channel.owner = member.id;
     }
 
     if (!channel.marks[id]) {
