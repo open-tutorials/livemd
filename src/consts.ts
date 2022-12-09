@@ -66,6 +66,12 @@ export const TUTORIALS: { [key: string]: Tutorial } = {
   },
 
   // cypress
+  'install_node_js': {
+    source: 'https://raw.githubusercontent.com/breslavsky/hello-cypress/main/tutorials/install_node_js.md',
+    baseUrl: 'https://github.com/breslavsky/hello-cypress/blob/main',
+    assetsUrl: 'https://raw.githubusercontent.com/breslavsky/hello-cypress/main'
+  },
+
   'cypress_test_flight': {
     source: 'https://raw.githubusercontent.com/breslavsky/hello-cypress/main/tutorials/cypress_test_flight.md',
     baseUrl: 'https://github.com/breslavsky/hello-cypress/blob/main',
