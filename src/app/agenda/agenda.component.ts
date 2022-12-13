@@ -1,7 +1,7 @@
 import {
   Component,
   ElementRef,
-  EventEmitter,
+  EventEmitter, HostBinding,
   Input,
   NgZone,
   OnDestroy,
@@ -48,6 +48,11 @@ export class AgendaComponent implements OnInit, OnDestroy {
 
   get done(): number {
     return Math.round((this.progress / this._tokens.length) * 100);
+  }
+
+  @HostBinding('attr.data-empty')
+  get dataEmpty() {
+    return this.headings.length === 0;
   }
 
   @Input()

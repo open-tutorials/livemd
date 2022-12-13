@@ -9,6 +9,10 @@
   opacity: .5;
   transition: opacity 500ms;
 
+  &[data-empty=true] {
+    display: none;
+  }
+
   &[data-sticky=true] {
     top: 10px;
     position: fixed;
@@ -16,6 +20,7 @@
 
   &:hover {
     opacity: 1;
+
     [data-open] {
       display: none;
     }
