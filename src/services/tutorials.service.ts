@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { TUTORIALS } from 'src/consts';
+import { INDEX } from 'src/consts';
 import { MeManager } from 'src/managers/me.manager';
 import { Tutorial } from 'src/models/tutorial';
 
@@ -14,7 +14,7 @@ export class TutorialsService {
   }
 
   get(slug: string): Observable<Tutorial> {
-    const tutorial = TUTORIALS[slug];
+    const tutorial = INDEX.tutorials[slug];
     return new Observable<Tutorial>(o => {
       this.http.get(tutorial.source + '?rand=' + Math.random(), {responseType: 'text'})
         .subscribe(markdown => {

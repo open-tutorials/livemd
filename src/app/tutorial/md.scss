@@ -134,6 +134,7 @@ blockquote {
   border-left: 3px solid silver;
   padding-left: 10px;
   color: darkgreen;
+  font-size: 1.5em;
 }
 
 summary + br {
@@ -207,8 +208,11 @@ p {
   }
 }
 
-iframe.giphy-embed {
-  pointer-events: none;
+iframe {
   border-radius: 10px;
   border: 1px solid silver;
+
+  &.giphy-embed {
+    pointer-events: none;
+  }
 }

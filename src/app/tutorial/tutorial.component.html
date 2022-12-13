@@ -4,9 +4,11 @@
   </a>
 </header>
 
+<!--
 <div class="me" (click)="current = me.id" [attr.title]="me.name">
   {{me.avatar | avatar}}
 </div>
+-->
 
 <app-agenda [tokens]="tokens"
             [progress]="channel.progress[me.id]"
@@ -29,6 +31,7 @@
       <span></span>
     </button>
 
+    <!--
     <div class="marks" [class.marked]="!!channel.marks[current][line]">
       <div class="my">
         <ng-container *ngIf="channel.marks[current][line] as mark">
@@ -59,17 +62,19 @@
 
       <div class="progress"></div>
     </div>
+    -->
 
     <div class="md" [attr.data-type]="t.type">
       <div class="content">
         <ng-container [ngSwitch]="t.type">
 
           <ng-container *ngSwitchCase="'hr'">
-            <app-timer class="timer" *ngIf="channel.progress[me.id] == line && channel.opened[me.id] < line"
+            <app-timer *ngIf="channel.progress[me.id] == line && channel.opened[me.id] < line"
+                       class="timer"
                        [id]="'line_' + line"
                        [time]="t.time || '00:05'"
                        (finished)="open(line)"></app-timer>
-            <hr>
+            <!--<hr>-->
           </ng-container>
 
           <ng-container *ngSwitchCase="'poll'">

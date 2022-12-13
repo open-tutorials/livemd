@@ -64,7 +64,7 @@ export function routerErrorHandle(error: Error) {
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: '/example'
+        redirectTo: '/home'
       },
       {
         path: ':channel',
