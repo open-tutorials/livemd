@@ -5,6 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { Router, RouterModule, Scroll } from '@angular/router';
 import { filter } from 'rxjs';
+import { RobotComponent } from 'src/app/robot/robot.component';
 import { TutorialComponent } from 'src/app/tutorial/tutorial.component';
 import { DiffCodeComponent } from 'src/app/diff-code/diff-code.component';
 import { MessageComponent } from 'src/app/message/message.component';
@@ -16,7 +17,7 @@ import { GetDepth } from 'src/pipes/depth.pipe';
 import { GetMark, GetVoted } from 'src/pipes/mark.pipe';
 import {
   GetSlugPipe,
-  GetTokens,
+  GetTokens, InterpolatePipe,
   Md2Html,
   MdInline2Html
 } from 'src/pipes/markdown.pipe';
@@ -50,10 +51,13 @@ export function routerErrorHandle(error: Error) {
     GetSlugPipe,
     TextWidthPipe,
     MaximumPipe,
+    InterpolatePipe,
     DiffCodeComponent,
     MermaidComponent,
     AgendaComponent,
     MakeCodeComponent,
+    AppPlaceholderComponent,
+    RobotComponent,
     AppPlaceholderComponent,
     MessageComponent
   ],

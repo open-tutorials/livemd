@@ -5,6 +5,7 @@ import { marked } from 'marked';
 import Token = marked.Token;
 import Heading = marked.Tokens.Heading;
 import Slugger = marked.Slugger;
+import { template } from 'lodash';
 
 @Pipe({name: 'tokens'})
 export class GetTokens implements PipeTransform {
@@ -58,6 +59,16 @@ export class MdInline2Html implements PipeTransform {
   transform(md: string): SafeHtml {
     const html = marked.parseInline(md);
     return this.sr.bypassSecurityTrustHtml(html);
+  }
+
+}
+
+@Pipe({name: 'interpolate'})
+export class InterpolatePipe implements PipeTransform {
+
+  transform(source: string, scope: Object | undefined): string {
+    const t = template(source);
+    return t(scope);
   }
 
 }

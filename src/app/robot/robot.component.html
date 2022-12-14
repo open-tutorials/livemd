@@ -1,0 +1,23 @@
+<ng-container *ngIf="heap.robots?.messages?.[id] as message; else callTemplate">
+  <div [innerHTML]="message | interpolate : heap.robots?.scope?.[id] | md2Html"></div>
+</ng-container>
+
+<ng-template #callTemplate>
+  <div data-stack>
+    <div data-error-message *ngIf="!!this.error">
+      <div [innerHTML]="this.error | interpolate: answer?.scope | md2Html"></div>
+    </div>
+
+    <form *ngIf="robot.fields.length > 0" [formGroup]="form" (submit)="call()">
+      <div data-stack>
+        <div *ngFor="let f of robot.fields">
+          <input [formControlName]="f.name"
+                 [placeholder]="f.placeholder">
+          <div data-validator-message *ngIf="form.get(f.name)?.invalid && form.get(f.name)?.dirty">Required field</div>
+        </div>
+
+        <button type="submit" [disabled]="form.invalid">{{calling ? 'Loading...' : robot.submit}}</button>
+      </div>
+    </form>
+  </div>
+</ng-template>

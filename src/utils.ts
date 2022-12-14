@@ -48,6 +48,17 @@ export function getMarkedOptions(baseUrl: string, assetsUrl: string) {
         return el.outerHTML;
       }
     }
+    {
+      const rule = /json\srobot\s([\w\_\-]+)$/;
+      const match = rule.exec(language);
+      if (!!match) {
+        const [, id] = match;
+        const el = document.createElement('md-robot');
+        el.setAttribute('config', code);
+        el.setAttribute('id', id);
+        return el.outerHTML;
+      }
+    }
 
     if (language == 'mermaid') {
       const el = document.createElement('md-mermaid');
