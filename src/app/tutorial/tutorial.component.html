@@ -72,7 +72,7 @@
             <app-timer *ngIf="channel.progress[me.id] == line && channel.opened[me.id] < line"
                        class="timer"
                        [id]="'line_' + line"
-                       [time]="t.time || '00:05'"
+                       [time]="t.time?.toString() || '00:05'"
                        (finished)="open(line)"></app-timer>
             <!--<hr>-->
           </ng-container>

@@ -5,6 +5,7 @@ import { MessageComponent } from 'src/app/message/message.component';
 import { AppPlaceholderComponent } from 'src/app/placeholder/app-placeholder.component';
 import { MakeCodeComponent } from 'src/app/make-code/make-code.component';
 import { MermaidComponent } from 'src/app/mermaid/mermaid.component';
+import { RobotComponent } from 'src/app/robot/robot.component';
 
 @Component({
   selector: 'app-root',
@@ -40,6 +41,11 @@ export class AppComponent implements OnInit {
     if (!customElements.get('md-message')) {
       const element = createCustomElement(MessageComponent, {injector: this.injector});
       customElements.define('md-message', element);
+    }
+
+    if (!customElements.get('md-robot')) {
+      const element = createCustomElement(RobotComponent, {injector: this.injector});
+      customElements.define('md-robot', element);
     }
   }
 

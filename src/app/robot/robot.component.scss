@@ -1,0 +1,39 @@
+:host {
+  display: block;
+
+  ::ng-deep {
+    img {
+      border-radius: 3px;
+    }
+  }
+}
+
+[data-stack] {
+  > :not(:last-child) {
+    margin-bottom: 16px;
+  }
+}
+
+[data-validator-message] {
+  color: #FF4440;
+  font-size: 10px;
+}
+
+[data-error-message] {
+  padding: 16px;
+  color: #FF4440;
+  border: 1px solid #FF4440;
+  border-radius: 3px;
+}
+
+button {
+  height: 38px;
+  background-color: #005461;
+  border: 0;
+  border-radius: 3px;
+  color: white;
+
+  &:disabled {
+    opacity: .5;
+  }
+}

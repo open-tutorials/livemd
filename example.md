@@ -12,6 +12,19 @@
 
 Если ты просто хочешь просто посмотреть на возможности системы — пропускай задания.
 
+```json robot check_user
+{
+  "endpoint": "https://ibank-robot.epic1h.com/check-user",
+  "submit": "Проверить",
+  "fields": [
+    {
+      "name": "me_gitlab_id",
+      "placeholder": "User ID"
+    }
+  ]
+}
+```
+
 ```json message hello_from_anton
 {
   "from": {
