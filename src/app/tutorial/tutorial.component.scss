@@ -21,15 +21,6 @@ h1 {
   display: inline-block;
 }
 
-.me {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 30px;
-  width: 40px;
-  cursor: default;
-}
-
 .token {
   display: flex;
   position: relative;
@@ -50,10 +41,6 @@ h1 {
     .marks:hover {
       button {
         opacity: 1;
-      }
-
-      .tools {
-        display: flex;
       }
     }
   }
@@ -149,8 +136,13 @@ h1 {
   }
 
   &.opened {
-    .marks .progress {
-      background: lightgreen;
+    .marks {
+      .circle {
+        border-color: lightgreen;
+      }
+      .progress {
+        background: lightgreen;
+      }
     }
   }
 
@@ -161,8 +153,8 @@ h1 {
     width: 40px;
     max-width: 40px;
 
-    .my {
-      display: none;
+    .circle {
+      display: block;
       align-items: center;
       justify-content: center;
       position: absolute;
@@ -170,18 +162,17 @@ h1 {
       bottom: 0;
       margin: auto 0;
       z-index: 1;
-      width: 30px;
-      height: 30px;
-      border: 5px solid lightgreen;
-      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      border: 4px solid silver;
+      box-sizing: border-box;
       user-select: none;
       background: white;
-      font-size: 20px;
       padding-top: 2px;
     }
 
     &.marked, &:hover {
-      .my {
+      .circle {
         display: flex;
       }
     }
@@ -189,58 +180,10 @@ h1 {
     .progress {
       position: absolute;
       width: 10px;
-      top: 5px;
-      bottom: 5px;
+      top: 0;
+      bottom: 0;
       margin: 0 auto;
       background: silver;
-    }
-
-    .tools {
-      display: none;
-      position: absolute;
-      top: 0;
-
-      align-items: center;
-      z-index: 50;
-      left: 40px;
-      padding-left: 10px;
-
-      .content {
-        border: 2px solid lightgreen;
-        padding: 10px;
-        border-radius: 5px;
-        background: aliceblue;
-
-        .buttons {
-          display: flex;
-
-          button {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: white;
-            border: 1px solid lightgreen;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 20px;
-            width: 35px;
-            height: 35px;
-
-            &:not(:last-child) {
-              margin-right: 5px;
-            }
-          }
-
-          button:not(.marked) {
-            opacity: .5;
-          }
-        }
-
-        textarea {
-          width: 400px;
-          margin-top: 10px;
-        }
-      }
     }
   }
 

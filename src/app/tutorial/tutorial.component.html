@@ -4,13 +4,8 @@
   </a>
 </header>
 
-<!--
-<div class="me" (click)="current = me.id" [attr.title]="me.name">
-  {{me.avatar | avatar}}
-</div>
--->
-
 <app-agenda [tokens]="tokens"
+            [headings]="headings"
             [progress]="channel.progress[me.id]"
             (block)="resetProgress()">
 </app-agenda>
@@ -31,38 +26,11 @@
       <span></span>
     </button>
 
-    <!--
-    <div class="marks" [class.marked]="!!channel.marks[current][line]">
-      <div class="my">
-        <ng-container *ngIf="channel.marks[current][line] as mark">
-          {{mark | mark}}
-        </ng-container>
-      </div>
-      <div class="tools">
-        <div class="content">
-          <div class="buttons">
-            <button [class.marked]="channel.marks[current][line] === 'problem'"
-                    (click)="putMark(line, current, channel.marks[current][line] !== 'problem' ? 'problem' : null)">
-              🔥
-            </button>
-            <button [class.marked]="channel.marks[current][line] === 'shit'"
-                    (click)="putMark(line, current, channel.marks[current][line] !== 'shit' ? 'shit' : null)">
-              💩
-            </button>
-            <button [class.marked]="channel.marks[current][line] === 'like'"
-                    (click)="putMark(line, current, channel.marks[current][line] !== 'like' ? 'like' : null)">
-              👍
-            </button>
-          </div>
-          <textarea [formControl]="getCommentControl(line, current)"
-                    rows="10"
-                    placeholder="Комментарий"></textarea>
-        </div>
-      </div>
-
+    <div class="marks">
+      <!--<div class="circle" *ngIf="t.type === 'heading' && (headings | include: t)"></div>-->
+      <div class="circle" *ngIf="t.type === 'hr'"></div>
       <div class="progress"></div>
     </div>
-    -->
 
     <div class="md" [attr.data-type]="t.type">
       <div class="content">
@@ -74,7 +42,7 @@
                        [id]="'line_' + line"
                        [time]="t.time?.toString() || '00:05'"
                        (finished)="open(line)"></app-timer>
-            <!--<hr>-->
+            <hr>
           </ng-container>
 
           <ng-container *ngSwitchCase="'poll'">
@@ -96,7 +64,6 @@
           <div *ngSwitchDefault [outerHTML]="t | token2Html"></div>
         </ng-container>
       </div>
-
       <!--
       <div class="members">
         <ng-container *ngFor="let member of channel.members | keyvalue">
@@ -111,6 +78,7 @@
       </div>
       -->
 
+      <!--
       <div class="progress">
         <ng-container *ngFor="let m of channel.members | keyvalue">
           <div *ngIf="m.key !== me.id && channel.progress[m.key] === line"
@@ -119,6 +87,8 @@
           </div>
         </ng-container>
       </div>
+      -->
+      <!--
       <ng-container *ngIf="(channel.comments[line] | keyvalue) as comments">
         <div *ngIf="comments.length > 0" class="comments">
           <button (click)="state.comments[line] = !state.comments[line]">
@@ -134,6 +104,7 @@
           </ng-container>
         </div>
       </ng-container>
+      -->
     </div>
   </div>
 </ng-container>

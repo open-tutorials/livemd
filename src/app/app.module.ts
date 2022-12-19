@@ -14,6 +14,7 @@ import { MakeCodeComponent } from 'src/app/make-code/make-code.component';
 import { TimerComponent } from 'src/app/timer/timer.component';
 import { GetAvatar } from 'src/pipes/avatar.pipe';
 import { GetDepth } from 'src/pipes/depth.pipe';
+import { IncludePipe } from 'src/pipes/include';
 import { GetMark, GetVoted } from 'src/pipes/mark.pipe';
 import {
   GetSlugPipe,
@@ -59,7 +60,8 @@ export function routerErrorHandle(error: Error) {
     AppPlaceholderComponent,
     RobotComponent,
     AppPlaceholderComponent,
-    MessageComponent
+    MessageComponent,
+    IncludePipe
   ],
   imports: [
     HttpClientModule,

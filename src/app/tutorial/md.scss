@@ -123,11 +123,10 @@ pre {
 
 .badge {
   border-radius: 5px;
-  padding: 2px 10px;
+  padding: 2px 5px;
   background: rgba(100, 254, 0, 0.2);
   margin: 0px 2px;
   font-weight: bold;
-  font-size: .85em;
 }
 
 blockquote {
@@ -164,7 +163,8 @@ table {
   }
 
   th, td {
-    padding: 5px 10px;
+    padding: 10px;
+    border: 1px solid silver;
   }
 }
 
@@ -188,10 +188,11 @@ ul:not(.poll) {
 }
 
 hr {
-  height: 8px;
+  height: 1px;
+  box-sizing: border-box;
   border: none;
-  background-repeat: repeat-x;
-  background-image: url('../../assets/chapter.svg');
+  border-top: 1px dashed silver;
+  margin: 20px 0;
 }
 
 details:not([open]) > p {
@@ -215,4 +216,9 @@ iframe {
   &.giphy-embed {
     pointer-events: none;
   }
+}
+
+mark {
+  padding: 5px;
+  background-color: lightgreen;
 }

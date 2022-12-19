@@ -1,5 +1,8 @@
 :host {
   display: block;
+  background-color: lightgreen;
+  padding: 20px;
+  border-radius: 10px;
 
   ::ng-deep {
     img {

@@ -1,7 +1,8 @@
 import {
   Component,
   ElementRef,
-  EventEmitter, HostBinding,
+  EventEmitter,
+  HostBinding,
   Input,
   NgZone,
   OnDestroy,
@@ -9,13 +10,11 @@ import {
   Output,
   Renderer2
 } from '@angular/core';
-import { trimStart } from 'lodash';
 import { marked } from 'marked';
+import { Heading } from 'src/types/heading';
 import Token = marked.Token;
 
 const TOP_POSITION = 90;
-
-type Heading = marked.Tokens.Heading & { line: number };
 
 @Component({
   selector: 'app-agenda',
@@ -25,29 +24,15 @@ type Heading = marked.Tokens.Heading & { line: number };
 export class AgendaComponent implements OnInit, OnDestroy {
 
   private listeners: { scroll?: () => void } = {};
-  private _tokens: Token[] = [];
-  headings: Heading[] = [];
 
   @Input()
-  set tokens(tokens: Token[]) {
-    this._tokens = tokens;
+  tokens: Token[] = [];
 
-    const headings: Heading[] = [];
-    for (let i = 0; i < tokens.length; i++) {
-      const t = tokens[i];
-      if (t.type === 'heading' && t.text.startsWith('+')) {
-        const heading = t as Heading;
-        heading.text = trimStart(heading.text, '+');
-        heading.line = i;
-        headings.push(heading);
-      }
-    }
-
-    this.headings = headings;
-  }
+  @Input()
+  headings: Heading[] = [];
 
   get done(): number {
-    return Math.round((this.progress / this._tokens.length) * 100);
+    return Math.round((this.progress / this.tokens.length) * 100);
   }
 
   @HostBinding('attr.data-empty')

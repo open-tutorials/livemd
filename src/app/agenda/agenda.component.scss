@@ -18,6 +18,10 @@
     position: fixed;
   }
 
+  &[data-sticky=true]:not(:hover) {
+    border-radius: 50%;
+  }
+
   &:hover {
     opacity: 1;
 

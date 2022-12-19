@@ -9,6 +9,7 @@ import {
 import { FormBuilder, FormControl } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
+import { trimStart } from 'lodash';
 import { marked } from 'marked';
 import { environment } from 'src/environments/environment';
 import { MeManager } from 'src/managers/me.manager';
@@ -17,6 +18,7 @@ import { Member } from 'src/models/member';
 import { Tutorial } from 'src/models/tutorial';
 import { ChannelsService } from 'src/services/channels.service';
 import { HeapService } from 'src/services/heap.service';
+import { Heading } from 'src/types/heading';
 import { getMarkedOptions } from 'src/utils';
 import Slugger = marked.Slugger;
 
@@ -40,6 +42,7 @@ export class TutorialComponent implements OnInit, OnDestroy {
   form = this.fb.group({});
   pusher: { public?: any, private?: any } = {};
   tokens: any[] = [];
+  headings: Heading[] = [];
   current = this.me.id;
   state: { comments: { [key: number]: boolean } } = {comments: {}};
 
@@ -60,6 +63,19 @@ export class TutorialComponent implements OnInit, OnDestroy {
     this._tutorial = tutorial;
     marked.setOptions(getMarkedOptions(tutorial.baseUrl, tutorial.assetsUrl));
     this.tokens = marked.lexer(tutorial.markdown as string);
+
+    const headings: Heading[] = [];
+    for (let i = 0; i < this.tokens.length; i++) {
+      const t = this.tokens[i];
+      if (t.type === 'heading' && t.text.startsWith('+')) {
+        const heading = t as Heading;
+        heading.text = trimStart(heading.text, '+');
+        heading.line = i;
+        headings.push(heading);
+      }
+    }
+
+    this.headings = headings;
 
     const title = this.tokens.find(t => t.type === 'heading');
     if (!!title) {
