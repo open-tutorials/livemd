@@ -7,6 +7,44 @@
 
 <mark>Задача: загрузить все в систему!</mark>
 
+```mermaid
+%%{ init: { 'flowchart': { 'curve': 'monotoneX' } } }%%
+flowchart TB
+  subgraph g_cypress_test_flight [ ]
+    direction TB
+    node_js(Node.js) --> package_json(package.json)
+    node_js --> npm
+    npm --> npm_init(npm init)
+    npm --> npm_install(npm install)
+    node_js --> node_modules
+    node_js --> npx
+    cypress --> cypress_open(open)
+    cypress --> cypress_run(run)
+    cypress_test_flight(<span style='font-size:25px'>Первый полет</span>)
+    cypress_test_flight --> node_js
+    cypress_test_flight --> cypress
+  end
+  subgraph g_best_selectors [ ]
+      direction TB
+      dev_tools(DevTools) --> $$($$)
+      dev_tools --> querySelectorAll
+      dev_tools --> XHR
+      TDD ---> it
+      best_selectors(<span style='font-size:25px'>Лучшие селекторы</span>) ---> dev_tools
+      best_selectors --> tiny_web_server(Tiny Web Server)
+      best_selectors --> wget(Wget)
+      best_selectors --> TDD
+  end
+  g_cypress_test_flight --> g_best_selectors
+
+style g_cypress_test_flight fill:lightgreen
+  
+style cypress_test_flight fill:#f9f,stroke:#333,stroke-width:4px
+style best_selectors fill:#f9f,stroke:#333,stroke-width:4px
+click cypress_test_flight "https://md.epic1h.com/cypress_test_flight"
+click best_selectors "https://md.epic1h.com/best_selectors"
+```
+
 | id | username | password | balance            |
 |:--:|:--------:|----------|--------------------|
 |  1 | bob      | qwerty   | -123724.9999999    |

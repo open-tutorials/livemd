@@ -219,9 +219,11 @@ iframe {
 }
 
 mark {
+  display: inline-block;
   padding: 5px;
   background-color: lightgoldenrodyellow;
   color: black;
   border-radius: 5px;
   font-weight: bold;
+  margin: 10px 0;
 }

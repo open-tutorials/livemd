@@ -50,6 +50,14 @@ export const INDEX: { tutorials: { [key: string]: Tutorial } } = {
       assetsUrl: 'https://raw.githubusercontent.com/breslavsky/hello-cypress/main'
     },
 
+    // mentor
+    'js_mentor': {
+      title: 'Менторство по Java Script',
+      source: 'https://raw.githubusercontent.com/breslavsky/hello-cypress/main/mentor/java_script.md',
+      baseUrl: 'https://github.com/breslavsky/hello-cypress/blob/main',
+      assetsUrl: 'https://raw.githubusercontent.com/breslavsky/hello-cypress/main'
+    },
+
     // manual testing
     'home': {
       title: 'Серия туториалов по авто-тестированию',
