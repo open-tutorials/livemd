@@ -3,9 +3,30 @@ import {
   Component, ElementRef,
   Input, ViewChild
 } from '@angular/core';
-import { deserialize } from 'serialize-ts';
-import { Message } from 'src/models/message';
+import { deserialize, Field, Model } from 'serialize-ts';
 import { HeapService } from 'src/services/heap.service';
+
+@Model()
+export class Master {
+
+  @Field()
+  name!: string;
+
+  @Field()
+  avatar!: string;
+
+}
+
+@Model()
+export class Message {
+
+  @Field()
+  from!: Master;
+
+  @Field()
+  src!: string;
+
+}
 
 @Component({
   selector: 'message',

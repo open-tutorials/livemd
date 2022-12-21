@@ -5,6 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { Router, RouterModule, Scroll } from '@angular/router';
 import { filter } from 'rxjs';
+import { CircleComponent } from 'src/app/circle/circle.component';
 import { RobotComponent } from 'src/app/robot/robot.component';
 import { TutorialComponent } from 'src/app/tutorial/tutorial.component';
 import { DiffCodeComponent } from 'src/app/diff-code/diff-code.component';
@@ -61,7 +62,8 @@ export function routerErrorHandle(error: Error) {
     RobotComponent,
     AppPlaceholderComponent,
     MessageComponent,
-    IncludePipe
+    IncludePipe,
+    CircleComponent
   ],
   imports: [
     HttpClientModule,

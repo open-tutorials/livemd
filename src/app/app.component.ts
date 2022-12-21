@@ -1,5 +1,6 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { createCustomElement } from '@angular/elements';
+import { CircleComponent } from 'src/app/circle/circle.component';
 import { DiffCodeComponent } from 'src/app/diff-code/diff-code.component';
 import { MessageComponent } from 'src/app/message/message.component';
 import { AppPlaceholderComponent } from 'src/app/placeholder/app-placeholder.component';
@@ -31,6 +32,11 @@ export class AppComponent implements OnInit {
     if (!customElements.get('md-make-code')) {
       const element = createCustomElement(MakeCodeComponent, {injector: this.injector});
       customElements.define('md-make-code', element);
+    }
+
+    if (!customElements.get('md-circle')) {
+      const element = createCustomElement(CircleComponent, {injector: this.injector});
+      customElements.define('md-circle', element);
     }
 
     if (!customElements.get('md-placeholder')) {

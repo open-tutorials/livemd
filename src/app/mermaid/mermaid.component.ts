@@ -1,11 +1,19 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Input,
+  ViewChild,
+  ViewEncapsulation
+} from '@angular/core';
 import mermaid from 'mermaid';
 import { nanoid } from 'nanoid';
 
 @Component({
   selector: 'app-mermaid',
   templateUrl: './mermaid.component.html',
-  styleUrls: ['./mermaid.component.scss']
+  styleUrls: ['./mermaid.component.scss'],
+  encapsulation: ViewEncapsulation.ShadowDom
 })
 export class MermaidComponent implements AfterViewInit {
 

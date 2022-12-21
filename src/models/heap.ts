@@ -24,6 +24,9 @@ export class Heap {
   @Field({serializer: new KeyValueSerializer()})
   messages!: { [key: string]: boolean };
 
+  @Field({serializer: new KeyValueSerializer()})
+  circles!: { [key: string]: boolean };
+
   @Field()
   robots: Robots = new Robots();
 
