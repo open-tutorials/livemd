@@ -27,7 +27,7 @@ export class MermaidComponent implements AfterViewInit {
     const e = this.container.nativeElement;
     mermaid.render('mermaid_' + nanoid(10), this.code, (svgCode, bindFunctions) => {
       e.innerHTML = svgCode;
-      bindFunctions(e);
+      !!bindFunctions ? bindFunctions(e) : null;
     });
   }
 
