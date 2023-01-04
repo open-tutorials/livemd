@@ -12,7 +12,11 @@ import mermaid from 'mermaid';
 import { block, details, hr, person, poll, summary, badge } from 'src/marked';
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
-mermaid.initialize({ startOnLoad: false });
+
+mermaid.initialize({
+  startOnLoad: false,
+  securityLevel: 'loose'
+});
 
 hljs.registerLanguage('javascript', javascript);
 hljs.registerLanguage('json', json);
