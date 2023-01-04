@@ -105,8 +105,13 @@ export class TutorialComponent implements OnInit, OnDestroy {
 
       console.log(heap);
 
-      if (this.channel.progress[this.me.id] === 0) {
+      const progress = this.channel.progress[this.me.id];
+      if (progress === 0) {
         const next = this.findChapter(0);
+        this.setProgress(next);
+      } else if (progress < this.tokens.length - 1
+        && this.tokens[progress].type !== 'hr') {
+        const next = this.findChapter(progress);
         this.setProgress(next);
       }
 
