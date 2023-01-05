@@ -15,7 +15,9 @@ export function getMarkedOptions(baseUrl: string, assetsUrl: string) {
     const link = document.createElement('a');
     link.setAttribute('target', '_blank');
     link.setAttribute('href', normalHref);
-    link.setAttribute('title', title);
+    if (!!title) {
+      link.setAttribute('title', title);
+    }
     link.innerHTML = text;
     return link.outerHTML;
   };
