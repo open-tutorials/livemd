@@ -10,6 +10,9 @@ import { HeapService } from 'src/services/heap.service';
 export class Circle {
 
   @Field()
+  poster!: string;
+
+  @Field()
   video!: string;
 
 }
@@ -63,6 +66,9 @@ export class CircleComponent {
     const e = this.videoRef.nativeElement;
     e.muted = true;
     e.loop = true;
+    e.autoplay = false;
+    e.currentTime = 0;
+    e.load();
     this.headService.put({circles: {[this.id]: true}});
     this.cd.detectChanges();
   }

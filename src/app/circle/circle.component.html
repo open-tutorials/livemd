@@ -25,6 +25,7 @@
 
   <video *ngIf="!!circle" #videoRef
          [autoplay]="!opened"
+         [poster]="circle.poster || null"
          [muted]="true"
          [loop]="true"
          (loadstart)="cd.detectChanges()"

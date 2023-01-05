@@ -17,8 +17,9 @@ h1.title {
 
 <mark>Задача: загрузить все в систему!</mark>
 
-```text circle hello_from_anton5
+```text circle hello_from_anton10
 {
+  "poster": "https://s.epic1h.com/api/public/dl/nfCyhZhd?inline=true",
   "video": "https://raw.githubusercontent.com/breslavsky/hello-cypress/main/assets/circles/hello.mp4"
 }
 
