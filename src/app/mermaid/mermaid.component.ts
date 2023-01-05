@@ -25,7 +25,21 @@ export class MermaidComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     const e = this.container.nativeElement;
-    mermaid.render('mermaid_' + nanoid(10), this.code, (svgCode, bindFunctions) => {
+    const code = [
+      `%%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'primaryColor': '#F1F3FC',
+      'lineColor': '#96A0B6',
+      'primaryTextColor': '#071D49',
+      'fontSize': '14px',
+      'clusterBkg': '#F1F3FC'
+    }
+  }
+}%%`, this.code];
+
+    mermaid.render('mermaid_' + nanoid(10), code.join("\n"), (svgCode, bindFunctions) => {
       e.innerHTML = svgCode;
       !!bindFunctions ? bindFunctions(e) : null;
     });

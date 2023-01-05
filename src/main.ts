@@ -32,7 +32,9 @@ mermaid.initialize({
     htmlLabels: true,
     curve: 'cardinal'
   },
-  securityLevel: 'loose'
+  securityLevel: 'loose',
+  theme: 'null',
+  fontFamily: "'Roboto Condensed', 'Noto Color Emoji', sans-serif"
 });
 
 marked.setOptions({
