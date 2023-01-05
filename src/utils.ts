@@ -37,7 +37,7 @@ export function getMarkedOptions(baseUrl: string, assetsUrl: string) {
       }
     }
     {
-      const rule = /json\scircle\s([\w\_\-]+)$/;
+      const rule = /text\scircle\s([\w\_\-]+)$/;
       const match = rule.exec(language);
       if (!!match) {
         const [, id] = match;

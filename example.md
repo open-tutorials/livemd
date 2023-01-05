@@ -17,7 +17,7 @@ h1.title {
 
 <mark>Задача: загрузить все в систему!</mark>
 
-```json circle hello_from_anton5
+```text circle hello_from_anton5
 {
   "video": "https://raw.githubusercontent.com/breslavsky/hello-cypress/main/assets/circles/hello.mp4"
 }
