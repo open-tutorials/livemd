@@ -27,6 +27,7 @@ export class CircleComponent {
   heap = this.headService.heap;
 
   circle!: Circle;
+  md!: string;
   opened = false;
 
   @Input()
@@ -41,7 +42,9 @@ export class CircleComponent {
 
   @Input()
   set config(config: string) {
-    this.circle = deserialize(JSON.parse(config), Circle);
+    const [json, md] = config.split(/\n\n(.*)/s);
+    this.circle = deserialize(JSON.parse(json), Circle);
+    this.md = md;
   }
 
   @HostBinding('class.watching')

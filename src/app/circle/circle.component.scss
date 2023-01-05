@@ -1,44 +1,58 @@
 :host {
-  display: inline-block;
-  position: relative;
+  display: inline-flex;
+  justify-content: flex-start;
   margin: 5px 0;
 
   &.watching {
-    video {
+    .circle {
       width: 400px;
       height: 400px;
     }
   }
+}
 
+.circle {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  border: 5px solid lightgreen;
+  overflow: hidden;
   &:hover {
     .unmute {
       display: block;
     }
   }
-}
 
-video {
-  display: block;
-  background: black;
-  width: 200px;
-  height: 200px;
-  border: 5px solid lightgreen;
-  box-sizing: border-box;
-  border-radius: 50%;
-}
-
-.unmute {
-  position: absolute;
-  display: none;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  cursor: pointer;
-  background-color: rgba(0, 0, 0, .1);
-  border: none;
-  border-radius: 50%;
-  svg {
-    fill: white;
+  video {
+    display: block;
+    background: black;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    border-radius: 50%;
   }
+
+  .unmute {
+    position: absolute;
+    display: none;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    cursor: pointer;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, .1);
+    border: none;
+
+    svg {
+      fill: white;
+    }
+  }
+
+}
+
+.md {
+  margin-left: 20px;
+  padding-top: 10px;
 }
