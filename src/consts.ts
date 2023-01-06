@@ -130,6 +130,12 @@ export const INDEX: { tutorials: { [key: string]: Tutorial } } = {
       baseUrl: 'https://github.com/breslavsky/hello-cypress/blob/main',
       assetsUrl: 'https://raw.githubusercontent.com/breslavsky/hello-cypress/main'
     },
+    'fun_cases': {
+      title: 'Туториал: прикольные кейсы',
+      source: 'https://raw.githubusercontent.com/breslavsky/hello-cypress/main/tutorials/fun_cases.md',
+      baseUrl: 'https://github.com/breslavsky/hello-cypress/blob/main',
+      assetsUrl: 'https://raw.githubusercontent.com/breslavsky/hello-cypress/main'
+    },
     'test_api': {
       title: 'Тестируем API в Cypress',
       source: 'https://raw.githubusercontent.com/breslavsky/hello-cypress/main/tutorials/test_api.md',
