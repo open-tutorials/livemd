@@ -39,6 +39,7 @@ export class CircleComponent {
   @Input()
   set id(id: string) {
     this._id = id;
+    console.log(this.headService.heap.circles?.[id]);
     this.opened = this.headService.heap.circles?.[id] || false;
   }
 
@@ -68,20 +69,33 @@ export class CircleComponent {
   watched() {
     const e = this.videoRef.nativeElement;
     e.muted = true;
-    e.loop = true;
+    e.loop = false;
     e.autoplay = false;
     e.currentTime = this.circle.time || 0;
-    e.load();
+    if (this.circle.poster) {
+      e.load();
+    }
     this.headService.put({circles: {[this.id]: true}});
+    this.opened = true;
     this.cd.detectChanges();
   }
 
   unmute() {
     const e = this.videoRef.nativeElement;
-    e.muted = false;
-    e.loop = false;
-    e.currentTime = 0;
-    !this.opened || e.paused ? e.play() : e.pause();
+    if (e.muted || e.paused) {
+      e.currentTime = 0;
+      e.play();
+      e.muted = false;
+      e.loop = false;
+    } else {
+      if (this.opened) {
+        e.pause();
+        e.currentTime = this.circle.time;
+      } else {
+        e.loop = true;
+        e.muted = true;
+      }
+    }
     this.cd.detectChanges();
   }
 

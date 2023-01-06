@@ -114,34 +114,3 @@ export function getMarkedOptions(baseUrl: string, assetsUrl: string) {
 export function getEndpoint(...chunks: (string | number)[]) {
   return [environment.backend, ...chunks].join('/');
 }
-
-export function prepareHtmlContent(html: string) {
-  const parser = new DOMParser();
-  const doc = parser.parseFromString('<!DOCTYPE html>' + html, 'text/html');
-
-  const error = doc.querySelector('parsererror');
-  if (!!error) {
-    console.error('parse html error', error);
-    return html;
-  }
-
-  console.log(html);
-  console.log(doc.body);
-
-  parseElement(doc.body);
-  return doc.body.innerHTML;
-}
-
-function parseElement(element: Element) {
-  for (let i = 0; i < element.children.length; i++) {
-    const children = element.children[i];
-    parseElement(children);
-  }
-  insertContent(element);
-}
-
-function insertContent(element: Element) {
-  if (element.tagName.startsWith('MD-')) {
-    element.setAttribute('html', element.innerHTML);
-  }
-}

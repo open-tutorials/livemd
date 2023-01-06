@@ -50,10 +50,18 @@ details {
   summary {
     user-select: none;
     cursor: pointer;
+
+    svg {
+      vertical-align: middle;
+    }
   }
 
   &:hover:not([open]) {
     background: aliceblue;
+  }
+
+  &[open] {
+    display: block;
   }
 
   &[open] summary {
@@ -228,9 +236,3 @@ mark {
   margin: 10px 0;
 }
 
-md-slide {
-  display: block;
-  padding: 20px 40px;
-  background-color: #F1F3FC;
-  border-radius: 10px;
-}

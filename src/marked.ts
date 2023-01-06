@@ -14,7 +14,7 @@ export const details: any = {
       text = text.trim();
       const token = {
         type: 'details',
-        raw: raw,
+        raw,
         text: text.trim(),
         tokens: this.lexer.blockTokens(text)
       };
@@ -22,7 +22,9 @@ export const details: any = {
     }
   },
   renderer(token: any) {
-    return `<details>${this.parser.parse(token.tokens)}</details>`;
+    const element = document.createElement('details');
+    element.innerHTML = this.parser.parse(token.tokens);
+    return element.outerHTML;
   }
 };
 
@@ -40,7 +42,7 @@ export const summary: any = {
       text = text.trim();
       const token = {
         type: 'summary',
-        raw: raw,
+        raw,
         text: text.trim(),
         tokens: this.lexer.inlineTokens(text)
       };
@@ -48,7 +50,9 @@ export const summary: any = {
     }
   },
   renderer(token: any) {
-    return `<summary>${this.parser.parseInline(token.tokens)}</summary>`;
+    const element = document.createElement('summary');
+    element.innerHTML = this.parser.parseInline(token.tokens);
+    return element.outerHTML;
   }
 };
 
@@ -66,7 +70,7 @@ export const poll: any = {
       question = question.trim();
       const token = {
         type: 'poll',
-        raw: raw,
+        raw,
         question: question.trim(),
         options: options.split(/\*/).map(o => o.trim())
           .filter(o => !!o)
@@ -101,7 +105,15 @@ export const person: any = {
     }
   },
   renderer(token: any) {
-    return `<a class="person" target="_blank" href="${token.link}"><img src="${token.avatar}"> ${token.name} 🤙</a>`;
+    const avatar = document.createElement('img');
+    avatar.setAttribute('src',token.avatar);
+
+    const element = document.createElement('a');
+    element.setAttribute('class','person');
+    element.setAttribute('target','_blank');
+    element.setAttribute('href',token.link);
+    element.innerHTML = `${avatar.outerHTML} ${token.name} 🤙`;
+    return element.outerHTML;
   }
 };
 
@@ -143,7 +155,7 @@ export const block: any = {
       text = text.trim();
       const token = {
         type: 'block',
-        raw: raw,
+        raw,
         text: text.trim(),
         tokens: this.lexer.blockTokens(text)
       };
@@ -151,7 +163,9 @@ export const block: any = {
     }
   },
   renderer(token: any) {
-    return `<block>${this.parser.parse(token.tokens)}</block>`;
+    const element = document.createElement('block');
+    element.innerHTML = this.parser.parse(token.tokens);
+    return element.outerHTML;
   }
 };
 
@@ -169,14 +183,47 @@ export const badge: any = {
       text = text.trim();
       const token = {
         type: 'badge',
-        raw: raw,
+        raw,
         text: text.trim()
       };
       return token;
     }
   },
   renderer(token: any) {
-    return `<span class="badge">${token.text}</span>`;
+    const element = document.createElement('span');
+    element.setAttribute('class', 'badge');
+    element.innerHTML = token.text;
+    return element.outerHTML;
+  }
+};
+
+export const section: any = {
+  name: 'section',
+  level: 'block',
+  start(src: string) {
+    return src.match(/^<section>/)?.index;
+  },
+  tokenizer(src: string, tokens: any[]): any {
+    const rule = /^<section\sid\=\"([a-z]+)\">(((?!<section.*>)(?:.|\n))+)<\/section>/;
+    const match = rule.exec(src);
+    if (match) {
+      let [raw, id, text] = match;
+      text = text.trim();
+      const token = {
+        type: 'section',
+        id,
+        raw,
+        text: text.trim(),
+        tokens: this.lexer.blockTokens(text)
+      };
+      return token;
+    }
+  },
+  renderer(token: any) {
+    const element = document.createElement('div');
+    element.setAttribute('id', token.id);
+    element.innerHTML = this.parser.parse(token.tokens);
+    return element.outerHTML;
   }
 };
 
