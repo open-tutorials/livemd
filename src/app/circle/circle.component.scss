@@ -7,6 +7,8 @@
     .circle {
       width: 400px;
       height: 400px;
+      min-width: 400px;
+      min-height: 400px;
     }
   }
 }
@@ -15,6 +17,8 @@
   position: relative;
   width: 200px;
   height: 200px;
+  min-width: 200px;
+  min-height: 200px;
   border-radius: 50%;
   border: 5px solid lightgreen;
   overflow: hidden;
