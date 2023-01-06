@@ -10,6 +10,9 @@ import { HeapService } from 'src/services/heap.service';
 export class Circle {
 
   @Field()
+  time!: number;
+
+  @Field()
   poster!: string;
 
   @Field()
@@ -67,7 +70,7 @@ export class CircleComponent {
     e.muted = true;
     e.loop = true;
     e.autoplay = false;
-    e.currentTime = 0;
+    e.currentTime = this.circle.time || 0;
     e.load();
     this.headService.put({circles: {[this.id]: true}});
     this.cd.detectChanges();
