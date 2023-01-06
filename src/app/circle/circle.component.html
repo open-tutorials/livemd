@@ -35,7 +35,7 @@
 
 </div>
 
-<ng-container *ngIf="!!md">
+<ng-container *ngIf="!!md && !watching">
   <div class="md" [innerHTML]="md | md2Html"></div>
 </ng-container>
 
