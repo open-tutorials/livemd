@@ -4,6 +4,21 @@ img {
   border: 1px solid silver;
 }
 
+a.button {
+  display: inline-flex;
+  vertical-align: middle;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  padding: 5px;
+  svg {
+    display: inline-block;
+  }
+
+  &:hover {
+    border-color: silver;
+  }
+}
+
 @media (min-width: 769px) {
   block {
     display: inline-block;
