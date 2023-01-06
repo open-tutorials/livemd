@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { merge } from 'lodash';
 import {
   bufferTime,
-  debounceTime,
+  debounceTime, filter,
   map,
   Observable,
   Subject,
@@ -55,6 +55,7 @@ export class HeapService {
 
     this.sync.push?.unsubscribe();
     this.sync.push = this.push.pipe(bufferTime(2000),
+      filter(buffer => buffer.length > 0),
       switchMap(() => this.http.post(endpoint, serialize(this.heap))))
       .subscribe(() => console.log('heap is synced'));
   }
