@@ -29,12 +29,13 @@ export class MermaidComponent implements AfterViewInit {
       `%%{
   init: {
     'theme': 'base',
+    'flowchart': { 'curve': 'monotoneX' },
     'themeVariables': {
       'primaryColor': '#F1F3FC',
       'lineColor': '#96A0B6',
       'primaryTextColor': '#071D49',
       'fontSize': '14px',
-      'clusterBkg': '#F1F3FC'
+      'clusterBkg': '#FFFFFF'
     }
   }
 }%%`, this.code];
