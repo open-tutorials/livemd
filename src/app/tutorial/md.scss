@@ -68,6 +68,7 @@ details {
     cursor: pointer;
     display: flex;
     align-items: center;
+    white-space: pre-wrap;
 
     &::before {
       content: url('../../assets/expand.svg');
