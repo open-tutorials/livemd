@@ -1,0 +1,18 @@
+:host {
+  display: inline-flex;
+  background-color: white;
+  vertical-align: top;
+  border-radius: 100%;
+  width: 16px;
+  height: 16px;
+
+  &[has-progress=false] {
+    display: none;
+  }
+}
+
+[data-done] {
+  fill: transparent;
+  transform: rotate(-90deg);
+  border-radius: 50%;
+}

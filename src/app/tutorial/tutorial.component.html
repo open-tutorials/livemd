@@ -6,7 +6,7 @@
 
 <app-agenda [tokens]="tokens"
             [headings]="headings"
-            [progress]="channel.progress[me.id]"
+            [progress]="heap.progress"
             (block)="resetProgress()">
 </app-agenda>
 
@@ -14,20 +14,19 @@
   <div *ngIf="t.type !== 'space'"
        class="token"
        [class.first]="line === 0"
-       [class.opened]="channel.progress[me.id] > 0 && channel.progress[me.id] >= line"
+       [class.opened]="heap.progress > 0 && heap.progress >= line"
        [attr.data-line]="line"
-       [attr.data-opened]="channel.opened[me.id]"
-       [attr.data-progress]="channel.progress[me.id]"
+       [attr.data-opened]="heap.opened"
+       [attr.data-progress]="heap.progress"
        [attr.data-type]="t.type">
-    <button class="open" *ngIf="channel.opened[me.id] >= channel.progress[me.id]"
-            (click)="setProgress(findChapter(channel.progress[me.id] || 0))">
+    <button class="open" *ngIf="heap.opened >= heap.progress"
+            (click)="setProgress(findChapter(heap.progress))">
       <div>Открыть</div>
       <span></span>
       <span></span>
     </button>
 
     <div class="marks">
-      <!--<div class="circle" *ngIf="t.type === 'heading' && (headings | include: t)"></div>-->
       <div class="circle" *ngIf="t.type === 'hr'"></div>
       <div class="progress"></div>
     </div>
@@ -37,7 +36,7 @@
         <ng-container [ngSwitch]="t.type">
 
           <ng-container *ngSwitchCase="'hr'">
-            <app-timer *ngIf="channel.progress[me.id] == line && channel.opened[me.id] < line"
+            <app-timer *ngIf="heap.progress == line && heap.opened < line"
                        class="timer"
                        [id]="'line_' + line"
                        [time]="t.time?.toString() || '00:05'"
@@ -64,47 +63,6 @@
           <div *ngSwitchDefault [outerHTML]="t | token2Html"></div>
         </ng-container>
       </div>
-      <!--
-      <div class="members">
-        <ng-container *ngFor="let member of channel.members | keyvalue">
-          <ng-container *ngIf="member.key !== me.id">
-            <div *ngIf="channel.marks[member.key][line] as mark"
-                 [attr.title]="member.value.name">
-              {{member.value.avatar | avatar}}
-              <span>{{mark | mark}}</span>
-            </div>
-          </ng-container>
-        </ng-container>
-      </div>
-      -->
-
-      <!--
-      <div class="progress">
-        <ng-container *ngFor="let m of channel.members | keyvalue">
-          <div *ngIf="m.key !== me.id && channel.progress[m.key] === line"
-               [attr.title]="m.value.name">
-            {{m.value.avatar | avatar}}
-          </div>
-        </ng-container>
-      </div>
-      -->
-      <!--
-      <ng-container *ngIf="(channel.comments[line] | keyvalue) as comments">
-        <div *ngIf="comments.length > 0" class="comments">
-          <button (click)="state.comments[line] = !state.comments[line]">
-            {{state.comments[line] ? '↑' : '↓'}} ... <sup>{{comments.length}}</sup>
-          </button>
-          <ng-container *ngIf="state.comments[line]">
-            <ng-container *ngFor="let comment of comments">
-              <div *ngIf="channel.members[comment.key] as member">
-                <b (click)="current = member.id">{{member.avatar | avatar}} {{member.name}}</b>
-                <div [outerHTML]="comment.value | md2Html"></div>
-              </div>
-            </ng-container>
-          </ng-container>
-        </div>
-      </ng-container>
-      -->
     </div>
   </div>
 </ng-container>

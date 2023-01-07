@@ -32,6 +32,7 @@ import { TutorialResolver } from 'src/resolvers/tutorial.resolver';
 import { AgendaComponent } from './agenda/agenda.component';
 import { AppComponent } from './app.component';
 import { MermaidComponent } from './mermaid/mermaid.component';
+import { ProgressComponent } from './progress/progress.component';
 
 export function routerErrorHandle(error: Error) {
   document.location.href = '/';
@@ -63,7 +64,8 @@ export function routerErrorHandle(error: Error) {
     AppPlaceholderComponent,
     MessageComponent,
     IncludePipe,
-    CircleComponent
+    CircleComponent,
+    ProgressComponent
   ],
   imports: [
     HttpClientModule,

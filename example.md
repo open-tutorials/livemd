@@ -1,7 +1,45 @@
 <section id="slide">
 <h1 class="title">Туториалы<br>по ИТ навыкам</h1>
 
+## 🦸 Путь героя
+
+1. <md-progress for="cypress_test_flight"></md-progress> [Первый полет на Cypress](https://md.epic1h.com/cypress_test_flight)
+2. <md-progress for="best_selectors"></md-progress> [Находим лучшие селекторы](https://md.epic1h.com/best_selectors)
+3. <md-progress for="test_mama_project"></md-progress> [Тестируем мама проект на Cypress](https://md.epic1h.com/test_mama_project)
+4. [Мой первый рефактор в Cypress](https://md.epic1h.com/my_first_refactor)
+5. [Фейк дата в тестах](https://md.epic1h.com/fake_data)
+6. [Как устроен Cypress внутри](https://md.epic1h.com/deep_cypress)
+7. [Заканчиваем мама проект](https://md.epic1h.com/finish_mama_project)
+8. [Забавные кейсы](https://md.epic1h.com/fun_cases)
+
 # hasd
+
+```mermaid
+flowchart TB
+my_first_refactor(<span style='font-size:25px'>Мой первый рефактор</span>)
+
+my_first_refactor --> cypress(Cypress)
+cypress --> cypress_config(cypress.json)
+cypress_config --> base_url(Base URL)
+
+cypress --> hooks
+cypress --> find
+hooks --> before_each(Before Each)
+cypress --> aliases
+aliases --> as
+aliases --> get_alias("@")
+
+cypress --> fixtures
+fixtures --> me_user_json(me-user.json)
+
+my_first_refactor --> signup_spec_js(signup.spec.js)
+signup_spec_js --> login_me(loginMe)
+my_first_refactor --> utils(utils.js)
+utils --> get_random_number(getRandomNumber)
+
+style my_first_refactor stroke:#333,stroke-width:4px
+click my_first_refactor "https://md.epic1h.com/my_first_refactor" _blank
+```
 
 Мне 36, живу и работаю в Берлине, и у меня есть огромное желание **делиться** знаниями.
 
@@ -47,96 +85,16 @@ h1.title {
 </style>
 
 # 👍 Что сделаем
-
-* Научимся ...
-
-<section id="slide">
-# Мой подход
-
-Я сторонник **проблемно-ориентированного** ~~программирования~~ обучения:
-
-1. Выполняя **практические действия** и сталкиваясь с **проблемами** — у тебя возникают вопросы.
-2. Получая ответы, ты ловишь **ага-эффекты!** Чем больше таких эффектов — тем большему ты научишься!
-
-На сложные вопросы и **концепты** — я даю свои **расширенные** комментарии.
-</section>
+* Научимся...
 
 <mark>Задача: загрузить все в систему!</mark>
 
-```text circle hello_from_anton25
-{
-  "time": 1.7,
-  "video": "https://raw.githubusercontent.com/breslavsky/hello-cypress/main/assets/hello_from_anton.mp4"
-}
 
-Привет, [Anton](https://t.me/breslavsky_anton) на связи 🤙
-
-Я — Тимлид и **разработчик** с более чем **15-летним** опытом. 
-
-Мне 36, живу и работаю в Берлине, и у меня есть огромное желание **делиться** знаниями.
-
-Перед тобой 👇 серия практических туториалов по авто-тестам на **Cypress**
-
-Чистый **концентрат** — все как на работе, сразу в бой.
-```
-
-<details>
-  <summary> Syllabus – учебный план <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="18" fill="black" viewBox="0 0 24 24"><path d="M15.826 15.069a1.018 1.018 0 1 1-.001 2.036a1.018 1.018 0 0 1 0-2.036zM21.327 1.11a1.018 1.018 0 1 1 .001 2.036a1.018 1.018 0 0 1 0-2.036zM3.322 3.107h16.116a2.13 2.13 0 0 0 1.89 1.151a2.132 2.132 0 0 0 2.129-2.13A2.131 2.131 0 0 0 21.327 0c-.89 0-1.654.55-1.97 1.329H3.321C1.764 1.329.543 2.51.543 4.019v17.156C.543 22.706 1.816 24 3.322 24h17.155c1.51 0 2.738-1.267 2.738-2.825V10.998c0-1.532-1.228-2.78-2.738-2.78H10.3c-1.553 0-2.866 1.274-2.866 2.78v3.198c0 1.484 1.286 2.691 2.866 2.691h3.554a2.132 2.132 0 0 0 1.972 1.329c1.174 0 2.129-.956 2.129-2.13s-.955-2.129-2.13-2.129a2.13 2.13 0 0 0-1.889 1.152H10.3c-.523 0-1.088-.349-1.088-.913v-3.198c0-.524.519-1 1.088-1h10.177c.538 0 .96.439.96 1v10.177c0 .567-.44 1.047-.96 1.047H3.322c-.533 0-1-.49-1-1.047V4.02c0-.52.43-.912 1-.912"></path></svg></summary>
-
-```mermaid
-%%{ init: { 'flowchart': { 'curve': 'monotoneX' } } }%%
-flowchart TB
-  start(("<span style='font-size:40px'>🥚</span>"))
-  subgraph g_cypress_test_flight [ ]
-    direction TB
-    node_js(Node.js) --> package_json(package.json)
-    node_js --> npm
-    npm --> npm_init(npm init)
-    npm --> npm_install(npm install)
-    node_js --> node_modules
-    node_js --> npx
-    cypress_npx(cypress) --> cypress_open(open)
-    cypress_npx --> cypress_run(run)
-    cypress_test_flight(<span style='font-size:25px'>Первый полет</span>)
-    cypress_test_flight --> node_js
-    npx --> cypress_npx
-    cypress_test_flight --> cypress
-    cypress ---> cy_get("cy.get")
-    cypress ---> cy_click("click")
-    cypress ---> cy_should("should")
-  end
-  subgraph g_best_selectors [ ]
-      direction TB
-      dev_tools(DevTools) --> $$($$)
-      dev_tools --> querySelectorAll
-      dev_tools --> XHR
-      TDD ---> it
-      best_selectors(<span style='font-size:25px'>Лучшие селекторы</span>) ---> dev_tools
-      best_selectors --> tiny_web_server(Tiny Web Server)
-      best_selectors --> wget(Wget)
-      best_selectors --> TDD
-  end
-  start --> g_cypress_test_flight
-  g_cypress_test_flight --- finish_cypress_test_flight(("<span style='font-size:40px'>🐣</span>"))
-  finish_cypress_test_flight --> g_best_selectors
-  g_best_selectors --- finish_best_selectors(("<span style='font-size:40px'>🐥</span>"))
-
-style g_cypress_test_flight stroke-dasharray: 5 5
-style g_best_selectors stroke-dasharray: 5 5
-
-style start fill:lightgreen,stroke:#333,stroke-width:4px  
-style cypress_test_flight fill:LightCoral,stroke:#333,stroke-width:4px
-style finish_cypress_test_flight fill:lightgreen,stroke:#333,stroke-width:4px  
-
-style best_selectors fill:LightCoral,stroke:#333,stroke-width:4px
-click cypress_test_flight "https://md.epic1h.com/cypress_test_flight"
-click best_selectors "https://md.epic1h.com/best_selectors"
-```
-
-</details>
-
-| id | username | password | balance | |:--:|:--------:|----------|--------------------| | 1 | bob | qwerty |
--123724.9999999 | | 2 | marry | qwerty | 0 | | 3 | chester | 123456 | 10123638.999999799 |
+| id | username | password | balance |
+|:--:|:--------:|----------|--------------------|
+| 1 | bob | qwerty | -123724.9999999 | 
+| 2 | marry | qwerty | 0 | 
+| 3 | chester | 123456 | 10123638.999999799 |
 
 ```markdown poll
 Полезный материал?

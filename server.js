@@ -249,7 +249,7 @@ app.post('/api/channels/:channel/heaps/:member', (req, res) => {
   // checkSecret(channel, member);
   let heap = heaps[channel]?.[member] || loadHeap(channel, member);
   merge(heap, req.body);
-  res.status(200).send();;
+  res.status(200).send();
 
   dirty.heaps[heap.id] = heap;
 });

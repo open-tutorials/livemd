@@ -15,6 +15,15 @@ export class Robots {
 @Model()
 export class Heap {
 
+  @Field()
+  opened: number = 0;
+
+  @Field()
+  progress: number = 0;
+
+  @Field()
+  total: number = 0;
+
   @Field({serializer: new KeyValueSerializer()})
   placeholders!: { [key: string]: string };
 

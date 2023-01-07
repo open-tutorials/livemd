@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { merge } from 'lodash';
 import {
   bufferTime,
-  debounceTime, filter,
+  filter,
   map,
   Observable,
   Subject,
@@ -20,7 +20,7 @@ import { getEndpoint } from 'src/utils';
 @Injectable({providedIn: 'root'})
 export class HeapService {
 
-  channel!: Channel;
+  channel!: string;
   heap!: Heap;
 
   push = new Subject<void>();
@@ -31,18 +31,20 @@ export class HeapService {
 
   }
 
-  bind(channel: Channel): Observable<Heap> {
-    this.channel = channel;
-
+  get(channel: string): Observable<Heap> {
     const {me} = this.meManager;
-
-    const endpoint = getEndpoint('channels', channel.id, 'heaps', me.id);
+    const endpoint = getEndpoint('channels', channel, 'heaps', me.id);
     return this.http.get<Object>(endpoint)
-      .pipe(map(data => deserialize(data, Heap)),
-        tap(heap => {
-          this.heap = heap;
-          this.startPush();
-        }));
+      .pipe(map(data => deserialize(data, Heap)));
+  }
+
+  bind(channel: string): Observable<Heap> {
+    this.channel = channel;
+    return this.get(channel)
+      .pipe(tap(heap => {
+        this.heap = heap;
+        this.startPush();
+      }));
   }
 
   stop() {
@@ -51,7 +53,7 @@ export class HeapService {
 
   startPush() {
     const {me} = this.meManager;
-    const endpoint = getEndpoint('channels', this.channel.id, 'heaps', me.id);
+    const endpoint = getEndpoint('channels', this.channel, 'heaps', me.id);
 
     this.sync.push?.unsubscribe();
     this.sync.push = this.push.pipe(bufferTime(2000),

@@ -6,6 +6,7 @@ import { MessageComponent } from 'src/app/message/message.component';
 import { AppPlaceholderComponent } from 'src/app/placeholder/app-placeholder.component';
 import { MakeCodeComponent } from 'src/app/make-code/make-code.component';
 import { MermaidComponent } from 'src/app/mermaid/mermaid.component';
+import { ProgressComponent } from 'src/app/progress/progress.component';
 import { RobotComponent } from 'src/app/robot/robot.component';
 
 @Component({
@@ -52,6 +53,11 @@ export class AppComponent implements OnInit {
     if (!customElements.get('md-robot')) {
       const element = createCustomElement(RobotComponent, {injector: this.injector});
       customElements.define('md-robot', element);
+    }
+
+    if (!customElements.get('md-progress')) {
+      const element = createCustomElement(ProgressComponent, {injector: this.injector});
+      customElements.define('md-progress', element);
     }
   }
 

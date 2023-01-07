@@ -1,0 +1,12 @@
+<svg *ngIf="heap?.progress || 0 > 0" data-done xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     width="16" height="16" viewBox="0 0 32 32">
+  <circle [style.stroke]="'#96A1B6'"
+          [style.stroke-width]="'10'"
+          r="15.925" cx="16" cy="16">
+  </circle>
+  <circle [style.stroke-dasharray]="done + ' 100'"
+          [style.stroke]="'green'"
+          [style.stroke-width]="'10'"
+          r="15.925" cx="16" cy="16">
+  </circle>
+</svg>

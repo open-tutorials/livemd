@@ -14,6 +14,7 @@ import { marked } from 'marked';
 import { environment } from 'src/environments/environment';
 import { MeManager } from 'src/managers/me.manager';
 import { Channel } from 'src/models/channel';
+import { Heap } from 'src/models/heap';
 import { Member } from 'src/models/member';
 import { Tutorial } from 'src/models/tutorial';
 import { ChannelsService } from 'src/services/channels.service';
@@ -48,6 +49,7 @@ export class TutorialComponent implements OnInit, OnDestroy {
 
   private _channel!: Channel;
   private _tutorial!: Tutorial;
+  heap!: Heap;
 
   set channel(channel: Channel) {
     this._channel = channel;
@@ -101,11 +103,9 @@ export class TutorialComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.route.data.subscribe(({tutorial, channel, heap}) => {
-      [this.tutorial, this.channel] = [tutorial, channel];
+      [this.tutorial, this.channel, this.heap] = [tutorial, channel, heap];
 
-      console.log(heap);
-
-      const progress = this.channel.progress[this.me.id];
+      const progress = this.heap.progress || 0;
       if (progress === 0) {
         const next = this.findChapter(0);
         this.setProgress(next);
@@ -125,7 +125,7 @@ export class TutorialComponent implements OnInit, OnDestroy {
           const slug = slugger.slug(token.text);
           if (slug === fragment) {
             const next = this.findChapter(line);
-            if (this.channel.progress[this.me.id] < next) {
+            if (this.heap.progress || 0 < next) {
               this.setProgress(next);
             }
             break;
@@ -144,60 +144,14 @@ export class TutorialComponent implements OnInit, OnDestroy {
     this.router.navigate([]);
   }
 
-  putMark(line: number, member: string, mark: string | null) {
-    this.channel.marks[this.me.id][line] = mark;
-    this.cd.detectChanges();
-
-    this.channelsService.mark(this.channel.id, line, member, mark)
-      .subscribe(response => console.log(response));
-  }
-
-  getCommentControl(line: number, member: string): FormControl {
-    const name = [line, member].join('_');
-    let control = this.form.get(name) as FormControl;
-    if (!control) {
-      control = this.fb.control((this.channel.comments[line] || {})[member] || null);
-      control.valueChanges.subscribe(comment => {
-        this.putComment(line, comment, member);
-        this.state.comments[line] = true;
-        this.cd.detectChanges();
-      });
-      this.form.addControl(name, control);
-    }
-    return control;
-  }
-
-  putComment(line: number, comment: string, member: string) {
-    if (!this.channel.comments[line]) {
-      this.channel.comments[line] = {};
-    }
-
-    if (!!comment) {
-      this.channel.comments[line][member] = comment;
-    } else {
-      delete this.channel.comments[line][member];
-    }
-
-    this.cd.detectChanges();
-
-    this.channelsService.comment(this.channel.id, member, line, comment || null)
-      .subscribe(response => console.log(response));
-  }
-
   open(line: number) {
-    this.channel.opened[this.me.id] = line;
+    this.heapService.put({opened: line});
     this.cd.detectChanges();
-
-    this.channelsService.open(this.channel.id, line)
-      .subscribe(response => console.log(response));
   }
 
   setProgress(line: number) {
-    this.channel.progress[this.me.id] = line;
+    this.heapService.put({progress: line, total: this.tokens.length});
     this.cd.detectChanges();
-
-    this.channelsService.progress(this.channel.id, line)
-      .subscribe(response => console.log(response));
   }
 
   votePoll(line: number, option: number) {
@@ -234,58 +188,11 @@ export class TutorialComponent implements OnInit, OnDestroy {
       const channel = pusher.subscribe(this.channel.id);
       this.pusher.public = channel;
 
-      channel.bind('put_mark', ({member, line, mark}: PutMarkEvent) => {
-        if (member === this.me.id) {
-          return;
-        }
-        this.channel.marks[member][line] = mark;
-        this.cd.detectChanges();
-      });
-
       channel.bind('vote_poll', ({member, line, option}: VotePollEvent) => {
         if (member === this.me.id) {
           return;
         }
         this.channel.polls[member][line] = option;
-        this.cd.detectChanges();
-      });
-
-      channel.bind('put_comment', ({member, line, comment}: PutCommentEvent) => {
-        if (member === this.me.id) {
-          return;
-        }
-        if (!this.channel.comments[line]) {
-          this.channel.comments[line] = {};
-        }
-        if (!!comment) {
-          this.channel.comments[line][member] = comment;
-        } else {
-          delete this.channel.comments[line][member];
-        }
-        this.cd.detectChanges();
-      });
-
-      channel.bind('set_progress', ({member, line}: SetProgressEvent) => {
-        if (member === this.me.id) {
-          return;
-        }
-
-        if (this.channel.progress[this.me.id] > line) {
-          this.channel.progress[this.me.id] = line;
-        }
-
-        this.channel.progress[member] = line;
-        this.cd.detectChanges();
-      });
-
-      channel.bind('member_joined', ({member}: MemberJoinedEvent) => {
-        this.channel.members[member.id] = member;
-        if (!this.channel.marks[member.id]) {
-          this.channel.marks[member.id] = {};
-        }
-        if (!this.channel.polls[member.id]) {
-          this.channel.polls[member.id] = {};
-        }
         this.cd.detectChanges();
       });
 
