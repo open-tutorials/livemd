@@ -5,7 +5,8 @@ const Pusher = require('pusher');
 const path = require('path');
 const fs = require('fs');
 const adler = require('adler-32');
-const {merge} = require("lodash");
+const {merge} = require('lodash');
+const http = require('https');
 
 class Member {
   id;
@@ -168,6 +169,40 @@ app.get('/api/example', function (request, response) {
   response.sendFile(path.resolve(__dirname, 'example.md'));
 });
 
+
+let TUTORIALS;
+
+function loadIndex() {
+  const options = {
+    host: 'raw.githubusercontent.com',
+    path: 'breslavsky/hello-cypress/main/index.json'
+  };
+
+  http.request(options, resp => {
+    resp.setEncoding('utf8');
+    const chunks = [];
+    resp.on('data', (chunk) => {
+      chunks.push(chunk);
+    });
+    resp.on('end', () => {
+      TUTORIALS = JSON.parse(chunks.join());
+      console.log('loaded index');
+    });
+  }).end();
+}
+
+loadIndex();
+
+app.get('/api/utils/flush', (req, res) => {
+  loadIndex();
+  res.status(200).send('ok');
+});
+
+app.get('/api/tutorials/:slug', (req, res) => {
+  const {slug} = req.params;
+  res.send(TUTORIALS.tutorials[slug]);
+});
+
 app.post('/api/channels/:id/auth', (req, res) => {
   const id = req.params.id;
   const channel = channels[id];
@@ -205,7 +240,7 @@ app.post('/api/channels/:id/join', (req, res) => {
       pusher.trigger(channel.id, 'member_updated', {member});
     }
 
-    if(!channel.owner) {
+    if (!channel.owner) {
       console.log('set member as owner');
       channel.owner = member.id;
     }

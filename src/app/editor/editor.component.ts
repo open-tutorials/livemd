@@ -15,8 +15,8 @@ export class EditorComponent implements OnInit {
   form = this.fb.group({
     title: ['Tutorial'],
     markdown: [null, Validators.required],
-    baseUrl: [null, Validators.required],
-    assetsUrl: [null, Validators.required]
+    baseUrl: ['https://github.com/your_login/repo_name/blob/main', Validators.required],
+    assetsUrl: ['https://raw.githubusercontent.com/your_login/repo_name/main', Validators.required]
   });
 
   constructor(private fb: FormBuilder,
