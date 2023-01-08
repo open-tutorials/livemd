@@ -185,7 +185,7 @@ function loadIndex() {
       chunks.push(chunk);
     });
     resp.on('end', () => {
-      TUTORIALS = JSON.parse(chunks.join());
+      TUTORIALS = JSON.parse(chunks.join(''));
       console.log('loaded index');
     });
   }).end();
