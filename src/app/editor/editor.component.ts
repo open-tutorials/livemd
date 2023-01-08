@@ -1,9 +1,11 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { deserialize, serialize } from 'serialize-ts';
 import { PREVIEW_TUTORIAL_KEY } from 'src/consts';
 import { Tutorial } from 'src/models/tutorial';
+import { getEndpoint } from 'src/utils';
 
 @Component({
   selector: 'app-editor',
@@ -19,7 +21,8 @@ export class EditorComponent implements OnInit {
     assetsUrl: ['https://raw.githubusercontent.com/your_login/repo_name/main', Validators.required]
   });
 
-  constructor(private fb: FormBuilder,
+  constructor(private http: HttpClient,
+              private fb: FormBuilder,
               private route: ActivatedRoute,
               private router: Router) {
 
@@ -30,6 +33,10 @@ export class EditorComponent implements OnInit {
     if (!!json) {
       const tutorial = deserialize(JSON.parse(json), Tutorial);
       this.form.patchValue(tutorial);
+    } else {
+      const endpoint = getEndpoint('example');
+      this.http.get(endpoint + '?rand=' + Math.random(), {responseType: 'text'})
+        .subscribe(markdown => this.form.patchValue({markdown}));
     }
   }
 
