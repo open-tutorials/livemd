@@ -11,7 +11,7 @@ export class HeapResolver implements Resolve<Observable<Heap>> {
   }
 
   resolve(route: ActivatedRouteSnapshot, router: RouterStateSnapshot): Observable<Heap> {
-    const {channel} = route.params;
+    const channel = route.params['channel'] || 'home';
     return this.heapService.bind(channel);
   }
 }

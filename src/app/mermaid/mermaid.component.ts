@@ -34,11 +34,13 @@ export class MermaidComponent implements AfterViewInit {
     if (!!this.url) {
       this.http.get(this.url + '?rand=' + Math.random(), {responseType: 'text'})
         .subscribe(code => this.render(code));
+    } else {
+      this.render(this.code);
     }
   }
 
   private render(code: string) {
-    const code1 = [
+    const chart = [
       `%%{
   init: {
     'theme': 'base',
@@ -54,7 +56,7 @@ export class MermaidComponent implements AfterViewInit {
 }%%`, code];
 
     const e = this.container.nativeElement;
-    mermaid.render('mermaid_' + nanoid(10), code1.join('\n'),
+    mermaid.render('mermaid_' + nanoid(10), chart.join('\n'),
       (svgCode, bindFunctions) => {
         e.innerHTML = svgCode;
         !!bindFunctions ? bindFunctions(e) : null;

@@ -11,6 +11,7 @@ export class TutorialResolver implements Resolve<Observable<Tutorial>> {
   }
 
   resolve(route: ActivatedRouteSnapshot, router: RouterStateSnapshot): Observable<Tutorial> {
-    return this.tutorialsService.get(route.params['channel']);
+    const channel = route.params['channel'] || 'home';
+    return this.tutorialsService.get(channel);
   }
 }

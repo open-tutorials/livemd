@@ -11,7 +11,7 @@ export class ChannelResolver implements Resolve<Observable<Channel>> {
   }
 
   resolve(route: ActivatedRouteSnapshot, router: RouterStateSnapshot): Observable<Channel> {
-    const {channel} = route.params;
+    const channel = route.params['channel'] || 'home';
     return this.channelsService.join(channel);
   }
 }

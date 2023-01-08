@@ -73,7 +73,7 @@ export function getMarkedOptions(baseUrl: string, assetsUrl: string) {
     }
 
     {
-      const rule = /mermaid\s(.*)$/;
+      const rule = /mermaid(?:\s(.+))*$/;
       const match = rule.exec(language);
       if (!!match) {
         const [, url] = match;

@@ -19,7 +19,8 @@ import { IncludePipe } from 'src/pipes/include';
 import { GetMark, GetVoted } from 'src/pipes/mark.pipe';
 import {
   GetSlugPipe,
-  GetTokens, InterpolatePipe,
+  GetTokens,
+  InterpolatePipe,
   Md2Html,
   MdInline2Html
 } from 'src/pipes/markdown.pipe';
@@ -73,24 +74,21 @@ export function routerErrorHandle(error: Error) {
     RouterModule.forRoot([
       {
         path: '',
-        pathMatch: 'full',
-        redirectTo: '/home'
+        resolve: {
+          channel: ChannelResolver,
+          heap: HeapResolver,
+          tutorial: TutorialResolver
+        },
+        component: TutorialComponent
       },
       {
         path: ':channel',
         resolve: {
           channel: ChannelResolver,
+          heap: HeapResolver,
           tutorial: TutorialResolver
         },
-        children: [
-          {
-            path: '',
-            resolve: {
-              heap: HeapResolver
-            },
-            component: TutorialComponent
-          }
-        ]
+        component: TutorialComponent
       },
       {
         path: ':channel/join',
