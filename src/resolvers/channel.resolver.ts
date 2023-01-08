@@ -15,3 +15,11 @@ export class ChannelResolver implements Resolve<Observable<Channel>> {
     return this.channelsService.join(channel);
   }
 }
+
+@Injectable({providedIn: 'root'})
+export class FakeChannelResolver implements Resolve<Channel> {
+
+  resolve(route: ActivatedRouteSnapshot, router: RouterStateSnapshot): Channel {
+    return new Channel({id: 'preview'});
+  }
+}

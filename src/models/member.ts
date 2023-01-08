@@ -5,7 +5,6 @@ export class Member {
 
   constructor(props = {}) {
     Object.assign(this, props);
-
   }
 
 }

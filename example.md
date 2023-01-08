@@ -14,7 +14,12 @@ h1.title {
 </style>
 
 # 👍 Что сделаем
+
 * Научимся...
+
+<iframe src="https://giphy.com/embed/GprJn0XySEjBu"
+  width="480" height="270" frameBorder="0" allowFullScreen></iframe>
+  
 
 <mark>Задача: загрузить все в систему!</mark>
 
@@ -22,11 +27,8 @@ h1.title {
 
 ```
 
-| id | username | password | balance |
-|:--:|:--------:|----------|--------------------|
-| 1 | bob | qwerty | -123724.9999999 | 
-| 2 | marry | qwerty | 0 | 
-| 3 | chester | 123456 | 10123638.999999799 |
+| id | username | password | balance | |:--:|:--------:|----------|--------------------| | 1 | bob | qwerty |
+-123724.9999999 | | 2 | marry | qwerty | 0 | | 3 | chester | 123456 | 10123638.999999799 |
 
 ```markdown poll
 Полезный материал?

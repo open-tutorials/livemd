@@ -6,7 +6,7 @@ import {
   OnInit,
   Renderer2
 } from '@angular/core';
-import { FormBuilder, FormControl } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { trimStart } from 'lodash';
@@ -25,11 +25,7 @@ import Slugger = marked.Slugger;
 
 declare var Pusher: any;
 
-type PutMarkEvent = { member: string, line: number, mark: string };
 type VotePollEvent = { member: string, line: number, option: number };
-type PutCommentEvent = { member: string, line: number, comment: string };
-type SetProgressEvent = { member: string, line: number };
-type MemberJoinedEvent = { member: Member };
 type MemberUpdatedEvent = { member: Member };
 
 @Component({
@@ -47,9 +43,9 @@ export class TutorialComponent implements OnInit, OnDestroy {
   current = this.me.id;
   state: { comments: { [key: number]: boolean } } = {comments: {}};
 
-  private _channel!: Channel;
   private _tutorial!: Tutorial;
-  heap!: Heap;
+  private _channel!: Channel;
+  heap: Heap = this.heapService.heap;
 
   set channel(channel: Channel) {
     this._channel = channel;
@@ -96,14 +92,15 @@ export class TutorialComponent implements OnInit, OnDestroy {
               private router: Router,
               private route: ActivatedRoute,
               private renderer: Renderer2,
+              private injector: Injector,
               private title: Title,
               private fb: FormBuilder) {
 
   }
 
   ngOnInit() {
-    this.route.data.subscribe(({tutorial, channel, heap}) => {
-      [this.tutorial, this.channel, this.heap] = [tutorial, channel, heap];
+    this.route.data.subscribe(({tutorial, channel}) => {
+      [this.tutorial, this.channel] = [tutorial, channel];
 
       const progress = this.heap.progress || 0;
       if (progress === 0) {

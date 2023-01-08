@@ -1,6 +1,8 @@
 import { environment } from 'src/environments/environment';
 import { Tutorial } from 'src/models/tutorial';
 
+export const PREVIEW_TUTORIAL_KEY = 'preview_tutorial';
+
 export const AVATARS: { [key: string]: string } = {
   'santa': '🎅',
   'vampire': '🧛',

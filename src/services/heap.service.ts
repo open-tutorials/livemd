@@ -1,19 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { merge } from 'lodash';
-import {
-  bufferTime,
-  filter,
-  map,
-  Observable,
-  Subject,
-  Subscription,
-  switchMap,
-  tap
-} from 'rxjs';
+import { bufferTime, filter, map, Observable, Subject, Subscription, switchMap, tap } from 'rxjs';
 import { deserialize, serialize } from 'serialize-ts';
 import { MeManager } from 'src/managers/me.manager';
-import { Channel } from 'src/models/channel';
 import { Heap } from 'src/models/heap';
 import { getEndpoint } from 'src/utils';
 
@@ -29,6 +19,11 @@ export class HeapService {
   constructor(private meManager: MeManager,
               private http: HttpClient) {
 
+  }
+
+  fake() {
+    this.heap = new Heap();
+    return this.heap;
   }
 
   get(channel: string): Observable<Heap> {
@@ -69,6 +64,20 @@ export class HeapService {
   put(data: Partial<Heap>) {
     merge(this.heap, data);
     this.push.next();
+  }
+
+}
+
+@Injectable()
+export class FakeHeapService {
+
+  heap: Heap = new Heap();
+
+  put(data: Partial<Heap>) {
+    merge(this.heap, data);
+  }
+
+  stop() {
   }
 
 }

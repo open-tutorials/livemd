@@ -1,0 +1,9 @@
+<form [formGroup]="form" (ngSubmit)="preview()">
+  <textarea formControlName="markdown" rows="15"></textarea>
+  <br>
+  <input formControlName="baseUrl">
+  <br>
+  <input formControlName="assetsUrl">
+  <br>
+  <button type="submit">Preview</button>
+</form>

@@ -39,7 +39,6 @@ export class CircleComponent {
   @Input()
   set id(id: string) {
     this._id = id;
-    console.log(this.headService.heap.circles?.[id]);
     this.opened = this.headService.heap.circles?.[id] || false;
   }
 
