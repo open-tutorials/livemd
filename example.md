@@ -18,6 +18,9 @@ h1.title {
 
 <mark>Задача: загрузить все в систему!</mark>
 
+```mermaid https://raw.githubusercontent.com/breslavsky/hello-cypress/main/syllabus/test_flight.mm
+
+```
 
 | id | username | password | balance |
 |:--:|:--------:|----------|--------------------|

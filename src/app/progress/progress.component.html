@@ -1,12 +1,23 @@
-<svg *ngIf="heap?.progress || 0 > 0" data-done xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-     width="16" height="16" viewBox="0 0 32 32">
-  <circle [style.stroke]="'#F1F3FC'"
-          [style.stroke-width]="'10'"
-          r="15.925" cx="16" cy="16">
-  </circle>
-  <circle [style.stroke-dasharray]="done + ' 100'"
-          [style.stroke]="'green'"
-          [style.stroke-width]="'10'"
-          r="15.925" cx="16" cy="16">
-  </circle>
-</svg>
+<ng-container *ngIf="heap?.progress || 0 > 0">
+  <svg data-icon *ngIf="done >= 100;else inProgressTemplate"
+       xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+       width="16" height="16" viewBox="0 0 32 32" fill="green">
+    <path
+      d="M30.171,6.131l-0.858-0.858c-0.944-0.945-2.489-0.945-3.433,0L11.294,19.859l-5.175-5.174  c-0.943-0.944-2.489-0.944-3.432,0.001l-0.858,0.857c-0.943,0.944-0.943,2.489,0,3.433l7.744,7.75c0.944,0.945,2.489,0.945,3.433,0  L30.171,9.564C31.112,8.62,31.112,7.075,30.171,6.131z"/>
+  </svg>
+</ng-container>
+
+<ng-template #inProgressTemplate>
+  <svg data-done xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+       width="16" height="16" viewBox="0 0 32 32">
+    <circle [style.stroke]="'#F1F3FC'"
+            [style.stroke-width]="'10'"
+            r="15.925" cx="16" cy="16">
+    </circle>
+    <circle [style.stroke-dasharray]="done + ' 100'"
+            [style.stroke]="'green'"
+            [style.stroke-width]="'10'"
+            r="15.925" cx="16" cy="16">
+    </circle>
+  </svg>
+</ng-template>

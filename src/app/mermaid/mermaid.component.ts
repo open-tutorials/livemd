@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import {
   AfterViewInit,
   Component,
@@ -20,12 +21,24 @@ export class MermaidComponent implements AfterViewInit {
   @Input()
   code!: string;
 
+  @Input()
+  url!: string;
+
   @ViewChild('mermaid')
   container!: ElementRef;
 
+  constructor(private http: HttpClient) {
+  }
+
   ngAfterViewInit() {
-    const e = this.container.nativeElement;
-    const code = [
+    if (!!this.url) {
+      this.http.get(this.url + '?rand=' + Math.random(), {responseType: 'text'})
+        .subscribe(code => this.render(code));
+    }
+  }
+
+  private render(code: string) {
+    const code1 = [
       `%%{
   init: {
     'theme': 'base',
@@ -38,12 +51,14 @@ export class MermaidComponent implements AfterViewInit {
       'clusterBkg': '#FFFFFF'
     }
   }
-}%%`, this.code];
+}%%`, code];
 
-    mermaid.render('mermaid_' + nanoid(10), code.join("\n"), (svgCode, bindFunctions) => {
-      e.innerHTML = svgCode;
-      !!bindFunctions ? bindFunctions(e) : null;
-    });
+    const e = this.container.nativeElement;
+    mermaid.render('mermaid_' + nanoid(10), code1.join('\n'),
+      (svgCode, bindFunctions) => {
+        e.innerHTML = svgCode;
+        !!bindFunctions ? bindFunctions(e) : null;
+      });
   }
 
 }

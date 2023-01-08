@@ -72,11 +72,20 @@ export function getMarkedOptions(baseUrl: string, assetsUrl: string) {
       }
     }
 
-    if (language == 'mermaid') {
-      const el = document.createElement('md-mermaid');
-      el.setAttribute('code', code);
-      return el.outerHTML;
+    {
+      const rule = /mermaid\s(.*)$/;
+      const match = rule.exec(language);
+      if (!!match) {
+        const [, url] = match;
+        const el = document.createElement('md-mermaid');
+        el.setAttribute('code', code);
+        if (!!url) {
+          el.setAttribute('url', url);
+        }
+        return el.outerHTML;
+      }
     }
+
     // default behaviour
     return marked.Renderer.prototype.code.call(this, code, language, isEscaped);
   };
