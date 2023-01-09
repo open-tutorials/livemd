@@ -95,8 +95,8 @@ export class TutorialComponent implements OnInit {
 
   ngOnInit() {
     console.log('init tutorial');
-    this.route.data.subscribe(({tutorial}) => {
-      this.tutorial = tutorial;
+    this.route.data.subscribe(({tutorial, channel, heap}) => {
+      [this.tutorial, this.channel, this.heap] = [tutorial, channel, heap];
 
       const progress = this.heap.progress || 0;
       if (progress === 0) {
