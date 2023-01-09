@@ -32,7 +32,7 @@ export class AgendaComponent implements OnInit, OnDestroy {
   headings: Heading[] = [];
 
   get done(): number {
-    return Math.round((this.progress / this.tokens.length - 1) * 100);
+    return Math.round((this.progress / (this.tokens.length - 1)) * 100);
   }
 
   @HostBinding('attr.data-empty')
