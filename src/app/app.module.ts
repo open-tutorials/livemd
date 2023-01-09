@@ -39,6 +39,7 @@ import { MonacoEditorComponent } from './monaco-editor/monaco-editor.component';
 import { EditorComponent } from './editor/editor.component';
 import { EditorPreviewComponent } from 'src/app/editor-preview/editor-preview.component';
 import { ActivatedRouteSnapshot, DetachedRouteHandle, RouteReuseStrategy } from '@angular/router';
+import { LinkComponent } from 'src/app/link/link.component';
 
 export function routerErrorHandle(error: Error) {
   console.error(error);
@@ -76,7 +77,8 @@ export function routerErrorHandle(error: Error) {
     MonacoEditorComponent,
     EditorComponent,
     EditorPreviewComponent,
-    QuizComponent
+    QuizComponent,
+    LinkComponent
   ],
   imports: [
     HttpClientModule,

@@ -2,6 +2,7 @@ import { Component, Injector, OnInit } from '@angular/core';
 import { createCustomElement } from '@angular/elements';
 import { CircleComponent } from 'src/app/circle/circle.component';
 import { DiffCodeComponent } from 'src/app/diff-code/diff-code.component';
+import { LinkComponent } from 'src/app/link/link.component';
 import { MessageComponent } from 'src/app/message/message.component';
 import { AppPlaceholderComponent } from 'src/app/placeholder/app-placeholder.component';
 import { MakeCodeComponent } from 'src/app/make-code/make-code.component';
@@ -21,6 +22,12 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    if (!customElements.get('md-link')) {
+      const element = createCustomElement(LinkComponent, {injector: this.injector});
+      customElements.define('md-link', element);
+    }
+
     if (!customElements.get('md-diff-code')) {
       const element = createCustomElement(DiffCodeComponent, {injector: this.injector});
       customElements.define('md-diff-code', element);

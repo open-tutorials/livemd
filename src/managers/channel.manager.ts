@@ -14,7 +14,7 @@ export class ChannelManager {
   constructor(private channelsService: ChannelsService) {
   }
 
-  bind(tutorial: string) {
+  join(tutorial: string) {
     this.tutorial = tutorial;
     return this.channelsService.join(tutorial)
       .pipe(tap(channel => {
