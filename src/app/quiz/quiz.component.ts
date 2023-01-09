@@ -6,8 +6,8 @@ import {
 } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { marked } from 'marked';
-import { HeapService } from 'src/services/heap.service';
 import { difference } from 'lodash';
+import { HeapManager } from 'src/managers/heap.manager';
 
 @Component({
   selector: 'app-quiz',
@@ -17,7 +17,7 @@ import { difference } from 'lodash';
 })
 export class QuizComponent {
 
-  heap = this.heapService.heap;
+  heap = this.heapManager.heap;
   private _id!: string;
 
   tokens: any[] = [];
@@ -33,7 +33,7 @@ export class QuizComponent {
 
   @Input() set id(id: string) {
     this._id = id;
-    this.accepted = !!this.heapService.heap.quizes?.[id];
+    this.accepted = !!this.heap.quizes?.[id];
   }
 
   get id() {
@@ -57,7 +57,7 @@ export class QuizComponent {
     }
   }
 
-  constructor(private heapService: HeapService,
+  constructor(private heapManager: HeapManager,
               private fb: FormBuilder,
               private cd: ChangeDetectorRef) {
   }
@@ -79,7 +79,7 @@ export class QuizComponent {
     this.wrong = difference(answers, this.answers);
     this.right = difference(answers, this.wrong);
 
-    this.heapService.put({quizes: {[this.id]: answers}});
+    this.heapManager.put({quizes: {[this.id]: answers}});
     this.accepted = !!this.heap.quizes?.[this.id];
   }
 
