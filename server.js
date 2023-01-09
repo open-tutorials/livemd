@@ -470,7 +470,7 @@ app.get('/:slug', (req, res) => {
   const {slug} = req.params;
   const tutorial = TUTORIALS.tutorials[slug];
   if (!!tutorial?.markdown && !!files.index) {
-    res.send(files.index.replaceAll('<!--prerender-->', tutorial.markdown));
+    res.send(files.index.replace('<!--prerender-->', tutorial.markdown));
     return;
   }
   res.send(files.index);
@@ -479,7 +479,7 @@ app.get('/:slug', (req, res) => {
 app.get('/', (req, res) => {
   const tutorial = TUTORIALS.tutorials.home;
   if (!!tutorial?.markdown && !!files.index) {
-    res.send(files.index.replaceAll('<!--prerender-->', tutorial.markdown));
+    res.send(files.index.replace('<!--prerender-->', tutorial.markdown));
     return;
   }
   res.send(files.index);
