@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, HostBinding, Input, ViewEncapsulation } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { marked } from 'marked';
 import { HeapManager } from 'src/managers/heap.manager';
@@ -43,6 +43,7 @@ export class QuizComponent {
 
     this.tokens = marked.lexer(question);
     let i = 0;
+    console.log(this.tokens);
     for (const t of this.tokens) {
       if (t.type === 'list') {
         for (const item of t.items) {
@@ -62,6 +63,9 @@ export class QuizComponent {
       }
     }
   }
+
+  @Input()
+  orientation!: string;
 
   constructor(private heapManager: HeapManager,
               private fb: FormBuilder,

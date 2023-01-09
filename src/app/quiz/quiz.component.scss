@@ -19,6 +19,11 @@ form {
   ul {
     list-style-type: none;
     padding-left: 0;
+
+    &[data-orientation=horizontal] {
+      display: flex;
+      flex-direction: row;
+    }
   }
 
   li {
@@ -36,6 +41,10 @@ form {
 
     input {
       display: none;
+    }
+
+    &:not(:last-child) {
+      margin-bottom: 20px;
     }
 
     &.answer {
@@ -56,6 +65,10 @@ form {
   }
 
   &.accepted {
+
+    li.answer {
+      text-decoration: underline;
+    }
 
     li.answer:not(.right) {
       color: #FF4440;

@@ -80,13 +80,14 @@ export function getMarkedOptions(baseUrl: string, assetsUrl: string) {
       }
     }
     {
-      const rule = /markdown\squiz\s([\w\_\-]+)$/;
+      const rule = /markdown\squiz\s([\w\_\-]+)(?:\s([\w\_\-]+))*$/;
       const match = rule.exec(language);
       if (!!match) {
-        const [, id] = match;
+        const [, id, orientation] = match;
         const el = document.createElement('md-quiz');
         el.setAttribute('config', code);
         el.setAttribute('id', id);
+        el.setAttribute('orientation', orientation);
         return el.outerHTML;
       }
     }

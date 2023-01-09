@@ -5,18 +5,20 @@
     <ng-container *ngFor="let t of tokens">
       <ng-container [ngSwitch]="t.type">
         <ng-container *ngSwitchCase="'list'">
-          <ul *ngFor="let item of t.items" formArrayName="answers">
-            <li *ngLet="item | getFromMap: indexes as index"
-                [class.right]="right | include: index"
-                [class.answer]="(answers || []) | include: index">
-              <label>
-                <input type="checkbox"
-                       [formControlName]="index"
-                       [value]="index"
-                       (change)="right.length == 1 ? check() : null">
-                <span [innerHTML]="item.text | mdInline2Html"></span>
-              </label>
-            </li>
+          <ul formArrayName="answers" [attr.data-orientation]="orientation">
+            <ng-container *ngFor="let item of t.items">
+              <li *ngLet="item | getFromMap: indexes as index"
+                  [class.right]="right | include: index"
+                  [class.answer]="(answers || []) | include: index">
+                <label>
+                  <input type="checkbox"
+                         [formControlName]="index"
+                         [value]="index"
+                         (change)="right.length == 1 ? check() : null">
+                  <span [innerHTML]="item.text | mdInline2Html"></span>
+                </label>
+              </li>
+            </ng-container>
           </ul>
         </ng-container>
         <div *ngSwitchDefault [outerHTML]="t | token2Html"></div>
