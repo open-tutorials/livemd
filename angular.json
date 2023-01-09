@@ -31,6 +31,7 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/favicon.ico",
+              "src/robots.txt",
               "src/assets",
               {
                 "glob": "**/*",
@@ -104,6 +105,7 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/favicon.ico",
+              "src/robots.txt",
               "src/assets"
             ],
             "styles": [

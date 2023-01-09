@@ -7,6 +7,7 @@ const fs = require('fs');
 const adler = require('adler-32');
 const {merge} = require('lodash');
 const http = require('https');
+const xml = require('xml');
 
 class Member {
   id;
@@ -214,15 +215,15 @@ function loadTutorial(url) {
 app.get('/api/tutorials/:slug', (req, res) => {
   const {slug} = req.params;
   const tutorial = TUTORIALS.tutorials[slug];
-  if(!!tutorial.markdown) {
+  if (!!tutorial.markdown) {
     res.send(tutorial);
     return;
   }
 
-  loadTutorial(tutorial.source).then(markdown=>{
+  loadTutorial(tutorial.source).then(markdown => {
     tutorial.markdown = markdown;
     res.send(tutorial);
-  })
+  });
 });
 
 app.post('/api/channels/:id/auth', (req, res) => {
@@ -439,8 +440,42 @@ app.post('/api/channels/:id/members/:member/progress', (req, res) => {
 
 // for production
 app.use(express.static('dist/livemd'));
+
+app.get('/sitemap.xml', (req, res) => {
+  const urls = Object.keys(TUTORIALS.tutorials)
+    .map(slug => ({
+      url: [
+        {loc: ['/' + slug]},
+        {changefreq: ['daily']},
+        {priority: ['0.5']}
+      ]
+    }));
+  urls.push({
+    _attr:
+      {
+        xmlns: 'http://www.sitemaps.org/schemas/sitemap/0.9',
+        'xmlns:xhtml': 'http://www.w3.org/1999/xhtml'
+      }
+  });
+  const map = xml({urlset: urls});
+  console.log(map);
+  res.contentType('application/xml');
+  res.send(map);
+});
+
+const index = fs.readFileSync(path.resolve(__dirname, 'dist/livemd/index.html'), 'utf8');
+app.get('/:slug', (req, res) => {
+  const {slug} = req.params;
+  const tutorial = TUTORIALS.tutorials[slug];
+  if (!!tutorial?.markdown) {
+    res.send(index.replaceAll('<!--prerender-->', tutorial.markdown));
+    return;
+  }
+  res.send(index);
+});
+
 app.get('*', function (request, response) {
-  response.sendFile(path.resolve(__dirname, 'dist/livemd/index.html'));
+  response.send(index);
 });
 
 const port = process.env.PORT || 4300;

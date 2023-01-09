@@ -5,14 +5,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { trimStart } from 'lodash';
 import { marked } from 'marked';
 import { environment } from 'src/environments/environment';
+import { ChannelManager } from 'src/managers/channel.manager';
 import { HeapManager } from 'src/managers/heap.manager';
 import { MeManager } from 'src/managers/me.manager';
 import { Channel } from 'src/models/channel';
 import { Heap } from 'src/models/heap';
 import { Member } from 'src/models/member';
 import { Tutorial } from 'src/models/tutorial';
-import { ChannelsService } from 'src/services/channels.service';
-import { HeapService } from 'src/services/heap.service';
+import { HeapsService } from 'src/services/heaps.service';
 import { Heading } from 'src/types/heading';
 import { getMarkedOptions } from 'src/utils';
 import Slugger = marked.Slugger;
@@ -38,7 +38,7 @@ export class TutorialComponent implements OnInit {
   state: { comments: { [key: number]: boolean } } = {comments: {}};
 
   private _tutorial!: Tutorial;
-  private _channel!: Channel;
+  private _channel: Channel = this.channelManager.channel;
   heap: Heap = this.heapManager.heap;
 
   set channel(channel: Channel) {
@@ -80,9 +80,9 @@ export class TutorialComponent implements OnInit {
   }
 
   constructor(private cd: ChangeDetectorRef,
-              private channelsService: ChannelsService,
+              private channelManager: ChannelManager,
               private heapManager: HeapManager,
-              private heapService: HeapService,
+              private heapService: HeapsService,
               private meManager: MeManager,
               private router: Router,
               private route: ActivatedRoute,
@@ -95,8 +95,8 @@ export class TutorialComponent implements OnInit {
 
   ngOnInit() {
     console.log('init tutorial');
-    this.route.data.subscribe(({tutorial, channel}) => {
-      [this.tutorial, this.channel] = [tutorial, channel];
+    this.route.data.subscribe(({tutorial}) => {
+      this.tutorial = tutorial;
 
       const progress = this.heap.progress || 0;
       if (progress === 0) {
@@ -151,7 +151,7 @@ export class TutorialComponent implements OnInit {
     this.channel.polls[this.me.id][line] = option;
     this.cd.detectChanges();
 
-    this.channelsService.votePoll(this.channel.id, line, option)
+    this.channelManager.votePoll(line, option)
       .subscribe(response => console.log(response));
   }
 

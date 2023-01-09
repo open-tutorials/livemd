@@ -15,3 +15,14 @@ export class HeapResolver implements Resolve<Observable<Heap>> {
     return this.heapManager.bind(tutorial);
   }
 }
+
+@Injectable({providedIn: 'root'})
+export class FakeHeapResolver implements Resolve<Heap> {
+
+  constructor(private heapManager: HeapManager) {
+  }
+
+  resolve(route: ActivatedRouteSnapshot, router: RouterStateSnapshot): Observable<Heap> {
+    return this.heapManager.fake();
+  }
+}

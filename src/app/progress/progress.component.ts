@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, HostBinding, Input, OnInit } from '@angular/core';
 import { Heap } from 'src/models/heap';
-import { HeapService } from 'src/services/heap.service';
+import { HeapsService } from 'src/services/heaps.service';
 
 @Component({
   selector: 'app-progress',
@@ -19,7 +19,7 @@ export class ProgressComponent implements OnInit {
     return this.heap?.progress > 0;
   }
 
-  constructor(private heapService: HeapService,
+  constructor(private heapService: HeapsService,
               private cd: ChangeDetectorRef) {
 
   }

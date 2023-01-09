@@ -9,7 +9,7 @@ import {
 import { FormBuilder } from '@angular/forms';
 import { trim } from 'lodash';
 import { HeapManager } from 'src/managers/heap.manager';
-import { HeapService } from 'src/services/heap.service';
+import { HeapsService } from 'src/services/heaps.service';
 import { Md5 } from 'ts-md5';
 
 @Component({

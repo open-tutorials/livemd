@@ -7,7 +7,6 @@ import { Router, RouterModule, Scroll } from '@angular/router';
 import { filter } from 'rxjs';
 import { CircleComponent } from 'src/app/circle/circle.component';
 import { RobotComponent } from 'src/app/robot/robot.component';
-import { PreviewTutorialComponent } from 'src/app/tutorial/preview-tutorial.component';
 import { TutorialComponent } from 'src/app/tutorial/tutorial.component';
 import { DiffCodeComponent } from 'src/app/diff-code/diff-code.component';
 import { MessageComponent } from 'src/app/message/message.component';
@@ -29,7 +28,7 @@ import { MaximumPipe } from 'src/pipes/minimum.pipe';
 import { TextWidthPipe } from 'src/pipes/text-width.pipe';
 import { Token2Html } from 'src/pipes/token2html.pipe';
 import { ChannelResolver, FakeChannelResolver } from 'src/resolvers/channel.resolver';
-import { HeapResolver } from 'src/resolvers/heap.resolver';
+import { FakeHeapResolver, HeapResolver } from 'src/resolvers/heap.resolver';
 import { PreviewTutorialResolver, TutorialResolver } from 'src/resolvers/tutorial.resolver';
 import { AgendaComponent } from './agenda/agenda.component';
 import { AppComponent } from './app.component';
@@ -49,7 +48,6 @@ export function routerErrorHandle(error: Error) {
   declarations: [
     AppComponent,
     TutorialComponent,
-    PreviewTutorialComponent,
     TimerComponent,
     GetTokens,
     Token2Html,
@@ -109,9 +107,10 @@ export function routerErrorHandle(error: Error) {
                 pathMatch: 'full',
                 resolve: {
                   channel: FakeChannelResolver,
+                  heap: FakeHeapResolver,
                   tutorial: PreviewTutorialResolver
                 },
-                component: PreviewTutorialComponent
+                component: TutorialComponent
               }
             ]
           }

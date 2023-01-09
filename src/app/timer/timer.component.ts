@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { filter } from 'rxjs';
 import { HeapManager } from 'src/managers/heap.manager';
-import { HeapService } from 'src/services/heap.service';
+import { HeapsService } from 'src/services/heaps.service';
 
 const SECONDS_IN_MINUTE = 60;
 

@@ -1,3 +1,4 @@
+export const PREVIEW_TUTORIAL_SLUG = 'preview';
 export const PREVIEW_TUTORIAL_KEY = 'preview_tutorial';
 
 export const AVATARS: { [key: string]: string } = {
