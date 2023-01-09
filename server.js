@@ -176,25 +176,21 @@ const INDEX_URL = 'https://raw.githubusercontent.com/breslavsky/hello-cypress/ma
 
 function loadIndex() {
   console.log('load index', INDEX_URL);
-  http.request(INDEX_URL, resp => {
-    resp.setEncoding('utf8');
-    const chunks = [];
-    resp.on('data', (chunk) => {
-      chunks.push(chunk);
-    });
-    resp.on('end', () => {
-      TUTORIALS = JSON.parse(chunks.join(''));
-      console.log('loaded index');
-    });
-  }).end();
+  return new Promise(done => {
+    http.request(INDEX_URL, resp => {
+      resp.setEncoding('utf8');
+      const chunks = [];
+      resp.on('data', (chunk) => {
+        chunks.push(chunk);
+      });
+      resp.on('end', () => {
+        TUTORIALS = JSON.parse(chunks.join(''));
+        console.log('loaded index');
+        done();
+      });
+    }).end();
+  });
 }
-
-loadIndex();
-
-app.get('/api/utils/flush', (req, res) => {
-  loadIndex();
-  res.status(200).send('ok');
-});
 
 function loadTutorial(url) {
   console.log('load tutorial', url);
@@ -212,6 +208,20 @@ function loadTutorial(url) {
   });
 }
 
+loadIndex().then(() => {
+  const slugs = Object.keys(TUTORIALS.tutorials);
+  slugs.forEach(slug => {
+    const tutorial = TUTORIALS.tutorials[slug];
+    loadTutorial(tutorial.source)
+      .then(markdown => tutorial.markdown = markdown);
+  });
+});
+
+app.get('/api/utils/flush', (req, res) => {
+  loadIndex();
+  res.status(200).send('ok');
+});
+
 app.get('/api/tutorials/:slug', (req, res) => {
   const {slug} = req.params;
   const tutorial = TUTORIALS.tutorials[slug];
@@ -220,10 +230,11 @@ app.get('/api/tutorials/:slug', (req, res) => {
     return;
   }
 
-  loadTutorial(tutorial.source).then(markdown => {
-    tutorial.markdown = markdown;
-    res.send(tutorial);
-  });
+  loadTutorial(tutorial.source)
+    .then(markdown => {
+      tutorial.markdown = markdown;
+      res.send(tutorial);
+    });
 });
 
 app.post('/api/channels/:id/auth', (req, res) => {
@@ -438,9 +449,6 @@ app.post('/api/channels/:id/members/:member/progress', (req, res) => {
   dirty.channels[channel.id] = channel;
 });
 
-// for production
-app.use(express.static('dist/livemd'));
-
 app.get('/sitemap.xml', (req, res) => {
   const urls = Object.keys(TUTORIALS.tutorials)
     .map(slug => ({
@@ -466,9 +474,10 @@ app.get('/sitemap.xml', (req, res) => {
 const files = {
   index: fs.readFileSync(path.resolve(__dirname, 'dist/livemd/index.html'), 'utf8')
 };
-app.get('/:slug', (req, res) => {
-  const {slug} = req.params;
-  const tutorial = TUTORIALS.tutorials[slug];
+
+app.get('/', (req, res) => {
+  console.log('index!');
+  const tutorial = TUTORIALS.tutorials.home;
   if (!!tutorial?.markdown && !!files.index) {
     res.send(files.index.replace('<!--prerender-->', tutorial.markdown));
     return;
@@ -476,8 +485,12 @@ app.get('/:slug', (req, res) => {
   res.send(files.index);
 });
 
-app.get('/', (req, res) => {
-  const tutorial = TUTORIALS.tutorials.home;
+// for production
+app.use(express.static('dist/livemd', {index: false}));
+
+app.get('/:slug', (req, res) => {
+  const {slug} = req.params;
+  const tutorial = TUTORIALS.tutorials[slug];
   if (!!tutorial?.markdown && !!files.index) {
     res.send(files.index.replace('<!--prerender-->', tutorial.markdown));
     return;
