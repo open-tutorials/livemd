@@ -38,6 +38,7 @@ import { ProgressComponent } from './progress/progress.component';
 import { MonacoEditorComponent } from './monaco-editor/monaco-editor.component';
 import { EditorComponent } from './editor/editor.component';
 import { EditorPreviewComponent } from 'src/app/editor-preview/editor-preview.component';
+import { ActivatedRouteSnapshot, DetachedRouteHandle, RouteReuseStrategy } from '@angular/router';
 
 export function routerErrorHandle(error: Error) {
   console.error(error);
@@ -117,7 +118,7 @@ export function routerErrorHandle(error: Error) {
         ]
       },
       {
-        path: ':channel',
+        path: ':tutorial',
         resolve: {
           channel: ChannelResolver,
           heap: HeapResolver,
@@ -139,7 +140,6 @@ export function routerErrorHandle(error: Error) {
     }),
     ReactiveFormsModule
   ],
-  providers: [],
   bootstrap: [
     AppComponent
   ],

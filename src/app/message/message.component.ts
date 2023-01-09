@@ -1,10 +1,13 @@
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef,
-  Component, ElementRef,
-  Input, ViewChild
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Input,
+  ViewChild
 } from '@angular/core';
 import { deserialize, Field, Model } from 'serialize-ts';
-import { HeapService } from 'src/services/heap.service';
+import { HeapManager } from 'src/managers/heap.manager';
 
 @Model()
 export class Master {
@@ -38,7 +41,7 @@ export class MessageComponent {
 
   private _id!: string;
 
-  heap = this.headService.heap;
+  heap = this.heapManager.heap;
 
   message!: Message;
   accepted = false;
@@ -47,7 +50,7 @@ export class MessageComponent {
   @Input()
   set id(id: string) {
     this._id = id;
-    this.accepted = this.headService.heap.messages?.[id] || false;
+    this.accepted = this.heap.messages?.[id] || false;
   }
 
   get id() {
@@ -62,7 +65,7 @@ export class MessageComponent {
   @ViewChild('videoRef')
   videoRef!: ElementRef<HTMLVideoElement>;
 
-  constructor(private headService: HeapService,
+  constructor(private heapManager: HeapManager,
               private cd: ChangeDetectorRef) {
   }
 
@@ -70,7 +73,7 @@ export class MessageComponent {
     this.opened = true;
     if(!this.accepted) {
       this.accepted = true;
-      this.headService.put({messages: {[this.id]: true}});
+      this.heapManager.put({messages: {[this.id]: true}});
     }
     this.cd.detectChanges();
     this.videoRef.nativeElement.play();

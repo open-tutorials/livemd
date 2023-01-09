@@ -295,16 +295,16 @@ app.post('/api/channels/:id/join', (req, res) => {
   dirty.channels[channel.id] = channel;
 });
 
-app.get('/api/channels/:channel/heaps/:member', (req, res) => {
-  const {channel, member} = req.params;
+app.get('/api/tutorials/:tutorial/heaps/:member', (req, res) => {
+  const {tutorial, member} = req.params;
   // checkSecret(channel, member);
-  res.send(heaps[channel]?.[member] || loadHeap(channel, member));
+  res.send(heaps[tutorial]?.[member] || loadHeap(tutorial, member));
 });
 
-app.post('/api/channels/:channel/heaps/:member', (req, res) => {
-  const {channel, member} = req.params;
+app.post('/api/tutorials/:tutorial/heaps/:member', (req, res) => {
+  const {tutorial, member} = req.params;
   // checkSecret(channel, member);
-  let heap = heaps[channel]?.[member] || loadHeap(channel, member);
+  let heap = heaps[tutorial]?.[member] || loadHeap(tutorial, member);
   merge(heap, req.body);
   res.status(200).send();
 

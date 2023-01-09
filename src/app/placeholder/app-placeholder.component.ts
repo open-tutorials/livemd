@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { trim } from 'lodash';
+import { HeapManager } from 'src/managers/heap.manager';
 import { HeapService } from 'src/services/heap.service';
 import { Md5 } from 'ts-md5';
 
@@ -22,7 +23,7 @@ export class AppPlaceholderComponent implements OnInit {
   private _value!: string;
   private _hash!: string;
 
-  private heap = this.heapService.heap;
+  private heap = this.heapManager.heap;
 
   @Input()
   context!: string;
@@ -50,14 +51,14 @@ export class AppPlaceholderComponent implements OnInit {
 
   answerControl = this.fb.control(null);
 
-  constructor(private heapService: HeapService,
+  constructor(private heapManager: HeapManager,
               private fb: FormBuilder,
               private cd: ChangeDetectorRef) {
   }
 
   ngOnInit() {
     this.answerControl.valueChanges.subscribe((value: string | null) => {
-      this.heapService.put({placeholders: {[this._hash]: value || ''}});
+      this.heapManager.put({placeholders: {[this._hash]: value || ''}});
       this.cd.detectChanges();
     });
   }

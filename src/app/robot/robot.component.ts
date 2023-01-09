@@ -1,17 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  Input
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { delay, finalize } from 'rxjs/operators';
 import { merge } from 'lodash';
+import { delay, finalize } from 'rxjs/operators';
 import { deserialize } from 'serialize-ts';
+import { HeapManager } from 'src/managers/heap.manager';
 import { Robot } from 'src/models/robot';
 import { RobotAnswer } from 'src/models/robot-answer';
-import { HeapService } from 'src/services/heap.service';
 
 @Component({
   selector: 'app-robot',
@@ -26,7 +21,7 @@ export class RobotComponent {
   answer!: RobotAnswer;
   robot!: Robot;
 
-  heap = this.heapService.heap;
+  heap = this.heapManager.heap;
 
   @Input()
   id!: string;
@@ -47,14 +42,14 @@ export class RobotComponent {
   constructor(private http: HttpClient,
               private fb: FormBuilder,
               private cd: ChangeDetectorRef,
-              private heapService: HeapService) {
+              private heapManager: HeapManager) {
   }
 
   call() {
     if (this.form.valid) {
       this.calling = true;
       this.cd.detectChanges();
-      const scope = merge(this.heapService.heap?.robots?.scope, this.form.getRawValue());
+      const scope = merge(this.heapManager.heap?.robots?.scope, this.form.getRawValue());
       this.http.post<RobotAnswer>(this.robot.endpoint, scope)
         .pipe(delay(1000), finalize(() => {
           this.calling = false;
@@ -62,7 +57,7 @@ export class RobotComponent {
         }))
         .subscribe(answer => {
             this.answer = answer;
-            this.heapService.put({
+            this.heapManager.put({
               robots: {
                 messages: {[this.id]: this.answer.message},
                 scope: {[this.id]: this.answer.scope}

@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
+import { HeapManager } from 'src/managers/heap.manager';
 import { Heap } from 'src/models/heap';
-import { HeapService } from 'src/services/heap.service';
 
 @Injectable({providedIn: 'root'})
 export class HeapResolver implements Resolve<Observable<Heap>> {
 
-  constructor(private heapService: HeapService) {
+  constructor(private heapManager: HeapManager) {
   }
 
   resolve(route: ActivatedRouteSnapshot, router: RouterStateSnapshot): Observable<Heap> {
-    const channel = route.params['channel'] || 'home';
-    return this.heapService.bind(channel);
+    const tutorial = route.params['tutorial'] || 'home';
+    return this.heapManager.bind(tutorial);
   }
 }

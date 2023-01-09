@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { merge } from 'lodash';
-import { bufferTime, filter, map, Observable, Subject, Subscription, switchMap, tap } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { deserialize, serialize } from 'serialize-ts';
 import { MeManager } from 'src/managers/me.manager';
 import { Heap } from 'src/models/heap';
@@ -10,74 +9,24 @@ import { getEndpoint } from 'src/utils';
 @Injectable({providedIn: 'root'})
 export class HeapService {
 
-  channel!: string;
-  heap!: Heap;
-
-  push = new Subject<void>();
-  sync: { push?: Subscription } = {};
-
   constructor(private meManager: MeManager,
               private http: HttpClient) {
 
   }
 
-  fake() {
-    this.heap = new Heap();
-    return this.heap;
-  }
-
-  get(channel: string): Observable<Heap> {
+  get(tutorial: string): Observable<Heap> {
     const {me} = this.meManager;
-    const endpoint = getEndpoint('channels', channel, 'heaps', me.id);
+    const endpoint = getEndpoint('tutorials', tutorial, 'heaps', me.id);
     return this.http.get<Object>(endpoint)
       .pipe(map(data => deserialize(data, Heap)));
   }
 
-  bind(channel: string): Observable<Heap> {
-    this.channel = channel;
-    return this.get(channel)
-      .pipe(tap(heap => {
-        this.heap = heap;
-        this.startPush();
-      }));
-  }
-
-  stop() {
-    this.stopPush();
-  }
-
-  startPush() {
+  put(tutorial: string, heap: Heap): Observable<null> {
     const {me} = this.meManager;
-    const endpoint = getEndpoint('channels', this.channel, 'heaps', me.id);
-
-    this.sync.push?.unsubscribe();
-    this.sync.push = this.push.pipe(bufferTime(2000),
-      filter(buffer => buffer.length > 0),
-      switchMap(() => this.http.post(endpoint, serialize(this.heap))))
-      .subscribe(() => console.log('heap is synced'));
-  }
-
-  stopPush() {
-    this.sync.push?.unsubscribe();
-  }
-
-  put(data: Partial<Heap>) {
-    merge(this.heap, data);
-    this.push.next();
+    const endpoint = getEndpoint('tutorials', tutorial, 'heaps', me.id);
+    return this.http.post(endpoint, serialize(heap))
+      .pipe(map(() => null));
   }
 
 }
 
-@Injectable()
-export class FakeHeapService {
-
-  heap: Heap = new Heap();
-
-  put(data: Partial<Heap>) {
-    merge(this.heap, data);
-  }
-
-  stop() {
-  }
-
-}

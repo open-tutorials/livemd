@@ -1,17 +1,11 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  Injector,
-  OnDestroy,
-  OnInit,
-  Renderer2
-} from '@angular/core';
+import { ChangeDetectorRef, Component, Injector, OnInit, Renderer2 } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { trimStart } from 'lodash';
 import { marked } from 'marked';
 import { environment } from 'src/environments/environment';
+import { HeapManager } from 'src/managers/heap.manager';
 import { MeManager } from 'src/managers/me.manager';
 import { Channel } from 'src/models/channel';
 import { Heap } from 'src/models/heap';
@@ -33,7 +27,7 @@ type MemberUpdatedEvent = { member: Member };
   templateUrl: './tutorial.component.html',
   styleUrls: ['./tutorial.component.scss']
 })
-export class TutorialComponent implements OnInit, OnDestroy {
+export class TutorialComponent implements OnInit {
 
   me = this.meManager.me;
   form = this.fb.group({});
@@ -45,7 +39,7 @@ export class TutorialComponent implements OnInit, OnDestroy {
 
   private _tutorial!: Tutorial;
   private _channel!: Channel;
-  heap: Heap = this.heapService.heap;
+  heap: Heap = this.heapManager.heap;
 
   set channel(channel: Channel) {
     this._channel = channel;
@@ -87,6 +81,7 @@ export class TutorialComponent implements OnInit, OnDestroy {
 
   constructor(private cd: ChangeDetectorRef,
               private channelsService: ChannelsService,
+              private heapManager: HeapManager,
               private heapService: HeapService,
               private meManager: MeManager,
               private router: Router,
@@ -99,6 +94,7 @@ export class TutorialComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    console.log('init tutorial');
     this.route.data.subscribe(({tutorial, channel}) => {
       [this.tutorial, this.channel] = [tutorial, channel];
 
@@ -122,7 +118,7 @@ export class TutorialComponent implements OnInit, OnDestroy {
           const slug = slugger.slug(token.text);
           if (slug === fragment) {
             const next = this.findChapter(line);
-            if (this.heap.progress || 0 < next) {
+            if (this.heap.progress < next) {
               this.setProgress(next);
             }
             break;
@@ -132,22 +128,18 @@ export class TutorialComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy() {
-    this.heapService.stop();
-  }
-
   resetProgress() {
     this.setProgress(0);
     this.router.navigate([]);
   }
 
   open(line: number) {
-    this.heapService.put({opened: line});
+    this.heapManager.put({opened: line});
     this.cd.detectChanges();
   }
 
   setProgress(line: number) {
-    this.heapService.put({progress: line, total: this.tokens.length});
+    this.heapManager.put({progress: line, total: this.tokens.length - 1});
     this.cd.detectChanges();
   }
 
@@ -166,7 +158,7 @@ export class TutorialComponent implements OnInit, OnDestroy {
   findChapter(line: number) {
     const from = line + 1;
     const next = this.tokens.slice(from)
-      .findIndex(t => t.type == 'hr');
+      .findIndex(t => t.type === 'hr');
     return next !== -1 ? from + next : this.tokens.length - 1;
   }
 

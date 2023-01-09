@@ -1,10 +1,13 @@
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef,
-  Component, ElementRef, HostBinding,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  HostBinding,
   Input, ViewChild
 } from '@angular/core';
 import { deserialize, Field, Model } from 'serialize-ts';
-import { HeapService } from 'src/services/heap.service';
+import { HeapManager } from 'src/managers/heap.manager';
 
 @Model()
 export class Circle {
@@ -30,7 +33,7 @@ export class CircleComponent {
 
   private _id!: string;
 
-  heap = this.headService.heap;
+  heap = this.heapManager.heap;
 
   circle!: Circle;
   md!: string;
@@ -39,7 +42,7 @@ export class CircleComponent {
   @Input()
   set id(id: string) {
     this._id = id;
-    this.opened = this.headService.heap.circles?.[id] || false;
+    this.opened = this.heap.circles?.[id] || false;
   }
 
   get id() {
@@ -61,7 +64,7 @@ export class CircleComponent {
   @ViewChild('videoRef')
   videoRef!: ElementRef<HTMLVideoElement>;
 
-  constructor(private headService: HeapService,
+  constructor(private heapManager: HeapManager,
               public cd: ChangeDetectorRef) {
   }
 
@@ -74,7 +77,7 @@ export class CircleComponent {
     if (this.circle.poster) {
       e.load();
     }
-    this.headService.put({circles: {[this.id]: true}});
+    this.heapManager.put({circles: {[this.id]: true}});
     this.opened = true;
     this.cd.detectChanges();
   }

@@ -13,7 +13,7 @@ export class TutorialResolver implements Resolve<Observable<Tutorial>> {
   }
 
   resolve(route: ActivatedRouteSnapshot, router: RouterStateSnapshot): Observable<Tutorial> {
-    const channel = route.params['channel'] || 'home';
+    const channel = route.params['tutorial'] || 'home';
     return this.tutorialsService.get(channel);
   }
 }

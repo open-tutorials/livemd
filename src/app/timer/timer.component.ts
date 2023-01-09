@@ -8,6 +8,7 @@ import {
   ViewChild
 } from '@angular/core';
 import { filter } from 'rxjs';
+import { HeapManager } from 'src/managers/heap.manager';
 import { HeapService } from 'src/services/heap.service';
 
 const SECONDS_IN_MINUTE = 60;
@@ -24,7 +25,7 @@ function pad(num: number) {
 })
 export class TimerComponent implements OnInit, OnDestroy {
 
-  private heap = this.heapService.heap;
+  private heap = this.heapManager.heap;
 
   @Input()
   id!: string;
@@ -52,7 +53,7 @@ export class TimerComponent implements OnInit, OnDestroy {
 
   timer: any = null;
 
-  constructor(private heapService: HeapService,
+  constructor(private heapManager: HeapManager,
               private cd: ChangeDetectorRef,
               private zone: NgZone) {
   }
@@ -73,7 +74,7 @@ export class TimerComponent implements OnInit, OnDestroy {
     const tick = () => {
       if (this.remained-- > 0) {
         this.render();
-        this.heapService.put({timers: {[this.id]: this.time}});
+        this.heapManager.put({timers: {[this.id]: this.time}});
         this.timer = setTimeout(() => tick(), 1000);
       } else {
         this.finished.emit();
