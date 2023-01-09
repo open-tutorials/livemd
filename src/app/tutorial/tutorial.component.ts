@@ -98,7 +98,7 @@ export class TutorialComponent implements OnInit {
     this.route.data.subscribe(({tutorial, channel, heap}) => {
       [this.tutorial, this.channel, this.heap] = [tutorial, channel, heap];
 
-      const progress = this.heap.progress || 0;
+      const progress = this.heap.progress;
       if (progress === 0) {
         const next = this.findChapter(0);
         this.setProgress(next);

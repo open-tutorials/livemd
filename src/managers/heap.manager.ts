@@ -22,8 +22,11 @@ export class HeapManager {
 
   fake() {
     this.service = this.fakeHeapsService;
-    return this.service.get(PREVIEW_TUTORIAL_SLUG)
-      .pipe(tap(heap => this.heap = heap));
+    return this.service.get()
+      .pipe(tap(heap => {
+        this.heap = heap;
+        this.startPush();
+      }));
   }
 
   bind(tutorial: string) {

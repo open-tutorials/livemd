@@ -1,29 +1,30 @@
-<form #quiz [formGroup]="form" (submit)="check()">
-  <ng-container *ngFor="let t of tokens">
-
-    <ng-container [ngSwitch]="t.type">
-
-      <ng-container *ngSwitchCase="'list'">
-        <ul *ngFor="let item of t.items; let i=index" formArrayName="answers">
-          <li>
-            <input type="checkbox"
-                   [formControlName]="i"
-                   [value]="i"
-                   [attr.disabled]="accepted ? true : null"
-                   (change)="answers.length == 1 ? check() : null">
-            <label [attr.wrong]="wrong | include : i"
-                   [attr.right]="right | include : i">
-              {{item.text}}
-            </label>
-          </li>
-        </ul>
+<form [formGroup]="form"
+      [class.accepted]="!!answers"
+      (ngSubmit)="check()">
+  <fieldset [attr.disabled]="!!answers ? true : null">
+    <ng-container *ngFor="let t of tokens">
+      <ng-container [ngSwitch]="t.type">
+        <ng-container *ngSwitchCase="'list'">
+          <ul *ngFor="let item of t.items" formArrayName="answers">
+            <li *ngLet="item | getFromMap: indexes as index"
+                [class.right]="right | include: index"
+                [class.answer]="(answers || []) | include: index">
+              <label>
+                <input type="checkbox"
+                       [formControlName]="index"
+                       [value]="index"
+                       (change)="right.length == 1 ? check() : null">
+                <span [innerHTML]="item.text | mdInline2Html"></span>
+              </label>
+            </li>
+          </ul>
+        </ng-container>
+        <div *ngSwitchDefault [outerHTML]="t | token2Html"></div>
       </ng-container>
-
-      <p *ngSwitchDefault>{{t.text}}</p>
-
     </ng-container>
+  </fieldset>
 
-  </ng-container>
-  <button *ngIf="answers.length > 1 && !accepted" type="submit">Check</button>
+  <button *ngIf="right.length > 1 && !answers" type="submit">Check</button>
 </form>
 
+<div *ngIf="!!answers && !!message" [innerHTML]="message | md2Html"></div>

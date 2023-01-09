@@ -1,0 +1,89 @@
+pre, code {
+  font-family: 'Source Code Pro', monospace;
+}
+
+code:not(pre > code) {
+  border-radius: 5px;
+  border: 1px solid silver;
+  padding: 2px 4px;
+  background: rgba(175, 184, 193, 0.2);
+  font-family: 'Source Code Pro', monospace;
+  margin-right: 2px;
+}
+
+pre {
+  margin: 20px 0;
+  position: relative;
+
+  & > code.language-js,
+  & > code.language-html,
+  & > code.language-python {
+    display: block;
+    padding-top: 10px;
+
+    &::before {
+      content: "code";
+      color: grey;
+      position: absolute;
+      top: -5px;
+      left: 0px;
+      font-size: .65em;
+    }
+  }
+
+  & > code.language-js::before {
+    content: "Java Script";
+  }
+
+  & > code.language-html::before {
+    content: "HTML";
+  }
+
+  & > code.language-python::before {
+    content: "Python";
+  }
+
+  & > code.language-bash {
+    display: block;
+    padding: 20px 10px 10px 10px;
+    background-color: black;
+    color: white;
+    border-radius: 5px;
+
+    &::before {
+      content: "TERMINAL";
+      color: white;
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      background-color: black;
+      font-size: .65em;
+    }
+  }
+}
+
+.badge {
+  border-radius: 5px;
+  padding: 2px 5px;
+  background: rgba(100, 254, 0, 0.2);
+  margin: 0px 2px;
+  font-weight: bold;
+}
+
+blockquote {
+  border-left: 3px solid silver;
+  padding-left: 10px;
+  color: darkgreen;
+  font-size: 1.5em;
+  margin: 20px 10px;
+}
+
+mark {
+  display: inline-block;
+  padding: 5px;
+  background-color: lightgoldenrodyellow;
+  color: black;
+  border-radius: 5px;
+  font-weight: bold;
+  margin: 10px 0;
+}

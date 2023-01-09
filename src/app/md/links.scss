@@ -1,0 +1,15 @@
+a.button {
+  display: inline-flex;
+  vertical-align: middle;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  padding: 5px;
+
+  svg {
+    display: inline-block;
+  }
+
+  &:hover {
+    border-color: silver;
+  }
+}

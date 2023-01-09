@@ -1,0 +1,44 @@
+details {
+  display: inline-block;
+  margin: 5px 0;
+  border: 1px solid lightgray;
+  padding: 10px 20px;
+  border-radius: 10px;
+
+  summary {
+    user-select: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    white-space: pre-wrap;
+
+    &::before {
+      content: url('../../assets/expand.svg');
+      margin-right: 5px;
+      line-height: .5;
+    }
+
+    svg {
+      vertical-align: middle;
+    }
+  }
+
+  &:hover:not([open]) {
+    background: aliceblue;
+  }
+
+  &[open] {
+    display: block;
+  }
+
+  &[open] summary {
+    margin-bottom: 20px;
+    &::before {
+      content: url('../../assets/collapse.svg');
+    }
+  }
+}
+
+summary + br {
+  display: none;
+}

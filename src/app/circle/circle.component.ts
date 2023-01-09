@@ -4,7 +4,9 @@ import {
   Component,
   ElementRef,
   HostBinding,
-  Input, ViewChild
+  Input,
+  ViewChild,
+  ViewEncapsulation
 } from '@angular/core';
 import { deserialize, Field, Model } from 'serialize-ts';
 import { HeapManager } from 'src/managers/heap.manager';
@@ -24,9 +26,10 @@ export class Circle {
 }
 
 @Component({
-  selector: 'circle',
+  selector: 'md-circle',
   templateUrl: './circle.component.html',
   styleUrls: ['./circle.component.scss'],
+  encapsulation: ViewEncapsulation.ShadowDom,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CircleComponent {

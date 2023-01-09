@@ -1,16 +1,73 @@
+@import '~highlight.js/styles/docco.css';
+@import '../md/typography';
+@import '../md/images';
+@import '../md/links';
+@import '../md/details';
+
 :host {
   display: block;
 }
 
-ul {
-  list-style-type: none;
-  padding-left: 0;
-}
+form {
 
-label[wrong=true] {
-  color: #FF4440;
-}
+  fieldset {
+    border: none;
+    padding: 0;
+    margin: 0;
+  }
 
-label[right=true] {
-  color: #6AC948;
+  ul {
+    list-style-type: none;
+    padding-left: 0;
+  }
+
+  li {
+    label {
+      border: 1px solid transparent;
+      padding: 10px;
+      border-radius: 5px;
+
+      span:before {
+        margin-right: 5px;
+        content: url('../../assets/checkbox.svg');
+        vertical-align: middle;
+      }
+    }
+
+    input {
+      display: none;
+    }
+
+    &.answer {
+      span:before {
+        content: url('../../assets/checkbox_checked.svg');
+      }
+    }
+  }
+
+  &:not(.accepted) {
+    label {
+      cursor: pointer;
+
+      &:hover {
+        border-color: silver;
+      }
+    }
+  }
+
+  &.accepted {
+
+    li.answer:not(.right) {
+      color: #FF4440;
+    }
+
+    li.right {
+      color: #6AC948;
+    }
+
+    button[type=submit] {
+      display: none;
+    }
+
+  }
 }

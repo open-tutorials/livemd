@@ -1,4 +1,3 @@
-
 :host {
   display: block;
 }
@@ -201,7 +200,7 @@ h1 {
     .content {
       /** overflow-x: scroll; **/
       ::ng-deep {
-        @import "md";
+        @import 'src/app/md';
       }
     }
 

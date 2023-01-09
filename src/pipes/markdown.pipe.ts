@@ -51,7 +51,7 @@ export class Md2Html implements PipeTransform {
 }
 
 @Pipe({name: 'mdInline2Html'})
-export class MdInline2Html implements PipeTransform {
+export class MdInline2HtmlPipe implements PipeTransform {
 
   constructor(private sr: DomSanitizer) {
   }

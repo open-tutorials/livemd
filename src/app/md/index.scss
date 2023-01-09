@@ -1,0 +1,118 @@
+@import 'typography';
+@import 'images';
+@import 'links';
+@import 'details';
+
+@media (min-width: 769px) {
+  block {
+    display: inline-block;
+    box-shadow: 2px 2px 2px silver;
+    box-sizing: border-box;
+    border-radius: 5px;
+    background: snow;
+    width: 80%;
+    max-width: 600px;
+    margin: 10px;
+    padding: 20px 30px;
+    border-top: 10px solid lightgray;
+  }
+}
+
+.person {
+  border: 1px solid transparent;
+  border-radius: 5px;
+  padding: 5px;
+  text-decoration: none;
+
+  &:hover {
+    border-color: silver;
+  }
+
+  img {
+    border-radius: 50%;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    vertical-align: middle;
+    margin-bottom: 2px;
+  }
+}
+
+ul, ol {
+  margin: 10px 0;
+
+  li img {
+    margin: 0;
+    vertical-align: middle;
+  }
+
+  li:not(:last-child) {
+    margin-bottom: 10px;
+  }
+}
+
+table {
+  border: 1px solid silver;
+  border-collapse: collapse;
+
+  th {
+    background: lightgray;
+    padding: 10px;
+  }
+
+  th, td {
+    padding: 10px;
+    border: 1px solid silver;
+  }
+}
+
+ul:not(.poll) {
+  list-style: none;
+  padding-left: 20px;
+
+  li:not(.emoji):before {
+    content: '▫️';
+    margin-right: 7.5px;
+    vertical-align: middle;
+  }
+
+  li.task:before {
+    content: url('../../assets/checkbox.svg');
+  }
+
+  li.task.done:before {
+    content: url('../../assets/checkbox_checked.svg');
+  }
+}
+
+hr {
+  height: 1px;
+  box-sizing: border-box;
+  border: none;
+  border-top: 1px dashed silver;
+  margin: 20px 0;
+}
+
+details:not([open]) > p {
+  display: none;
+}
+
+p {
+  margin: 5px 0;
+  line-height: 1.75;
+
+  img {
+    margin: 0;
+    vertical-align: middle;
+  }
+}
+
+iframe {
+  border-radius: 10px;
+  border: 1px solid silver;
+
+  &.giphy-embed {
+    pointer-events: none;
+  }
+}

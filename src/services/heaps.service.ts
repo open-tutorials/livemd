@@ -6,6 +6,8 @@ import { MeManager } from 'src/managers/me.manager';
 import { Heap } from 'src/models/heap';
 import { getEndpoint } from 'src/utils';
 
+const FAKE_HEAP_KEY = 'fake_heap';
+
 @Injectable({providedIn: 'root'})
 export class HeapsService {
 
@@ -33,11 +35,13 @@ export class HeapsService {
 @Injectable({providedIn: 'root'})
 export class FakeHeapsService {
 
-  get(tutorial: string): Observable<Heap> {
-    return of(new Heap());
+  get(): Observable<Heap> {
+    const json = localStorage.getItem(FAKE_HEAP_KEY);
+    return of(!!json ? deserialize(JSON.parse(json), Heap) : new Heap());
   }
 
   put(tutorial: string, heap: Heap): Observable<null> {
+    localStorage.setItem(FAKE_HEAP_KEY, JSON.stringify(serialize(heap)));
     return of(null);
   }
 

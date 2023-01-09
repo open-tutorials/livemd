@@ -6,24 +6,28 @@ import { BrowserModule } from '@angular/platform-browser';
 import { Router, RouterModule, Scroll } from '@angular/router';
 import { filter } from 'rxjs';
 import { CircleComponent } from 'src/app/circle/circle.component';
-import { QuizComponent } from 'src/app/quiz/quiz.component';
-import { RobotComponent } from 'src/app/robot/robot.component';
-import { TutorialComponent } from 'src/app/tutorial/tutorial.component';
 import { DiffCodeComponent } from 'src/app/diff-code/diff-code.component';
+import { EditorPreviewComponent } from 'src/app/editor-preview/editor-preview.component';
+import { LinkComponent } from 'src/app/link/link.component';
+import { MakeCodeComponent } from 'src/app/make-code/make-code.component';
 import { MessageComponent } from 'src/app/message/message.component';
 import { AppPlaceholderComponent } from 'src/app/placeholder/app-placeholder.component';
-import { MakeCodeComponent } from 'src/app/make-code/make-code.component';
+import { QuizComponent } from 'src/app/quiz/quiz.component';
+import { RobotComponent } from 'src/app/robot/robot.component';
 import { TimerComponent } from 'src/app/timer/timer.component';
+import { TutorialComponent } from 'src/app/tutorial/tutorial.component';
+import { NgLetDirective } from 'src/directives/let.directive';
 import { GetAvatar } from 'src/pipes/avatar.pipe';
 import { GetDepth } from 'src/pipes/depth.pipe';
 import { IncludePipe } from 'src/pipes/include';
+import { GetFromMapPipe } from 'src/pipes/map.pipe';
 import { GetMark, GetVoted } from 'src/pipes/mark.pipe';
 import {
   GetSlugPipe,
   GetTokens,
   InterpolatePipe,
   Md2Html,
-  MdInline2Html
+  MdInline2HtmlPipe
 } from 'src/pipes/markdown.pipe';
 import { MaximumPipe } from 'src/pipes/minimum.pipe';
 import { TextWidthPipe } from 'src/pipes/text-width.pipe';
@@ -33,13 +37,10 @@ import { FakeHeapResolver, HeapResolver } from 'src/resolvers/heap.resolver';
 import { PreviewTutorialResolver, TutorialResolver } from 'src/resolvers/tutorial.resolver';
 import { AgendaComponent } from './agenda/agenda.component';
 import { AppComponent } from './app.component';
-import { MermaidComponent } from './mermaid/mermaid.component';
-import { ProgressComponent } from './progress/progress.component';
-import { MonacoEditorComponent } from './monaco-editor/monaco-editor.component';
 import { EditorComponent } from './editor/editor.component';
-import { EditorPreviewComponent } from 'src/app/editor-preview/editor-preview.component';
-import { ActivatedRouteSnapshot, DetachedRouteHandle, RouteReuseStrategy } from '@angular/router';
-import { LinkComponent } from 'src/app/link/link.component';
+import { MermaidComponent } from './mermaid/mermaid.component';
+import { MonacoEditorComponent } from './monaco-editor/monaco-editor.component';
+import { ProgressComponent } from './progress/progress.component';
 
 export function routerErrorHandle(error: Error) {
   console.error(error);
@@ -48,6 +49,7 @@ export function routerErrorHandle(error: Error) {
 
 @NgModule({
   declarations: [
+    NgLetDirective,
     AppComponent,
     TutorialComponent,
     TimerComponent,
@@ -58,11 +60,12 @@ export function routerErrorHandle(error: Error) {
     GetMark,
     GetVoted,
     Md2Html,
-    MdInline2Html,
+    MdInline2HtmlPipe,
     GetSlugPipe,
     TextWidthPipe,
     MaximumPipe,
     InterpolatePipe,
+    GetFromMapPipe,
     DiffCodeComponent,
     MermaidComponent,
     AgendaComponent,

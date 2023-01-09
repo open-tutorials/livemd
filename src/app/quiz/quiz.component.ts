@@ -1,12 +1,6 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  Input,
-  ViewEncapsulation
-} from '@angular/core';
+import { ChangeDetectorRef, Component, Input, ViewEncapsulation } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { marked } from 'marked';
-import { difference } from 'lodash';
 import { HeapManager } from 'src/managers/heap.manager';
 
 @Component({
@@ -22,18 +16,20 @@ export class QuizComponent {
 
   tokens: any[] = [];
   answers: number[] = [];
-  wrong: any[] = [];
-  right: any[] = [];
-  accepted = false;
+  right: number[] = [];
+  message!: string;
+
+  indexes = new Map<object, number>();
 
   answersControl = this.fb.array([]);
   form = this.fb.group({
     answers: this.answersControl
   });
 
-  @Input() set id(id: string) {
+  @Input()
+  set id(id: string) {
     this._id = id;
-    this.accepted = !!this.heap.quizes?.[id];
+    this.answers = this.heap.quizzes?.[id];
   }
 
   get id() {
@@ -42,17 +38,27 @@ export class QuizComponent {
 
   @Input()
   set config(config: string) {
-    this.tokens = marked.lexer(config as string);
-    for (let i = 0; i < this.tokens.length; i++) {
-      const t = this.tokens[i];
+    const [question, message] = config.split(/\n\n\n(.*)/s);
+    this.message = message;
+
+    this.tokens = marked.lexer(question);
+    let i = 0;
+    for (const t of this.tokens) {
       if (t.type === 'list') {
-        for (let j = 0; j < t.items.length; j++) {
-          const item = t.items[j];
-          this.answersControl.push(this.fb.control(null));
+        for (const item of t.items) {
+          this.answersControl.push(this.fb.control(false));
           if (item.type === 'list_item' && item.task && item.checked) {
-            this.answers.push(j);
+            this.right.push(i);
           }
+          this.indexes.set(item, i);
+          i++;
         }
+      }
+    }
+
+    if (!!this.answers) {
+      for (const a of this.answers) {
+        this.answersControl.at(a).setValue(true);
       }
     }
   }
@@ -62,25 +68,13 @@ export class QuizComponent {
               private cd: ChangeDetectorRef) {
   }
 
-  ngOnInit() {
-    if (this.accepted) {
-      this.wrong = difference(this.heap.quizes[this.id], this.answers);
-      this.right = difference(this.heap.quizes[this.id], this.wrong);
-    }
-  }
-
   check() {
-    let answers: any[];
-    answers = this.answersControl.getRawValue()
+    this.answers = this.answersControl.getRawValue()
       .map((answer, index) => !!answer ? index : null)
-      .filter(index => !!index || index === 0);
+      .filter(index => index !== null) as number[];
     this.cd.detectChanges();
 
-    this.wrong = difference(answers, this.answers);
-    this.right = difference(answers, this.wrong);
-
-    this.heapManager.put({quizes: {[this.id]: answers}});
-    this.accepted = !!this.heap.quizes?.[this.id];
+    this.heapManager.put({quizzes: {[this.id]: this.answers}});
   }
 
 }
