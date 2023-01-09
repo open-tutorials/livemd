@@ -1,10 +1,18 @@
-import { trim } from 'lodash';
+import { trim, trimStart } from 'lodash';
 import { marked } from 'marked';
 import { environment } from 'src/environments/environment';
 
 export function getMarkedOptions(baseUrl: string, assetsUrl: string) {
   const renderer = new marked.Renderer();
   renderer.link = function (href: string, title: string, text: string) {
+
+    if (href.startsWith('@')) {
+      const link = document.createElement('md-link');
+      link.setAttribute('href', trimStart(href, '@'));
+      link.setAttribute('title', text);
+      return link.outerHTML;
+    }
+
     const normalHref = (() => {
       if (/^http/.test(href)) {
         return href;

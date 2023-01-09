@@ -463,19 +463,30 @@ app.get('/sitemap.xml', (req, res) => {
   res.send(map);
 });
 
-const index = fs.readFileSync(path.resolve(__dirname, 'dist/livemd/index.html'), 'utf8');
+const files = {
+  index: fs.readFileSync(path.resolve(__dirname, 'dist/livemd/index.html'), 'utf8')
+};
 app.get('/:slug', (req, res) => {
   const {slug} = req.params;
   const tutorial = TUTORIALS.tutorials[slug];
-  if (!!tutorial?.markdown) {
-    res.send(index.replaceAll('<!--prerender-->', tutorial.markdown));
+  if (!!tutorial?.markdown && !!files.index) {
+    res.send(files.index.replaceAll('<!--prerender-->', tutorial.markdown));
     return;
   }
-  res.send(index);
+  res.send(files.index);
+});
+
+app.get('/', (req, res) => {
+  const tutorial = TUTORIALS.tutorials.home;
+  if (!!tutorial?.markdown && !!files.index) {
+    res.send(files.index.replaceAll('<!--prerender-->', tutorial.markdown));
+    return;
+  }
+  res.send(files.index);
 });
 
 app.get('*', function (request, response) {
-  response.send(index);
+  response.send(files.index);
 });
 
 const port = process.env.PORT || 4300;
