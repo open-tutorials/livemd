@@ -1,0 +1,29 @@
+<form #quiz [formGroup]="form" (submit)="check()">
+  <ng-container *ngFor="let t of tokens">
+
+    <ng-container [ngSwitch]="t.type">
+
+      <ng-container *ngSwitchCase="'list'">
+        <ul *ngFor="let item of t.items; let i=index" formArrayName="answers">
+          <li>
+            <input type="checkbox"
+                   [formControlName]="i"
+                   [value]="i"
+                   [attr.disabled]="accepted ? true : null"
+                   (change)="answers.length == 1 ? check() : null">
+            <label [attr.wrong]="wrong | include : i"
+                   [attr.right]="right | include : i">
+              {{item.text}}
+            </label>
+          </li>
+        </ul>
+      </ng-container>
+
+      <p *ngSwitchDefault>{{t.text}}</p>
+
+    </ng-container>
+
+  </ng-container>
+  <button *ngIf="answers.length > 1 && !accepted" type="submit">Check</button>
+</form>
+

@@ -34,6 +34,9 @@ export class Heap {
   messages!: { [key: string]: boolean };
 
   @Field({serializer: new KeyValueSerializer()})
+  quizes!: { [key: string]: number[] };
+
+  @Field({serializer: new KeyValueSerializer()})
   circles!: { [key: string]: boolean };
 
   @Field()
