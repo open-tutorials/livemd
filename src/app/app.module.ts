@@ -6,6 +6,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { Router, RouterModule, Scroll } from '@angular/router';
 import { filter } from 'rxjs';
 import { CircleComponent } from 'src/app/circle/circle.component';
+import { QuizComponent } from 'src/app/quiz/quiz.component';
 import { RobotComponent } from 'src/app/robot/robot.component';
 import { PreviewTutorialComponent } from 'src/app/tutorial/preview-tutorial.component';
 import { TutorialComponent } from 'src/app/tutorial/tutorial.component';
@@ -76,7 +77,8 @@ export function routerErrorHandle(error: Error) {
     ProgressComponent,
     MonacoEditorComponent,
     EditorComponent,
-    EditorPreviewComponent
+    EditorPreviewComponent,
+    QuizComponent
   ],
   imports: [
     HttpClientModule,

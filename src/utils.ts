@@ -71,6 +71,17 @@ export function getMarkedOptions(baseUrl: string, assetsUrl: string) {
         return el.outerHTML;
       }
     }
+    {
+      const rule = /markdown\squiz\s([\w\_\-]+)$/;
+      const match = rule.exec(language);
+      if (!!match) {
+        const [, id] = match;
+        const el = document.createElement('md-quiz');
+        el.setAttribute('config', code);
+        el.setAttribute('id', id);
+        return el.outerHTML;
+      }
+    }
 
     {
       const rule = /mermaid(?:\s(.+))*$/;
