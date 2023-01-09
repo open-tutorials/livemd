@@ -23,6 +23,16 @@ form {
     &[data-orientation=horizontal] {
       display: flex;
       flex-direction: row;
+
+      li:not(:last-child) {
+        margin-right: 20px;
+      }
+    }
+
+    &[data-orientation=vertical] {
+      li:not(:last-child) {
+        margin-bottom: 20px;
+      }
     }
   }
 
@@ -41,10 +51,6 @@ form {
 
     input {
       display: none;
-    }
-
-    &:not(:last-child) {
-      margin-bottom: 20px;
     }
 
     &.answer {

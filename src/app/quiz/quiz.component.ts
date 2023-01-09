@@ -65,7 +65,7 @@ export class QuizComponent {
   }
 
   @Input()
-  orientation!: string;
+  orientation: string = 'vertical';
 
   constructor(private heapManager: HeapManager,
               private fb: FormBuilder,
