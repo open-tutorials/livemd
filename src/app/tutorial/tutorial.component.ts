@@ -66,13 +66,9 @@ export class TutorialComponent implements OnInit {
         headings.push(heading);
       }
     }
-
     this.headings = headings;
 
-    const title = this.tokens.find(t => t.type === 'heading');
-    if (!!title) {
-      this.title.setTitle(title.text);
-    }
+    this.title.setTitle(tutorial.title);
   }
 
   get tutorial() {
