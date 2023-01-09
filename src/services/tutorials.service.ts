@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable, switchMap } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { deserialize } from 'serialize-ts';
 import { MeManager } from 'src/managers/me.manager';
 import { Tutorial } from 'src/models/tutorial';
@@ -14,18 +14,8 @@ export class TutorialsService {
   }
 
   get(slug: string): Observable<Tutorial> {
-    return new Observable<Tutorial>(o => {
-      const endpoint = getEndpoint('tutorials', slug);
-      this.http.get<Object>(endpoint)
-        .pipe(map(data => deserialize(data, Tutorial)))
-        .subscribe(tutorial => {
-          this.http.get(tutorial.source + '?rand=' + Math.random(), {responseType: 'text'})
-            .subscribe(markdown => {
-              tutorial.markdown = markdown;
-              o.next(tutorial);
-              o.complete();
-            });
-        });
-    });
+    const endpoint = getEndpoint('tutorials', slug);
+    return this.http.get<Object>(endpoint)
+      .pipe(map(data => deserialize(data, Tutorial)));
   }
 }

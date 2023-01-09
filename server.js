@@ -171,14 +171,11 @@ app.get('/api/example', function (request, response) {
 
 
 let TUTORIALS;
+const INDEX_URL = 'https://raw.githubusercontent.com/breslavsky/hello-cypress/main/index.json';
 
 function loadIndex() {
-  const options = {
-    host: 'raw.githubusercontent.com',
-    path: 'breslavsky/hello-cypress/main/index.json'
-  };
-
-  http.request(options, resp => {
+  console.log('load index', INDEX_URL);
+  http.request(INDEX_URL, resp => {
     resp.setEncoding('utf8');
     const chunks = [];
     resp.on('data', (chunk) => {
@@ -198,9 +195,34 @@ app.get('/api/utils/flush', (req, res) => {
   res.status(200).send('ok');
 });
 
+function loadTutorial(url) {
+  console.log('load tutorial', url);
+  return new Promise((done) => {
+    http.request(url, resp => {
+      resp.setEncoding('utf8');
+      const chunks = [];
+      resp.on('data', (chunk) => {
+        chunks.push(chunk);
+      });
+      resp.on('end', () => {
+        done(chunks.join(''));
+      });
+    }).end();
+  });
+}
+
 app.get('/api/tutorials/:slug', (req, res) => {
   const {slug} = req.params;
-  res.send(TUTORIALS.tutorials[slug]);
+  const tutorial = TUTORIALS.tutorials[slug];
+  if(!!tutorial.markdown) {
+    res.send(tutorial);
+    return;
+  }
+
+  loadTutorial(tutorial.source).then(markdown=>{
+    tutorial.markdown = markdown;
+    res.send(tutorial);
+  })
 });
 
 app.post('/api/channels/:id/auth', (req, res) => {
