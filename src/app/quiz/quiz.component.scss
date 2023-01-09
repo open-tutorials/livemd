@@ -1,0 +1,16 @@
+:host {
+  display: block;
+}
+
+ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+label[wrong=true] {
+  color: #FF4440;
+}
+
+label[right=true] {
+  color: #6AC948;
+}

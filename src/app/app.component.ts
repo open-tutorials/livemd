@@ -7,6 +7,7 @@ import { AppPlaceholderComponent } from 'src/app/placeholder/app-placeholder.com
 import { MakeCodeComponent } from 'src/app/make-code/make-code.component';
 import { MermaidComponent } from 'src/app/mermaid/mermaid.component';
 import { ProgressComponent } from 'src/app/progress/progress.component';
+import { QuizComponent } from 'src/app/quiz/quiz.component';
 import { RobotComponent } from 'src/app/robot/robot.component';
 
 @Component({
@@ -53,6 +54,11 @@ export class AppComponent implements OnInit {
     if (!customElements.get('md-robot')) {
       const element = createCustomElement(RobotComponent, {injector: this.injector});
       customElements.define('md-robot', element);
+    }
+
+    if (!customElements.get('md-quiz')) {
+      const element = createCustomElement(QuizComponent, {injector: this.injector});
+      customElements.define('md-quiz', element);
     }
 
     if (!customElements.get('md-progress')) {
