@@ -475,12 +475,19 @@ const files = {
   index: fs.readFileSync(path.resolve(__dirname, 'dist/livemd/index.html'), 'utf8')
 };
 
+function prerender(tutorial) {
+  let output = files.index;
+  if (!!tutorial.markdown) {
+    output = output.replace('<!--prerender-->', tutorial.markdown);
+  }
+  output = output.replace(/<title>.+<\/title>/, `<title>${tutorial.title}</title>`);
+  return output;
+}
+
 app.get('/', (req, res) => {
   const tutorial = TUTORIALS.tutorials.home;
-  if (!!tutorial?.markdown && !!files.index) {
-    let output = files.index.replace('<!--prerender-->', tutorial.markdown);
-    output= output.replace(/<title>.+<\/title>/, `<title>${tutorial.title}</title>`)
-    res.send(output);
+  if (!!files.index) {
+    res.send(prerender(tutorial));
     return;
   }
   res.send(files.index);
@@ -492,8 +499,8 @@ app.use(express.static('dist/livemd', {index: false}));
 app.get('/:slug', (req, res) => {
   const {slug} = req.params;
   const tutorial = TUTORIALS.tutorials[slug];
-  if (!!tutorial?.markdown && !!files.index) {
-    res.send(files.index.replace('<!--prerender-->', tutorial.markdown));
+  if (!!files.index) {
+    res.send(prerender(tutorial));
     return;
   }
   res.send(files.index);
