@@ -476,10 +476,11 @@ const files = {
 };
 
 app.get('/', (req, res) => {
-  console.log('index!');
   const tutorial = TUTORIALS.tutorials.home;
   if (!!tutorial?.markdown && !!files.index) {
-    res.send(files.index.replace('<!--prerender-->', tutorial.markdown));
+    let output = files.index.replace('<!--prerender-->', tutorial.markdown);
+    output= output.replace(/<title>.+<\/title>/, `<title>${tutorial.title}</title>`)
+    res.send(output);
     return;
   }
   res.send(files.index);
