@@ -59,7 +59,6 @@ export class CircleComponent {
     this.md = md;
   }
 
-  @HostBinding('class.watching')
   get watching() {
     return !this.videoRef?.nativeElement?.paused && !this.videoRef?.nativeElement?.muted;
   }

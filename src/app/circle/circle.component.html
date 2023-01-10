@@ -1,4 +1,4 @@
-<div class="circle">
+<div class="circle" [class.watching]="watching">
   <button class="unmute" (click)="unmute()">
     <ng-container>
       <svg *ngIf="this.watching;else playTemplate"
