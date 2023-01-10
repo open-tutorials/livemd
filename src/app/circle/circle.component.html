@@ -1,4 +1,7 @@
 <div class="circle" [class.watching]="watching">
+
+  <div *ngIf="loading" class="spinner"><div></div><div></div></div>
+
   <button class="unmute" (click)="unmute()">
     <ng-container>
       <svg *ngIf="this.watching;else playTemplate"
@@ -16,12 +19,14 @@
   </button>
 
   <video *ngIf="!!circle" #videoRef
+         preload="auto"
          [autoplay]="!opened"
          [poster]="circle.poster || null"
          [currentTime]="circle.time || 0"
          [muted]="true"
          [loop]="true"
-         (loadstart)="cd.detectChanges()"
+         (loadstart)="loadStart()"
+         (canplay)="loaded()"
          (ended)="watched()">
     <source [src]="circle?.video" type="video/mp4"/>
   </video>

@@ -41,6 +41,7 @@ export class CircleComponent {
   circle!: Circle;
   md!: string;
   opened = false;
+  loading = true;
 
   @Input()
   set id(id: string) {
@@ -60,7 +61,7 @@ export class CircleComponent {
   }
 
   get watching() {
-    return !this.videoRef?.nativeElement?.paused && !this.videoRef?.nativeElement?.muted;
+    return !this.loading && !this.videoRef?.nativeElement?.paused && !this.videoRef?.nativeElement?.muted;
   }
 
   @ViewChild('videoRef')
@@ -68,6 +69,15 @@ export class CircleComponent {
 
   constructor(private heapManager: HeapManager,
               public cd: ChangeDetectorRef) {
+  }
+
+  loadStart(){
+    this.loading = true;
+  }
+
+  loaded() {
+    this.loading = false;
+    this.cd.detectChanges();
   }
 
   watched() {
