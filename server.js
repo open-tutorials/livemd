@@ -476,7 +476,32 @@ const files = {
 };
 
 function prerender(tutorial) {
+
+  const metaTag = (property, content) => ({
+    meta: [{
+      _attr: {
+        property, content
+      }
+    }]
+  });
+
   let output = files.index;
+
+  if (!!tutorial.meta) {
+    const {description, thumbnail} = tutorial.meta;
+    const meta = xml([
+      metaTag('og:title', tutorial.title),
+      metaTag('og:type', 'article'),
+      metaTag('og:image', thumbnail),
+      metaTag('twitter:card', 'summary_large_image'),
+      metaTag('og:description', description),
+      metaTag('og:site_name', 'Tutorials Cypress'),
+      metaTag('twitter:image:alt', tutorial.title)
+    ]);
+
+    output = output.replace('<!--metatags-->', meta);
+  }
+
   if (!!tutorial.markdown) {
     output = output.replace('<!--prerender-->', tutorial.markdown);
   }
