@@ -488,7 +488,7 @@ function prerender(tutorial) {
   let output = files.index;
 
   if (!!tutorial.meta) {
-    const {description, thumbnail, keywords} = tutorial.meta;
+    const {description, thumbnail, keywords, site} = tutorial.meta;
     const meta = xml([
       metaTag('title', tutorial.title),
       metaTag('description', description),
@@ -500,7 +500,7 @@ function prerender(tutorial) {
       metaTag('og:image', thumbnail),
       metaTag('twitter:card', 'summary_large_image'),
       metaTag('og:description', description),
-      metaTag('og:site_name', 'Tutorials Cypress'),
+      metaTag('og:site_name', site),
       metaTag('twitter:image:alt', tutorial.title)
     ]);
 
