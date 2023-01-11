@@ -496,6 +496,10 @@ app.get('/', (req, res) => {
 // for production
 app.use(express.static('dist/livemd', {index: false}));
 
+app.get('/editor', (req, res) => {
+  res.send(files.index);
+});
+
 app.get('/:slug', (req, res) => {
   const {slug} = req.params;
   const tutorial = TUTORIALS.tutorials[slug];

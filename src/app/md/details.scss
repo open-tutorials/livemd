@@ -12,6 +12,10 @@ details {
     align-items: center;
     white-space: pre-wrap;
 
+    &::-webkit-details-marker {
+      display: none;
+    }
+
     &::before {
       content: url('../../assets/expand.svg');
       margin-right: 5px;
@@ -33,6 +37,7 @@ details {
 
   &[open] summary {
     margin-bottom: 20px;
+
     &::before {
       content: url('../../assets/collapse.svg');
     }

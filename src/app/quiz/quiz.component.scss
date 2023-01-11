@@ -43,6 +43,7 @@ form {
       border-radius: 5px;
 
       span:before {
+        display: inline-block;
         margin-right: 5px;
         content: url('../../assets/checkbox.svg');
         vertical-align: middle;
