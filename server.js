@@ -488,8 +488,13 @@ function prerender(tutorial) {
   let output = files.index;
 
   if (!!tutorial.meta) {
-    const {description, thumbnail} = tutorial.meta;
+    const {description, thumbnail, keywords} = tutorial.meta;
     const meta = xml([
+      metaTag('title', tutorial.title),
+      metaTag('description', description),
+      metaTag('keywords', keywords),
+      metaTag('og:title', tutorial.title),
+
       metaTag('og:title', tutorial.title),
       metaTag('og:type', 'article'),
       metaTag('og:image', thumbnail),
