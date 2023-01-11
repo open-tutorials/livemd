@@ -28,7 +28,7 @@
          (loadstart)="loadStart()"
          (canplay)="loaded()"
          (ended)="watched()">
-    <source [src]="circle?.video" type="video/mp4"/>
+    <source [src]="circle.video" [type]="circle.type || 'video/mp4'"/>
   </video>
 
 </div>

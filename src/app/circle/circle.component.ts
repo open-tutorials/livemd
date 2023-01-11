@@ -21,6 +21,9 @@ export class Circle {
   poster!: string;
 
   @Field()
+  type!: string;
+
+  @Field()
   video!: string;
 
 }
