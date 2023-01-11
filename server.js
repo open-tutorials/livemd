@@ -539,6 +539,11 @@ app.get('/editor', (req, res) => {
 app.get('/:slug', (req, res) => {
   const {slug} = req.params;
   const tutorial = TUTORIALS.tutorials[slug];
+  if(!tutorial) {
+    res.redirect(404, `/?404=${slug}`);
+    return;
+  }
+
   if (!!files.index) {
     res.send(prerender(tutorial));
     return;

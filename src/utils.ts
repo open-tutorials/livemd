@@ -87,7 +87,9 @@ export function getMarkedOptions(baseUrl: string, assetsUrl: string) {
         const el = document.createElement('md-quiz');
         el.setAttribute('config', code);
         el.setAttribute('id', id);
-        el.setAttribute('orientation', orientation);
+        if (!!orientation) {
+          el.setAttribute('orientation', orientation);
+        }
         return el.outerHTML;
       }
     }
