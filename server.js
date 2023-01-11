@@ -477,10 +477,10 @@ const files = {
 
 function prerender(tutorial) {
 
-  const metaTag = (property, content) => ({
+  const metaTag = (name, value, content) => ({
     meta: [{
       _attr: {
-        property, content
+        [name]: [value], content
       }
     }]
   });
@@ -490,18 +490,24 @@ function prerender(tutorial) {
   if (!!tutorial.meta) {
     const {description, thumbnail, keywords, site} = tutorial.meta;
     const meta = xml([
-      metaTag('title', tutorial.title),
-      metaTag('description', description),
-      metaTag('keywords', keywords),
-      metaTag('og:title', tutorial.title),
+      metaTag('name', 'description', description),
+      metaTag('name', 'keywords', keywords),
 
-      metaTag('og:title', tutorial.title),
-      metaTag('og:type', 'article'),
-      metaTag('og:image', thumbnail),
-      metaTag('twitter:card', 'summary_large_image'),
-      metaTag('og:description', description),
-      metaTag('og:site_name', site),
-      metaTag('twitter:image:alt', tutorial.title)
+      metaTag('itemprop', 'name', tutorial.title),
+      metaTag('itemprop', 'description', description),
+      metaTag('itemprop', 'image', thumbnail),
+
+      metaTag('thumbnail', 'og:type', 'article'),
+      metaTag('thumbnail', 'og:title', tutorial.title),
+      metaTag('thumbnail', 'og:description', description),
+      metaTag('thumbnail', 'og:image', thumbnail),
+      metaTag('thumbnail', 'og:site_name', site),
+
+      metaTag('name', 'twitter:card', 'summary_large_image'),
+      metaTag('name', 'twitter:title', tutorial.title),
+      metaTag('name', 'twitter:description', description),
+      metaTag('name', 'twitter:image', thumbnail),
+      metaTag('name', 'twitter:image:alt', tutorial.title)
     ]);
 
     output = output.replace('<!--metatags-->', meta);
