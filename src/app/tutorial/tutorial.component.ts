@@ -37,6 +37,8 @@ export class TutorialComponent implements OnInit {
   current = this.me.id;
   state: { comments: { [key: number]: boolean } } = {comments: {}};
 
+  reached: { [key: string]: boolean } = {};
+
   private _tutorial!: Tutorial;
   private _channel: Channel = this.channelManager.channel;
   heap: Heap = this.heapManager.heap;
@@ -137,22 +139,25 @@ export class TutorialComponent implements OnInit {
   }
 
   setProgress(line: number) {
-    const total =  this.tokens.length - 1;
+    const total = this.tokens.length - 1;
     const chapter = this.findHeader(line) || 'end';
-    console.log(chapter);
-    sendGoal('set_progress', {
-      tutorial: this.tutorial.title,
-      chapter: chapter,
-      progress: line,
-      total
-    });
+    if (!this.reached[chapter]) {
+      console.log(chapter);
+      sendGoal('set_progress', {
+        tutorial: this.tutorial.title,
+        chapter: chapter,
+        progress: line,
+        total
+      });
+      this.reached[chapter] = true;
+    }
     this.heapManager.put({progress: line, total});
     this.cd.detectChanges();
   }
 
   private findHeader(line: number) {
     const from = line + 1;
-    const header = this.tokens.slice(from)
+    const header = this.tokens.slice(0, from).reverse()
       .find(t => t.type === 'heading' && t.depth <= 2);
     return !!header ? header.text : null;
   }
