@@ -137,19 +137,23 @@ export class TutorialComponent implements OnInit {
   }
 
   setProgress(line: number) {
+    const total =  this.tokens.length - 1;
     const chapter = this.findHeader(line) || 'end';
+    console.log(chapter);
     sendGoal('set_progress', {
       tutorial: this.tutorial.title,
-      chapter: chapter
+      chapter: chapter,
+      progress: line,
+      total
     });
-    this.heapManager.put({progress: line, total: this.tokens.length - 1});
+    this.heapManager.put({progress: line, total});
     this.cd.detectChanges();
   }
 
   private findHeader(line: number) {
     const from = line + 1;
     const header = this.tokens.slice(from)
-      .find(t => t.type === 'heading' && t.depth === 1);
+      .find(t => t.type === 'heading' && t.depth <= 2);
     return !!header ? header.text : null;
   }
 

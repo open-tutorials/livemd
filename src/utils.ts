@@ -148,7 +148,7 @@ export function getEndpoint(...chunks: (string | number)[]) {
 
 declare var ym: any;
 
-export function sendGoal(name: string, params: { [key: string]: string } = {}) {
+export function sendGoal(name: string, params: { [key: string]: string | number } = {}) {
   ym(92037237, 'reachGoal', name, params);
 }
 
