@@ -4,6 +4,9 @@ import { Field, Model } from 'serialize-ts';
 export class Tutorial {
 
   @Field()
+  slug!: string;
+
+  @Field()
   title!: string;
 
   @Field()

@@ -1,5 +1,7 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { createCustomElement } from '@angular/elements';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs';
 import { CircleComponent } from 'src/app/circle/circle.component';
 import { DiffCodeComponent } from 'src/app/diff-code/diff-code.component';
 import { LinkComponent } from 'src/app/link/link.component';
@@ -10,6 +12,7 @@ import { MermaidComponent } from 'src/app/mermaid/mermaid.component';
 import { ProgressComponent } from 'src/app/progress/progress.component';
 import { QuizComponent } from 'src/app/quiz/quiz.component';
 import { RobotComponent } from 'src/app/robot/robot.component';
+import { sendHit } from 'src/utils';
 
 @Component({
   selector: 'app-root',
@@ -18,10 +21,20 @@ import { RobotComponent } from 'src/app/robot/robot.component';
 })
 export class AppComponent implements OnInit {
 
-  constructor(private injector: Injector) {
+  constructor(private injector: Injector,
+              private router: Router) {
   }
 
   ngOnInit() {
+
+    this.router.events.pipe(filter(t => t instanceof NavigationEnd))
+      .subscribe(e => {
+        try {
+          sendHit((e as NavigationEnd).urlAfterRedirects);
+        } catch (e) {
+          console.error(e);
+        }
+      });
 
     if (!customElements.get('md-link')) {
       const element = createCustomElement(LinkComponent, {injector: this.injector});

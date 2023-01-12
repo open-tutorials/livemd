@@ -14,7 +14,7 @@ import { Member } from 'src/models/member';
 import { Tutorial } from 'src/models/tutorial';
 import { HeapsService } from 'src/services/heaps.service';
 import { Heading } from 'src/types/heading';
-import { getMarkedOptions } from 'src/utils';
+import { getMarkedOptions, sendGoal } from 'src/utils';
 import Slugger = marked.Slugger;
 
 declare var Pusher: any;
@@ -94,6 +94,8 @@ export class TutorialComponent implements OnInit {
     this.route.data.subscribe(({tutorial, channel, heap}) => {
       [this.tutorial, this.channel, this.heap] = [tutorial, channel, heap];
 
+      sendGoal('open_' + tutorial.slug, {title: tutorial.title});
+
       const progress = this.heap.progress;
       if (progress === 0) {
         const next = this.findChapter(0);
@@ -135,8 +137,20 @@ export class TutorialComponent implements OnInit {
   }
 
   setProgress(line: number) {
+    const chapter = this.findHeader(line) || 'end';
+    sendGoal('set_progress', {
+      tutorial: this.tutorial.title,
+      chapter: chapter
+    });
     this.heapManager.put({progress: line, total: this.tokens.length - 1});
     this.cd.detectChanges();
+  }
+
+  private findHeader(line: number) {
+    const from = line + 1;
+    const header = this.tokens.slice(from)
+      .find(t => t.type === 'heading' && t.depth === 1);
+    return !!header ? header.text : null;
   }
 
   votePoll(line: number, option: number) {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { deserialize } from 'serialize-ts';
 import { PREVIEW_TUTORIAL_KEY } from 'src/consts';
 import { Tutorial } from 'src/models/tutorial';
@@ -13,8 +13,12 @@ export class TutorialResolver implements Resolve<Observable<Tutorial>> {
   }
 
   resolve(route: ActivatedRouteSnapshot, router: RouterStateSnapshot): Observable<Tutorial> {
-    const channel = route.params['tutorial'] || 'home';
-    return this.tutorialsService.get(channel);
+    const tutorial = route.params['tutorial'] || 'home';
+    return this.tutorialsService.get(tutorial)
+      .pipe(map(t => {
+        t.slug = tutorial;
+        return t;
+      }));
   }
 }
 

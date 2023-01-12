@@ -145,3 +145,14 @@ export function getMarkedOptions(baseUrl: string, assetsUrl: string) {
 export function getEndpoint(...chunks: (string | number)[]) {
   return [environment.backend, ...chunks].join('/');
 }
+
+declare var ym: any;
+
+export function sendGoal(name: string, params: { [key: string]: string } = {}) {
+  ym(92037237, 'reachGoal', name, params);
+}
+
+export function sendHit(url: string) {
+  ym(92037237, 'hit', url);
+}
+
