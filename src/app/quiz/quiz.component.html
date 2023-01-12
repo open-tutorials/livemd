@@ -5,11 +5,13 @@
     <ng-container *ngFor="let t of tokens">
       <ng-container [ngSwitch]="t.type">
         <ng-container *ngSwitchCase="'list'">
-          <ul formArrayName="answers" [attr.data-orientation]="orientation">
+          <div class="options" formArrayName="answers"
+               [attr.data-orientation]="orientation">
             <ng-container *ngFor="let item of t.items">
-              <li *ngLet="item | getFromMap: indexes as index"
-                  [class.right]="right | include: index"
-                  [class.answer]="(answers || []) | include: index">
+              <div *ngLet="item | getFromMap: indexes as index"
+                   class="option"
+                   [class.right]="right | include: index"
+                   [class.answer]="(answers || []) | include: index">
                 <label>
                   <input type="checkbox"
                          [formControlName]="index"
@@ -17,9 +19,9 @@
                          (change)="right.length == 1 ? check() : null">
                   <span [innerHTML]="item.text | mdInline2Html"></span>
                 </label>
-              </li>
+              </div>
             </ng-container>
-          </ul>
+          </div>
         </ng-container>
         <div *ngSwitchDefault [outerHTML]="t | token2Html"></div>
       </ng-container>

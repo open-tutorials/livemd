@@ -1,11 +1,12 @@
 @import '~highlight.js/styles/docco.css';
-@import '../md/typography';
-@import '../md/images';
-@import '../md/links';
-@import '../md/details';
+@import '../md';
 
 :host {
   display: block;
+  padding: 10px 20px;
+  border-radius: 10px;
+  background: lightgoldenrodyellow;
+  margin: 10px 0;
 }
 
 form {
@@ -16,15 +17,14 @@ form {
     margin: 0;
   }
 
-  ul {
-    list-style-type: none;
-    padding-left: 0;
+  .options {
+    display: flex;
+    padding: 10px 0;
 
     &[data-orientation=horizontal] {
-      display: flex;
       flex-direction: row;
 
-      li:not(:last-child) {
+      .option:not(:last-child) {
         margin-right: 20px;
       }
     }
@@ -34,29 +34,29 @@ form {
         margin-bottom: 20px;
       }
     }
-  }
 
-  li {
-    label {
-      border: 1px solid transparent;
-      padding: 10px;
-      border-radius: 5px;
+    .option {
+      label {
+        border: 1px solid transparent;
+        padding: 10px;
+        border-radius: 5px;
 
-      span:before {
-        display: inline-block;
-        margin-right: 5px;
-        content: url('../../assets/checkbox.svg');
-        vertical-align: middle;
+        span:before {
+          display: inline-block;
+          margin-right: 5px;
+          content: url('../../assets/checkbox.svg');
+          vertical-align: middle;
+        }
       }
-    }
 
-    input {
-      display: none;
-    }
+      input {
+        display: none;
+      }
 
-    &.answer {
-      span:before {
-        content: url('../../assets/checkbox_checked.svg');
+      &.answer {
+        span:before {
+          content: url('../../assets/checkbox_checked.svg');
+        }
       }
     }
   }
@@ -72,16 +72,15 @@ form {
   }
 
   &.accepted {
-
-    li.answer {
+    .option.answer {
       text-decoration: underline;
     }
 
-    li.answer:not(.right) {
+    .option.answer:not(.right) {
       color: #FF4440;
     }
 
-    li.right {
+    .option.right {
       color: #6AC948;
     }
 
