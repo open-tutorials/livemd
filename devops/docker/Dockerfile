@@ -1,4 +1,4 @@
-FROM node:14-slim
+FROM node:19.4-slim
 
 WORKDIR /app
 
@@ -7,12 +7,8 @@ RUN npm install
 
 COPY . .
 
-RUN addgroup --system --gid 10001 app \
-    && adduser --system --uid 10001 \
-        --shell /sbin/false \
-        --disabled-login --ingroup app \
-        --no-create-home --home /app  \
-        app \
+RUN groupadd --system --gid 10001 app \
+    && useradd --system --uid 10001 --no-log-init -g app app \
     && mkdir /var/run/app \
     && chown app:app /var/run/app \
     && npm run build

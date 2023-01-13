@@ -3,7 +3,8 @@ version: '2.4'
 services:
   app:
     build:
-      context: . 
+      context: ../../
+      dockerfile: devops/docker/Dockerfile
     ports:
       - 8000:8080
     volumes:
