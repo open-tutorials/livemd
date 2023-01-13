@@ -453,9 +453,9 @@ app.get('/sitemap.xml', (req, res) => {
   const urls = Object.keys(TUTORIALS.tutorials)
     .map(slug => ({
       url: [
-        {loc: ['/' + slug]},
+        {loc: ['https://www.epic1h.com/' + slug]},
         {changefreq: ['daily']},
-        {priority: ['0.5']}
+        {priority: ['1']}
       ]
     }));
   urls.push({
