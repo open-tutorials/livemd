@@ -30,6 +30,7 @@ jobs:
 
   build:
     runs-on: ubuntu-20.04
+    needs: preflight
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -54,14 +55,13 @@ jobs:
             type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', github.event.repository.default_branch) }}
 
       - name: Build production and push Docker image
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
           context: .
           file: devops/docker/Dockerfile
           # push: ${{ github.ref == 'refs/heads/main' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          target: production
           cache-from: type=registry,ref=${{ env.IMAGE_NAME }}:_buildcache
           cache-to: type=registry,ref=${{ env.IMAGE_NAME }}:_buildcache,mode=max
 
