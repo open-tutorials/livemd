@@ -19,6 +19,7 @@ import { TutorialComponent } from 'src/app/tutorial/tutorial.component';
 import { NgLetDirective } from 'src/directives/let.directive';
 import { GetAvatar } from 'src/pipes/avatar.pipe';
 import { GetDepth } from 'src/pipes/depth.pipe';
+import { SafePipe } from 'src/pipes/html.pipe';
 import { IncludePipe } from 'src/pipes/include';
 import { GetFromMapPipe } from 'src/pipes/map.pipe';
 import { GetMark, GetVoted } from 'src/pipes/mark.pipe';
@@ -41,6 +42,7 @@ import { EditorComponent } from './editor/editor.component';
 import { MermaidComponent } from './mermaid/mermaid.component';
 import { MonacoEditorComponent } from './monaco-editor/monaco-editor.component';
 import { ProgressComponent } from './progress/progress.component';
+import { TemplateComponent } from './template/template.component';
 
 export function routerErrorHandle(error: Error) {
   console.error(error);
@@ -81,7 +83,9 @@ export function routerErrorHandle(error: Error) {
     EditorComponent,
     EditorPreviewComponent,
     QuizComponent,
-    LinkComponent
+    LinkComponent,
+    SafePipe,
+    TemplateComponent
   ],
   imports: [
     HttpClientModule,

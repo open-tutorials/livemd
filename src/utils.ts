@@ -9,7 +9,7 @@ export function getMarkedOptions(baseUrl: string, assetsUrl: string) {
     if (href.startsWith('@')) {
       const link = document.createElement('md-link');
       link.setAttribute('href', trimStart(href, '@'));
-      link.setAttribute('title', text);
+      link.innerHTML = text;
       return link.outerHTML;
     }
 
@@ -54,6 +54,15 @@ export function getMarkedOptions(baseUrl: string, assetsUrl: string) {
         const el = document.createElement('md-circle');
         el.setAttribute('config', code);
         el.setAttribute('id', id);
+        return el.outerHTML;
+      }
+    }
+    {
+      const rule = /html\stemplate/;
+      const match = rule.exec(language);
+      if (!!match) {
+        const el = document.createElement('md-template');
+        el.setAttribute('html', code);
         return el.outerHTML;
       }
     }

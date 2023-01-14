@@ -1,11 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { trim, trimStart } from 'lodash';
-import { marked } from 'marked';
-import Token = marked.Token;
-import Heading = marked.Tokens.Heading;
-import Slugger = marked.Slugger;
 import { template } from 'lodash';
+import { marked } from 'marked';
+import Slugger = marked.Slugger;
+import Token = marked.Token;
 
 @Pipe({name: 'tokens'})
 export class GetTokens implements PipeTransform {
@@ -22,19 +20,6 @@ export class GetSlugPipe implements PipeTransform {
     const slugger = new Slugger();
     return slugger.slug(text);
   }
-}
-
-@Pipe({name: 'token2Html'})
-export class Token2Html implements PipeTransform {
-
-  constructor(private sr: DomSanitizer) {
-  }
-
-  transform(token: Token): SafeHtml {
-    const html = marked.parser([token]);
-    return this.sr.bypassSecurityTrustHtml(html);
-  }
-
 }
 
 @Pipe({name: 'md2Html'})

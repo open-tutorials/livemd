@@ -12,6 +12,7 @@ import { MermaidComponent } from 'src/app/mermaid/mermaid.component';
 import { ProgressComponent } from 'src/app/progress/progress.component';
 import { QuizComponent } from 'src/app/quiz/quiz.component';
 import { RobotComponent } from 'src/app/robot/robot.component';
+import { TemplateComponent } from 'src/app/template/template.component';
 import { sendHit } from 'src/utils';
 
 @Component({
@@ -35,6 +36,11 @@ export class AppComponent implements OnInit {
           console.error(e);
         }
       });
+
+    if (!customElements.get('md-template')) {
+      const element = createCustomElement(TemplateComponent, {injector: this.injector});
+      customElements.define('md-template', element);
+    }
 
     if (!customElements.get('md-link')) {
       const element = createCustomElement(LinkComponent, {injector: this.injector});
