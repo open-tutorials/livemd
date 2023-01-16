@@ -9,26 +9,10 @@ const {merge} = require('lodash');
 const http = require('https');
 const xml = require('xml');
 
-class Member {
-  id;
-  name;
-  avatar;
-
-  constructor(defs = {}) {
-    Object.assign(this, defs);
-  }
-}
-
 class Channel {
   id;
   members = {};
-  owner;
-  marks = {};
-  comments = {};
-  progress = {};
-  opened = {};
   polls = {};
-  secrets = {};
 
   constructor(defs = {}) {
     Object.assign(this, defs);
@@ -74,6 +58,10 @@ function loadChannel(id) {
     delete channel['baseUrl'];
     delete channel['imagesUrl'];
     delete channel['owner'];
+    delete channel['progress'];
+    delete channel['opened'];
+    delete channel['comments'];
+    delete channel['marks'];
   } else {
     channel = new Channel({id});
   }
@@ -245,7 +233,9 @@ app.post('/api/channels/:id/auth', (req, res) => {
     return;
   }
 
-  const {member} = req.body;
+  const {authorization} = req.headers;
+  const [member, secret] = authorization.split(' ');
+
   if (!channel.members[member]) {
     res.status(404).send('Member not found');
   }
@@ -257,50 +247,20 @@ app.post('/api/channels/:id/auth', (req, res) => {
 });
 
 app.post('/api/channels/:id/join', (req, res) => {
-  const id = req.params.id;
+  const {id} = req.params;
   const channel = channels[id] || loadChannel(id);
-  {
-    const {id, name, avatar} = req.body;
-    let member = channel.members[id];
-    if (!member) {
-      member = new Member({id, name, avatar});
-      channel.members[id] = member;
 
-      pusher.trigger(channel.id, 'member_joined', {member});
-    } else {
-      console.log('member updated');
-      Object.assign(member, {name, avatar});
+  const {authorization} = req.headers;
+  const [me, secret] = authorization.split(' ');
 
-      pusher.trigger(channel.id, 'member_updated', {member});
+  const {name, avatar} = req.body;
+  const changes = {
+    members: {
+      [me]: {name, avatar}
     }
-
-    if (!channel.owner) {
-      console.log('set member as owner');
-      channel.owner = member.id;
-    }
-
-    if (!channel.marks[id]) {
-      channel.marks[id] = {};
-    }
-
-    if (!channel.polls[id]) {
-      channel.polls[id] = {};
-    }
-
-    if (!channel.progress[id]) {
-      channel.progress[id] = 0;
-    }
-
-    // reverse support
-    if (!channel.opened) {
-      channel.opened = {};
-    }
-
-    if (!channel.opened[id]) {
-      channel.opened[id] = 0;
-    }
-
   }
+  merge(channel, changes);
+  pusher.trigger(channel.id, 'channel_updated', {member: me, changes});
 
   res.send(channel);
 
@@ -323,126 +283,45 @@ app.post('/api/tutorials/:tutorial/heaps/:member', (req, res) => {
   dirty.heaps[heap.id] = heap;
 });
 
-app.post('/api/channels/:id/members/:member/marks/:line', (req, res) => {
-  const [id, member, line] = [req.params.id, req.params.member, req.params.line];
+app.post('/api/channels/:id/polls/:poll/vote', (req, res) => {
+  const {id, poll} = req.params;
+
   const channel = channels[id];
   if (!channel) {
     res.status(404).send('Channel not found');
     return;
   }
 
-  if (!channel.members[member]) {
+  if (!channel.polls[poll]) {
+    channel.polls[poll] = {answers: {}, voted: {}};
+  }
+
+  const {authorization} = req.headers;
+  const [me, secret] = authorization.split(' ');
+
+  if (!channel.members[me]) {
     res.status(404).send('Member not found');
   }
 
-  const {mark} = req.body;
-  if (!!mark) {
-    channel.marks[member][line] = mark;
-  } else {
-    delete channel.marks[member][line];
-  }
+  const {answer} = req.body;
+  const count = channel.polls[poll].answers?.[answer] || 0;
+  const changes = {
+    polls: {
+      [poll]: {
+        voted: {
+          [me]: answer
+        },
+        answers: {
+          [answer]: count + 1
+        }
+      }
+    }
+  };
 
-  console.log('put mark', channel.id, member, line, mark);
-  pusher.trigger(channel.id, 'put_mark', {member, line, mark});
+  merge(channel, changes);
 
-  res.status(200).send();
-
-  dirty.channels[channel.id] = channel;
-});
-
-app.post('/api/channels/:id/members/:member/polls/:line', (req, res) => {
-  const [id, member, line] = [req.params.id, req.params.member, req.params.line];
-  const channel = channels[id];
-  if (!channel) {
-    res.status(404).send('Channel not found');
-    return;
-  }
-
-  if (!channel.members[member]) {
-    res.status(404).send('Member not found');
-  }
-
-  if (!channel.polls[member]) {
-    channel.polls[member] = {};
-  }
-
-  const {option} = req.body;
-  channel.polls[member][line] = option;
-
-  console.log('vote poll', channel.id, member, line, option);
-  pusher.trigger(channel.id, 'vote_poll', {member, line, option});
-
-  res.status(200).send();
-
-  dirty.channels[channel.id] = channel;
-});
-
-app.post('/api/channels/:id/members/:member/comments/:line', (req, res) => {
-  const [id, member, line] = [req.params.id, req.params.member, req.params.line];
-  const channel = channels[id];
-  if (!channel) {
-    res.status(404).send('Channel not found');
-    return;
-  }
-
-  if (!channel.members[member]) {
-    res.status(404).send('Member not found');
-  }
-
-  if (!channel.comments[line]) {
-    channel.comments[line] = {};
-  }
-
-  const {comment} = req.body;
-  if (!!comment) {
-    channel.comments[line][member] = comment;
-  } else {
-    delete channel.comments[line][member];
-  }
-
-  console.log('put comment', channel.id, member, line, comment);
-  pusher.trigger(channel.id, 'put_comment', {member, line, comment});
-
-  res.status(200).send();
-
-  dirty.channels[channel.id] = channel;
-});
-
-app.post('/api/channels/:id/members/:member/open', (req, res) => {
-  const [id, member] = [req.params.id, req.params.member];
-  const channel = channels[id];
-  if (!channel) {
-    res.status(404).send('Channel not found');
-    return;
-  }
-
-  if (!channel.members[member]) {
-    res.status(404).send('Member not found');
-  }
-
-  const {line} = req.body;
-  channel.opened[member] = line;
-
-  console.log('open', channel.id, member, line);
-  res.status(200).send();
-
-  dirty.channels[channel.id] = channel;
-});
-
-app.post('/api/channels/:id/members/:member/progress', (req, res) => {
-  const [id, member] = [req.params.id, req.params.member];
-  const channel = channels[id];
-  if (!channel) {
-    res.status(404).send('Channel not found');
-    return;
-  }
-
-  if (!channel.members[member]) {
-    res.status(404).send('Member not found');
-  }
-
-  const {line} = req.body;
-  channel.progress[member] = line;
+  console.log('vote poll', id, me, poll, answer);
+  pusher.trigger(id, 'channel_updated', {member: me, changes});
 
   res.status(200).send();
 
@@ -539,7 +418,7 @@ app.get('/editor', (req, res) => {
 app.get('/:slug', (req, res) => {
   const {slug} = req.params;
   const tutorial = TUTORIALS.tutorials[slug];
-  if(!tutorial) {
+  if (!tutorial) {
     res.redirect(404, `/?404=${slug}`);
     return;
   }

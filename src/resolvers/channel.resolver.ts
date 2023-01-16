@@ -17,9 +17,12 @@ export class ChannelResolver implements Resolve<Observable<Channel>> {
 }
 
 @Injectable({providedIn: 'root'})
-export class FakeChannelResolver implements Resolve<Channel> {
+export class FakeChannelResolver implements Resolve<Observable<Channel>> {
 
-  resolve(route: ActivatedRouteSnapshot, router: RouterStateSnapshot): Channel {
-    return new Channel({id: 'preview'});
+  constructor(private channelManager: ChannelManager) {
+  }
+
+  resolve(route: ActivatedRouteSnapshot, router: RouterStateSnapshot): Observable<Channel> {
+    return this.channelManager.fake();
   }
 }

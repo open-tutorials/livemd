@@ -3,13 +3,13 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import hljs from 'highlight.js';
 import bash from 'highlight.js/lib/languages/bash';
 import css from 'highlight.js/lib/languages/css';
-import javascript from 'highlight.js/lib/languages/javascript';
-import json from 'highlight.js/lib/languages/json';
 import diff from 'highlight.js/lib/languages/diff';
 import python from 'highlight.js/lib/languages/diff';
+import javascript from 'highlight.js/lib/languages/javascript';
+import json from 'highlight.js/lib/languages/json';
 import { marked } from 'marked';
 import mermaid from 'mermaid';
-import { block, details, hr, person, poll, summary, badge, section } from 'src/marked';
+import { badge, block, details, hr, person, section, summary } from 'src/marked';
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 
@@ -34,7 +34,7 @@ mermaid.initialize({
   },
   securityLevel: 'loose',
   theme: 'null',
-  fontFamily: "'Roboto Condensed', 'Noto Color Emoji', sans-serif"
+  fontFamily: '\'Roboto Condensed\', \'Noto Color Emoji\', sans-serif'
 });
 
 marked.setOptions({
@@ -43,7 +43,7 @@ marked.setOptions({
   }
 });
 marked.use({
-  extensions: [badge, summary, details, person, poll, hr, block, section]
+  extensions: [badge, summary, details, person, hr, block, section]
 });
 
 if (environment.production) {

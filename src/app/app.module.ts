@@ -22,7 +22,6 @@ import { GetDepth } from 'src/pipes/depth.pipe';
 import { SafePipe } from 'src/pipes/html.pipe';
 import { IncludePipe } from 'src/pipes/include';
 import { GetFromMapPipe } from 'src/pipes/map.pipe';
-import { GetMark, GetVoted } from 'src/pipes/mark.pipe';
 import {
   GetSlugPipe,
   GetTokens,
@@ -44,6 +43,7 @@ import { MonacoEditorComponent } from './monaco-editor/monaco-editor.component';
 import { ProgressComponent } from './progress/progress.component';
 import { TemplateComponent } from './template/template.component';
 import { HiddenComponent } from './hidden/hidden.component';
+import { PollComponent } from './poll/poll.component';
 
 export function routerErrorHandle(error: Error) {
   console.error(error);
@@ -60,8 +60,6 @@ export function routerErrorHandle(error: Error) {
     Token2Html,
     GetDepth,
     GetAvatar,
-    GetMark,
-    GetVoted,
     Md2Html,
     MdInline2HtmlPipe,
     GetSlugPipe,
@@ -87,7 +85,8 @@ export function routerErrorHandle(error: Error) {
     LinkComponent,
     SafePipe,
     TemplateComponent,
-    HiddenComponent
+    HiddenComponent,
+    PollComponent
   ],
   imports: [
     HttpClientModule,
@@ -119,7 +118,7 @@ export function routerErrorHandle(error: Error) {
                 path: '',
                 pathMatch: 'full',
                 resolve: {
-                  channel: FakeChannelResolver,
+                  channel: ChannelResolver,
                   heap: FakeHeapResolver,
                   tutorial: PreviewTutorialResolver
                 },

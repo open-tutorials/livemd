@@ -1,34 +1,36 @@
-<form [formGroup]="form"
-      [class.accepted]="!!answers"
-      (ngSubmit)="check()">
-  <fieldset [attr.disabled]="!!answers ? true : null">
-    <ng-container *ngFor="let t of tokens">
-      <ng-container [ngSwitch]="t.type">
-        <ng-container *ngSwitchCase="'list'">
-          <div class="options" formArrayName="answers"
-               [attr.data-orientation]="orientation">
-            <ng-container *ngFor="let item of t.items">
-              <div *ngLet="item | getFromMap: indexes as index"
-                   class="option"
-                   [class.right]="right | include: index"
-                   [class.answer]="(answers || []) | include: index">
-                <label>
-                  <input type="checkbox"
-                         [formControlName]="index"
-                         [value]="index"
-                         (change)="right.length == 1 ? check() : null">
-                  <span [innerHTML]="item.text | mdInline2Html"></span>
-                </label>
-              </div>
-            </ng-container>
-          </div>
+<ng-container *ngLet="heap.quizzes[id] as answers">
+  <form [formGroup]="form"
+        [class.accepted]="!!answers"
+        (ngSubmit)="check()">
+    <fieldset [attr.disabled]="!!answers ? true : null">
+      <ng-container *ngFor="let t of tokens">
+        <ng-container [ngSwitch]="t.type">
+          <ng-container *ngSwitchCase="'list'">
+            <div class="options" formArrayName="answers"
+                 [attr.data-orientation]="orientation">
+              <ng-container *ngFor="let item of t.items">
+                <div *ngLet="item | getFromMap: indexes as index"
+                     class="option"
+                     [class.right]="right | include: index"
+                     [class.answer]="(answers || []) | include: index">
+                  <label>
+                    <input type="checkbox"
+                           [formControlName]="index"
+                           [value]="index"
+                           (change)="right.length == 1 ? check() : null">
+                    <span [innerHTML]="item.text | mdInline2Html"></span>
+                  </label>
+                </div>
+              </ng-container>
+            </div>
+          </ng-container>
+          <div *ngSwitchDefault [outerHTML]="t | token2Html"></div>
         </ng-container>
-        <div *ngSwitchDefault [outerHTML]="t | token2Html"></div>
       </ng-container>
-    </ng-container>
-  </fieldset>
+    </fieldset>
 
-  <button *ngIf="right.length > 1 && !answers" type="submit">Check</button>
-</form>
+    <button *ngIf="right.length > 1 && !answers" type="submit">Check</button>
+  </form>
 
-<div *ngIf="!!answers && !!message" [innerHTML]="message | md2Html"></div>
+  <div *ngIf="!!answers && !!message" [innerHTML]="message | md2Html"></div>
+</ng-container>

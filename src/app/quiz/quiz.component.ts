@@ -12,10 +12,8 @@ import { HeapManager } from 'src/managers/heap.manager';
 export class QuizComponent {
 
   heap = this.heapManager.heap;
-  private _id!: string;
 
   tokens: any[] = [];
-  answers: number[] = [];
   right: number[] = [];
   message!: string;
 
@@ -27,14 +25,7 @@ export class QuizComponent {
   });
 
   @Input()
-  set id(id: string) {
-    this._id = id;
-    this.answers = this.heap.quizzes?.[id];
-  }
-
-  get id() {
-    return this._id;
-  }
+  id!: string;
 
   @Input()
   set config(config: string) {
@@ -43,7 +34,6 @@ export class QuizComponent {
 
     this.tokens = marked.lexer(question);
     let i = 0;
-    console.log(this.tokens);
     for (const t of this.tokens) {
       if (t.type === 'list') {
         for (const item of t.items) {
@@ -57,8 +47,9 @@ export class QuizComponent {
       }
     }
 
-    if (!!this.answers) {
-      for (const a of this.answers) {
+    const answers = this.heap.quizzes?.[this.id];
+    if (!!answers) {
+      for (const a of answers) {
         this.answersControl.at(a).setValue(true);
       }
     }
@@ -73,12 +64,12 @@ export class QuizComponent {
   }
 
   check() {
-    this.answers = this.answersControl.getRawValue()
+    const answers = this.answersControl.getRawValue()
       .map((answer, index) => !!answer ? index : null)
       .filter(index => index !== null) as number[];
-    this.cd.detectChanges();
+    this.heapManager.put({quizzes: {[this.id]: answers}});
 
-    this.heapManager.put({quizzes: {[this.id]: this.answers}});
+    this.cd.detectChanges();
   }
 
 }

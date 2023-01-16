@@ -44,22 +44,6 @@
             <hr>
           </ng-container>
 
-          <ng-container *ngSwitchCase="'poll'">
-            <p>{{t.question}}?</p>
-            <ul class="poll">
-              <li *ngFor="let o of t.options;let j = index"
-                  [class.selected]="channel.polls[me.id] && channel.polls[me.id][line] === j">
-                <span (click)="votePoll(line,  j)">{{o}}</span>
-                <ng-container *ngIf="channel.polls[me.id]">
-                  <ng-container *ngIf="(channel | voted:me:line:j) as voted">
-                    <div class="votes" *ngIf="voted.length > 0">
-                      <span *ngFor="let m of voted" title="m.name">{{m.avatar | avatar}}</span>
-                    </div>
-                  </ng-container>
-                </ng-container>
-              </li>
-            </ul>
-          </ng-container>
           <div *ngSwitchDefault [outerHTML]="t | token2Html"></div>
         </ng-container>
       </div>

@@ -56,33 +56,6 @@ export const summary: any = {
   }
 };
 
-export const poll: any = {
-  name: 'poll',
-  level: 'block',
-  start(src: string) {
-    return src.match(/^\?.+\?\n/)?.index;
-  },
-  tokenizer(src: string, tokens: any[]): any {
-    const rule = /^\?(.+)\?((?:\n(?:\*\s.+)?)+)/;
-    const match = rule.exec(src);
-    if (match) {
-      let [raw, question, options] = match;
-      question = question.trim();
-      const token = {
-        type: 'poll',
-        raw,
-        question: question.trim(),
-        options: options.split(/\*/).map(o => o.trim())
-          .filter(o => !!o)
-      };
-      return token;
-    }
-  },
-  renderer(token: any) {
-    throw new Error('Was not implemented');
-  }
-};
-
 export const person: any = {
   name: 'person',
   level: 'inline',

@@ -10,6 +10,7 @@ import { MessageComponent } from 'src/app/message/message.component';
 import { AppPlaceholderComponent } from 'src/app/placeholder/app-placeholder.component';
 import { MakeCodeComponent } from 'src/app/make-code/make-code.component';
 import { MermaidComponent } from 'src/app/mermaid/mermaid.component';
+import { PollComponent } from 'src/app/poll/poll.component';
 import { ProgressComponent } from 'src/app/progress/progress.component';
 import { QuizComponent } from 'src/app/quiz/quiz.component';
 import { RobotComponent } from 'src/app/robot/robot.component';
@@ -86,6 +87,11 @@ export class AppComponent implements OnInit {
     if (!customElements.get('md-robot')) {
       const element = createCustomElement(RobotComponent, {injector: this.injector});
       customElements.define('md-robot', element);
+    }
+
+    if (!customElements.get('md-poll')) {
+      const element = createCustomElement(PollComponent, {injector: this.injector});
+      customElements.define('md-poll', element);
     }
 
     if (!customElements.get('md-quiz')) {

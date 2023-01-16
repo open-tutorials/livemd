@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { merge } from 'lodash';
 import { bufferTime, filter, Subject, Subscription, switchMap, tap } from 'rxjs';
-import { PREVIEW_TUTORIAL_SLUG } from 'src/consts';
 import { Heap } from 'src/models/heap';
 import { FakeHeapsService, HeapsService } from 'src/services/heaps.service';
 

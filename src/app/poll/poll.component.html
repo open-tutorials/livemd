@@ -1,0 +1,34 @@
+<ng-container *ngLet="channel.polls[id] as poll">
+  <form [formGroup]="form"
+        [class.accepted]="poll?.voted?.[me.id] !== null"
+        (ngSubmit)="vote()">
+    <fieldset [attr.disabled]="poll?.voted?.[me.id] !== null ? true : null">
+      <ng-container *ngFor="let t of tokens">
+        <ng-container [ngSwitch]="t.type">
+          <ng-container *ngSwitchCase="'list'">
+            <div class="options" [attr.data-orientation]="orientation">
+              <ng-container *ngFor="let item of t.items">
+                <div *ngLet="item | getFromMap: indexes as index"
+                     class="option"
+                     [class.answer]="answerControl.value === index">
+                  <label>
+                    <input type="radio"
+                           formControlName="answer"
+                           [value]="index"
+                           (change)="vote()">
+                    <span class="text" [innerHTML]="item.text | mdInline2Html"></span>
+                    <span class="votes" *ngIf="poll?.answers?.[index] as votes">{{votes}}</span>
+                  </label>
+                </div>
+              </ng-container>
+            </div>
+          </ng-container>
+          <div *ngSwitchDefault [outerHTML]="t | token2Html"></div>
+        </ng-container>
+      </ng-container>
+    </fieldset>
+  </form>
+
+  <div *ngIf="!!poll?.voted?.[me.id] && !!message" [innerHTML]="message | md2Html"></div>
+</ng-container>
+

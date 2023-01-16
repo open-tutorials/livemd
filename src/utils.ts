@@ -102,7 +102,20 @@ export function getMarkedOptions(baseUrl: string, assetsUrl: string) {
         return el.outerHTML;
       }
     }
-
+    {
+      const rule = /markdown\spoll\s([\w\_\-]+)(?:\s([\w\_\-]+))*$/;
+      const match = rule.exec(language);
+      if (!!match) {
+        const [, id, orientation] = match;
+        const el = document.createElement('md-poll');
+        el.setAttribute('config', code);
+        el.setAttribute('id', id);
+        if (!!orientation) {
+          el.setAttribute('orientation', orientation);
+        }
+        return el.outerHTML;
+      }
+    }
     {
       const rule = /mermaid(?:\s(.+))*$/;
       const match = rule.exec(language);

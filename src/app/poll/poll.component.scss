@@ -22,6 +22,15 @@ form {
     flex-direction: column;
     padding: 10px 0;
 
+    .votes {
+      margin-left: 10px;
+      border-radius: 5px;
+      background-color: green;
+      padding: 2px 5px;
+      font-size: .75em;
+      color: white;
+    }
+
     &[data-orientation=horizontal] {
       flex-direction: row;
 
@@ -42,10 +51,10 @@ form {
         padding: 10px;
         border-radius: 5px;
 
-        span:before {
+        .text:before {
           display: inline-block;
           margin-right: 5px;
-          content: url('../../assets/checkbox.svg');
+          content: url('../../assets/radio.svg');
           vertical-align: middle;
         }
       }
@@ -55,8 +64,8 @@ form {
       }
 
       &.answer {
-        span:before {
-          content: url('../../assets/checkbox_checked.svg');
+        .text:before {
+          content: url('../../assets/radio_checked.svg');
         }
       }
     }
@@ -73,21 +82,9 @@ form {
   }
 
   &.accepted {
-    .option.answer {
-      text-decoration: underline;
-    }
-
-    .option.answer:not(.right) {
-      color: #FF4440;
-    }
-
-    .option.right {
-      color: #6AC948;
-    }
-
     button[type=submit] {
       display: none;
     }
-
   }
+
 }

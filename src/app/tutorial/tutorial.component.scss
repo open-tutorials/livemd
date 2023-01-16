@@ -204,46 +204,6 @@ h1 {
       }
     }
 
-    .poll {
-      list-style: none;
-
-      li {
-        cursor: pointer;
-
-        &:before {
-          margin-right: 5px;
-          vertical-align: middle;
-          content: url('../../assets/radio.svg');
-        }
-
-        &.selected:before {
-          content: url('../../assets/radio_checked.svg');
-        }
-
-        .votes {
-          display: inline;
-          border: 1px solid silver;
-          border-radius: 5px;
-          margin-left: 5px;
-          padding: 4px;
-
-          span:not(:first-child) {
-            margin-left: 4px;
-          }
-        }
-
-        > span {
-          border: 1px solid transparent;
-          padding: 4px 4px;
-          border-radius: 5px;
-
-          &:hover {
-            border-color: silver;
-          }
-        }
-      }
-    }
-
     .unlock {
       width: 100%;
       cursor: pointer;
@@ -253,38 +213,6 @@ h1 {
 
       &:hover {
         background: greenyellow;
-      }
-    }
-
-    .members {
-      &:empty {
-        display: none;
-      }
-
-      margin: 5px 0;
-
-      > div {
-        display: inline-block;
-        position: relative;
-        font-size: 30px;
-        width: 35px;
-        user-select: none;
-
-        &:not(:first-child) {
-          margin-left: 5px;
-        }
-
-        span {
-          position: absolute;
-          bottom: -5px;
-          right: -5px;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          box-sizing: border-box;
-          font-size: 18px;
-        }
       }
     }
 
@@ -304,53 +232,6 @@ h1 {
 
         &:not(:last-child) {
           margin-right: 5px;
-        }
-      }
-    }
-
-    .comments {
-      &:empty {
-        display: none;
-      }
-
-      margin-top: 5px;
-      background: aliceblue;
-      padding: 10px;
-      border-radius: 5px;
-      font-size: .85em;
-
-      button {
-        cursor: pointer;
-        display: block;
-        background: white;
-        border-radius: 5px;
-        border: 1px solid silver;
-        padding: 2px 5px;
-
-        &:hover {
-          background: seashell;
-        }
-      }
-
-      > div:not(:first-child) {
-        margin-top: 10px;
-      }
-
-      &:empty {
-        display: none;
-      }
-
-      ::ng-deep {
-        ul {
-          margin: 0;
-
-          li {
-            margin: 0;
-          }
-        }
-
-        pre {
-          margin: 5px 0;
         }
       }
     }
