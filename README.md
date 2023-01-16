@@ -1,6 +1,7 @@
 Realtime collaboration for markdown.
 
 # Development
+
 ```bash
 npm i
 npm start
@@ -11,12 +12,14 @@ open http://localhost:4200/example
 To add tutorials, please use file `consts.ts`
 
 # Production
+
 ```bash
 npm run build
 PUSHER_APP_ID= PUSHER_KEY= PUSHER_SECRET= node server.js
 ```
 
 # To Do
+
 - [ ] pusher data deserialization
 - [ ] cleanup styles
 - [ ] decrease bundle size
