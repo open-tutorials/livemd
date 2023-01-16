@@ -56,13 +56,14 @@ form {
 
       &.answer {
         span:before {
+          opacity: .5;
           content: url('../../assets/checkbox_checked.svg');
         }
       }
     }
   }
 
-  &:not(.accepted) {
+  &:not(.passed) {
     label {
       cursor: pointer;
 
@@ -72,7 +73,7 @@ form {
     }
   }
 
-  &.accepted {
+  &.passed {
     .option.answer {
       text-decoration: underline;
     }

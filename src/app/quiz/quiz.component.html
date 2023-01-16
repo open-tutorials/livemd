@@ -1,8 +1,9 @@
-<ng-container *ngLet="heap.quizzes[id] as answers">
-  <form [formGroup]="form"
-        [class.accepted]="!!answers"
+<ng-container *ngLet="heap.quizzes?.[id] as answers">
+  <form *ngLet="(answers | type) === 'array' as passed"
+        [formGroup]="form"
+        [class.passed]="passed"
         (ngSubmit)="check()">
-    <fieldset [attr.disabled]="!!answers ? true : null">
+    <fieldset [attr.disabled]="passed || null">
       <ng-container *ngFor="let t of tokens">
         <ng-container [ngSwitch]="t.type">
           <ng-container *ngSwitchCase="'list'">

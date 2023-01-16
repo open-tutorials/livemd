@@ -32,6 +32,7 @@ import {
 import { MaximumPipe } from 'src/pipes/minimum.pipe';
 import { TextWidthPipe } from 'src/pipes/text-width.pipe';
 import { Token2Html } from 'src/pipes/token2html.pipe';
+import { TypePipe } from 'src/pipes/type.pipe';
 import { ChannelResolver, FakeChannelResolver } from 'src/resolvers/channel.resolver';
 import { FakeHeapResolver, HeapResolver } from 'src/resolvers/heap.resolver';
 import { PreviewTutorialResolver, TutorialResolver } from 'src/resolvers/tutorial.resolver';
@@ -84,6 +85,7 @@ export function routerErrorHandle(error: Error) {
     QuizComponent,
     LinkComponent,
     SafePipe,
+    TypePipe,
     TemplateComponent,
     HiddenComponent,
     PollComponent

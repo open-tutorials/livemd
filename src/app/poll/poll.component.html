@@ -1,8 +1,9 @@
 <ng-container *ngLet="channel.polls[id] as poll">
-  <form [formGroup]="form"
-        [class.accepted]="poll?.voted?.[me.id] !== null"
+  <form *ngLet="(poll?.voted?.[me.id] | type) === 'number' as voted"
+        [formGroup]="form"
+        [class.voted]="voted"
         (ngSubmit)="vote()">
-    <fieldset [attr.disabled]="poll?.voted?.[me.id] !== null ? true : null">
+    <fieldset [attr.disabled]="voted || null">
       <ng-container *ngFor="let t of tokens">
         <ng-container [ngSwitch]="t.type">
           <ng-container *ngSwitchCase="'list'">
@@ -17,7 +18,7 @@
                            [value]="index"
                            (change)="vote()">
                     <span class="text" [innerHTML]="item.text | mdInline2Html"></span>
-                    <span class="votes" *ngIf="poll?.answers?.[index] as votes">{{votes}}</span>
+                    <span class="votes" *ngIf="voted && poll?.answers?.[index]">{{poll?.answers?.[index]}}</span>
                   </label>
                 </div>
               </ng-container>

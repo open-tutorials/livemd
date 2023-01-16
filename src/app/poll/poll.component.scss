@@ -65,13 +65,14 @@ form {
 
       &.answer {
         .text:before {
+          opacity: .5;
           content: url('../../assets/radio_checked.svg');
         }
       }
     }
   }
 
-  &:not(.accepted) {
+  &:not(.voted) {
     label {
       cursor: pointer;
 
@@ -81,7 +82,7 @@ form {
     }
   }
 
-  &.accepted {
+  &.voted {
     button[type=submit] {
       display: none;
     }
