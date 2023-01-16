@@ -43,6 +43,7 @@ import { MermaidComponent } from './mermaid/mermaid.component';
 import { MonacoEditorComponent } from './monaco-editor/monaco-editor.component';
 import { ProgressComponent } from './progress/progress.component';
 import { TemplateComponent } from './template/template.component';
+import { HiddenComponent } from './hidden/hidden.component';
 
 export function routerErrorHandle(error: Error) {
   console.error(error);
@@ -85,7 +86,8 @@ export function routerErrorHandle(error: Error) {
     QuizComponent,
     LinkComponent,
     SafePipe,
-    TemplateComponent
+    TemplateComponent,
+    HiddenComponent
   ],
   imports: [
     HttpClientModule,

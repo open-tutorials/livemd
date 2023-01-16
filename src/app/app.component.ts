@@ -4,6 +4,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 import { CircleComponent } from 'src/app/circle/circle.component';
 import { DiffCodeComponent } from 'src/app/diff-code/diff-code.component';
+import { HiddenComponent } from 'src/app/hidden/hidden.component';
 import { LinkComponent } from 'src/app/link/link.component';
 import { MessageComponent } from 'src/app/message/message.component';
 import { AppPlaceholderComponent } from 'src/app/placeholder/app-placeholder.component';
@@ -36,6 +37,11 @@ export class AppComponent implements OnInit {
           console.error(e);
         }
       });
+
+    if (!customElements.get('md-hidden')) {
+      const element = createCustomElement(HiddenComponent, {injector: this.injector});
+      customElements.define('md-hidden', element);
+    }
 
     if (!customElements.get('md-template')) {
       const element = createCustomElement(TemplateComponent, {injector: this.injector});
