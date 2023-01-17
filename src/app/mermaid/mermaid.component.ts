@@ -22,7 +22,10 @@ export class MermaidComponent implements AfterViewInit {
   code!: string;
 
   @Input()
-  url!: string;
+  path!: string;
+
+  @Input()
+  assetsUrl!: string;
 
   @ViewChild('mermaid')
   container!: ElementRef;
@@ -31,8 +34,9 @@ export class MermaidComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    if (!!this.url) {
-      this.http.get(this.url + '?rand=' + Math.random(), {responseType: 'text'})
+    if (!!this.path) {
+      const url = this.assetsUrl + this.path + '?rand=' + Math.random();
+      this.http.get(url, {responseType: 'text'})
         .subscribe(code => this.render(code));
     } else {
       this.render(this.code);

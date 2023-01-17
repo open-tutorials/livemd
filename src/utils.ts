@@ -120,11 +120,12 @@ export function getMarkedOptions(baseUrl: string, assetsUrl: string) {
       const rule = /mermaid(?:\s(.+))*$/;
       const match = rule.exec(language);
       if (!!match) {
-        const [, url] = match;
+        const [, path] = match;
         const el = document.createElement('md-mermaid');
         el.setAttribute('code', code);
-        if (!!url) {
-          el.setAttribute('url', url);
+        el.setAttribute('assets-url', assetsUrl);
+        if (!!path) {
+          el.setAttribute('path', path);
         }
         return el.outerHTML;
       }

@@ -120,6 +120,7 @@ export class TutorialComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.channelManager.leave();
+    this.heapManager.stop();
     this.subscriptions.channel?.unsubscribe();
   }
 

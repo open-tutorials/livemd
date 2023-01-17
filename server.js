@@ -180,8 +180,35 @@ function loadIndex() {
   });
 }
 
-function loadTutorial(url) {
-  console.log('load tutorial', url);
+function loadTutorial(tutorial) {
+  console.log('load tutorial', tutorial.source);
+  return new Promise((done) => {
+    loadURL(tutorial.source).then(markdown => {
+      const queue = [];
+
+      const matches = markdown.matchAll(/\<import\sfrom\=\"([a-zA-Z0-9\/\_\-\.]+)\">/g);
+      for (const match of matches) {
+        const [replace, path] = match;
+        const url = tutorial.assetsUrl + path;
+        console.log('load partial', url);
+        queue.push(new Promise((done) => {
+          loadURL(url).then(data => done({replace, data}));
+        }));
+      }
+
+      Promise.all(queue).then((partials) => {
+        for (const {replace, data} of partials) {
+          console.log('replace partial', replace);
+          markdown = markdown.replace(replace, data);
+        }
+        done(markdown);
+      });
+    });
+  });
+}
+
+function loadURL(url) {
+  console.log('load URL', url);
   return new Promise((done) => {
     http.request(url, resp => {
       resp.setEncoding('utf8');
@@ -200,7 +227,7 @@ loadIndex().then(() => {
   const slugs = Object.keys(TUTORIALS.tutorials);
   slugs.forEach(slug => {
     const tutorial = TUTORIALS.tutorials[slug];
-    loadTutorial(tutorial.source)
+    loadTutorial(tutorial)
       .then(markdown => tutorial.markdown = markdown);
   });
 });
