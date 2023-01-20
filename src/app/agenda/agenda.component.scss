@@ -7,6 +7,8 @@
   right: 60px;
   border-radius: 10px;
   opacity: .5;
+  padding: 20px;
+  border: 2px solid silver;
   transition: opacity 500ms;
 
   &[data-empty=true] {
@@ -19,7 +21,7 @@
   }
 
   &[data-sticky=true]:not(:hover) {
-    border-radius: 50%;
+    // border-radius: 50%;
   }
 
   &:hover {
@@ -35,17 +37,15 @@
   }
 
   &[data-init=true], &:hover {
-    padding: 20px;
-    border: 2px solid silver;
     opacity: 1;
   }
 
   &[data-init=false] [data-agenda] {
-    display: none;
+
   }
 
   &[data-init=true] [data-open] {
-    display: none;
+
   }
 }
 
