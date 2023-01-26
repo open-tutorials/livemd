@@ -1,3 +1,17 @@
+details:not([open]) > p {
+  display: none;
+}
+
+p {
+  margin: 5px 0;
+  line-height: 1.75;
+
+  img {
+    margin: 0;
+    vertical-align: middle;
+  }
+}
+
 pre, code {
   font-family: 'Source Code Pro', monospace;
 }
@@ -17,7 +31,9 @@ pre {
 
   & > code.language-js,
   & > code.language-html,
-  & > code.language-python {
+  & > code.language-python,
+  & > code.language-diff,
+  & > code.language-text {
     display: block;
     padding-top: 10px;
 
@@ -41,6 +57,14 @@ pre {
 
   & > code.language-python::before {
     content: "Python";
+  }
+
+  & > code.language-diff::before {
+    content: "Patch";
+  }
+
+  & > code.language-text::before {
+    content: "Plain text";
   }
 
   & > code.language-bash {

@@ -53,6 +53,7 @@ ul, ol {
 }
 
 table {
+  margin: 10px 0;
   border: 1px solid silver;
   border-collapse: collapse;
 
@@ -94,23 +95,10 @@ hr {
   margin: 20px 0;
 }
 
-details:not([open]) > p {
-  display: none;
-}
-
-p {
-  margin: 5px 0;
-  line-height: 1.75;
-
-  img {
-    margin: 0;
-    vertical-align: middle;
-  }
-}
-
 iframe {
   border-radius: 10px;
   border: 1px solid silver;
+  margin: 10px 0;
 
   &.giphy-embed {
     pointer-events: none;

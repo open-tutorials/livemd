@@ -1,14 +1,11 @@
 import {
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  Injector,
   OnDestroy,
-  OnInit,
-  Renderer2
+  OnInit
 } from '@angular/core';
-import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { trimStart } from 'lodash';
 import { marked } from 'marked';
 import { Subscription } from 'rxjs';
 import { ChannelManager } from 'src/managers/channel.manager';
@@ -23,7 +20,8 @@ import Slugger = marked.Slugger;
 @Component({
   selector: 'app-tutorial',
   templateUrl: './tutorial.component.html',
-  styleUrls: ['./tutorial.component.scss']
+  styleUrls: ['./tutorial.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TutorialComponent implements OnInit, OnDestroy {
 
@@ -44,19 +42,7 @@ export class TutorialComponent implements OnInit, OnDestroy {
     marked.setOptions(getMarkedOptions(tutorial.baseUrl, tutorial.assetsUrl));
     this.tokens = marked.lexer(tutorial.markdown as string);
 
-    const headings: Heading[] = [];
-    for (let i = 0; i < this.tokens.length; i++) {
-      const t = this.tokens[i];
-      if (t.type === 'heading' && t.text.startsWith('+')) {
-        const heading = t as Heading;
-        heading.text = trimStart(heading.text, '+');
-        heading.line = i;
-        headings.push(heading);
-      }
-    }
-    this.headings = headings;
-
-    this.title.setTitle(tutorial.title);
+    this.cd.detectChanges();
   }
 
   get tutorial() {
@@ -69,10 +55,7 @@ export class TutorialComponent implements OnInit, OnDestroy {
               private heapService: HeapsService,
               private meManager: MeManager,
               private router: Router,
-              private route: ActivatedRoute,
-              private renderer: Renderer2,
-              private injector: Injector,
-              private title: Title) {
+              private route: ActivatedRoute) {
 
   }
 
