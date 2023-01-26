@@ -223,17 +223,21 @@ function loadURL(url) {
   });
 }
 
-loadIndex().then(() => {
-  const slugs = Object.keys(TUTORIALS.tutorials);
-  slugs.forEach(slug => {
-    const tutorial = TUTORIALS.tutorials[slug];
-    loadTutorial(tutorial)
-      .then(markdown => tutorial.markdown = markdown);
+function fullReload() {
+  loadIndex().then(() => {
+    const slugs = Object.keys(TUTORIALS.tutorials);
+    slugs.forEach(slug => {
+      const tutorial = TUTORIALS.tutorials[slug];
+      loadTutorial(tutorial)
+        .then(markdown => tutorial.markdown = markdown);
+    });
   });
-});
+}
+
+fullReload();
 
 app.get('/api/utils/flush', (req, res) => {
-  loadIndex();
+  fullReload();
   res.status(200).send('ok');
 });
 
