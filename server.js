@@ -210,7 +210,7 @@ function loadTutorial(tutorial) {
 function loadURL(url) {
   console.log('load URL', url);
   return new Promise((done) => {
-    http.request(url, resp => {
+    http.request(url + '?r=' + Math.random(), resp => {
       resp.setEncoding('utf8');
       const chunks = [];
       resp.on('data', (chunk) => {
