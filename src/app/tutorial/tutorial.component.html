@@ -27,7 +27,9 @@
     </button>
 
     <div class="marks">
-      <div class="circle" *ngIf="t.type === 'hr'"></div>
+      <div class="circle" *ngIf="t.type === 'hr'">
+        <img *ngIf="heap.opened >= line" width="16" height="16" src="assets/done.svg">
+      </div>
       <div class="progress"></div>
     </div>
 
