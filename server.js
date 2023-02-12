@@ -160,7 +160,7 @@ app.get('/api/example', function (request, response) {
 
 
 let TUTORIALS;
-const INDEX_URL = 'https://raw.githubusercontent.com/open-tutorials/cypress/main/index.json';
+const INDEX_URL = 'https://cdn.jsdelivr.net/gh/open-tutorials/cypress/index.json';
 
 function loadIndex() {
   console.log('load index', INDEX_URL);
