@@ -8,6 +8,7 @@ const adler = require('adler-32');
 const {merge} = require('lodash');
 const http = require('https');
 const xml = require('xml');
+const parseUrl = require('parse-url');
 
 class Channel {
   id;
@@ -154,84 +155,103 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cors());
 
-app.get('/api/example', function (request, response) {
-  response.sendFile(path.resolve(__dirname, 'example.md'));
-});
+const cache = {};
 
+async function loadURL(url) {
+  if (!!cache[url]) {
+    return new Promise((done) => {
+      done(cache[url])
+    });
+  }
+  console.log('load URL', url);
+  const {resource, pathname} = parseUrl(url);
+  return new Promise((done) => {
+    http.request({
+      host: resource,
+      path: pathname,
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36'
+      }
+    }, resp => {
+      resp.setEncoding('utf8');
+      const chunks = [];
+      resp.on('data', (chunk) => {
+        chunks.push(chunk);
+      });
+      resp.on('end', () => {
+        const data = chunks.join('');
+        cache[url] = data;
+        done(data);
+      });
+    }).end();
+  });
+}
 
 let TUTORIALS;
-const INDEX_URL = 'https://cdn.jsdelivr.net/gh/open-tutorials/cypress@v1.16.3/index.json';
+let TAG;
 
-function loadIndex() {
-  console.log('load index', INDEX_URL);
-  return new Promise(done => {
-    http.request(INDEX_URL, resp => {
-      resp.setEncoding('utf8');
-      const chunks = [];
-      resp.on('data', (chunk) => {
-        chunks.push(chunk);
-      });
-      resp.on('end', () => {
-        TUTORIALS = JSON.parse(chunks.join(''));
-        console.log('loaded index');
-        done();
-      });
-    }).end();
-  });
-}
+const INDEX_URL = 'https://cdn.jsdelivr.net/gh/open-tutorials/cypress@{TAG}/index.json';
+const TAGS_URL = 'https://api.github.com/repos/open-tutorials/cypress/tags';
 
-function loadTutorial(tutorial) {
-  console.log('load tutorial', tutorial.source);
+async function loadTutorial(tutorial) {
+  // console.log('load tutorial', tutorial.source);
   return new Promise((done) => {
-    loadURL(tutorial.source).then(markdown => {
-      const queue = [];
+    const loadMarkdown = (tag) => {
+      tutorial.source = tutorial.source.replace('{TAG}', tag);
+      tutorial.assetsUrl = tutorial.assetsUrl.replace('{TAG}', tag);
+      loadURL(tutorial.source).then(markdown => {
+        const queue = [];
 
-      const matches = markdown.matchAll(/\<import\sfrom\=\"([a-zA-Z0-9\/\_\-\.]+)\">/g);
-      for (const match of matches) {
-        const [replace, path] = match;
-        const url = tutorial.assetsUrl + path;
-        console.log('load partial', url);
-        queue.push(new Promise((done) => {
-          loadURL(url).then(data => done({replace, data}));
-        }));
-      }
-
-      Promise.all(queue).then((partials) => {
-        for (const {replace, data} of partials) {
-          console.log('replace partial', replace);
-          markdown = markdown.replace(replace, data);
+        const matches = markdown.matchAll(/\<import\sfrom\=\"([a-zA-Z0-9\/\_\-\.]+)\">/g);
+        for (const match of matches) {
+          const [replace, path] = match;
+          const url = tutorial.assetsUrl + path;
+          queue.push(new Promise((done) => {
+            loadURL(url).then(data => done({replace, data}));
+          }));
         }
-        done(markdown);
+
+        Promise.all(queue).then((partials) => {
+          for (const {replace, data} of partials) {
+            // console.log('replace partial', replace);
+            markdown = markdown.replace(replace, data);
+          }
+
+          tutorial.markdown = markdown;
+          done();
+        });
       });
-    });
+    };
+
+    if (!!tutorial.tags) {
+      loadURL(tutorial.tags).then(data => {
+        const tags = JSON.parse(data);
+        const tag = tags.shift().name;
+        loadMarkdown(tag);
+      });
+    } else {
+      loadMarkdown();
+    }
   });
 }
 
-function loadURL(url) {
-  console.log('load URL', url);
-  return new Promise((done) => {
-    http.request(url + '?r=' + Math.random(), resp => {
-      resp.setEncoding('utf8');
-      const chunks = [];
-      resp.on('data', (chunk) => {
-        chunks.push(chunk);
-      });
-      resp.on('end', () => {
-        done(chunks.join(''));
-      });
-    }).end();
-  });
-}
-
-function fullReload() {
-  loadIndex().then(() => {
-    const slugs = Object.keys(TUTORIALS.tutorials);
-    slugs.forEach(slug => {
-      const tutorial = TUTORIALS.tutorials[slug];
-      loadTutorial(tutorial)
-        .then(markdown => tutorial.markdown = markdown);
-    });
-  });
+async function fullReload() {
+  const tags = JSON.parse(await loadURL(TAGS_URL));
+  const tag = tags.shift().name;
+  console.log('latest', tag);
+  if (TAG === tag) {
+    console.log('no updates');
+    return;
+  }
+  TAG = tag;
+  const url = INDEX_URL.replace('{TAG}', tag);
+  console.log('load index');
+  TUTORIALS = JSON.parse(await loadURL(url));
+  const slugs = Object.keys(TUTORIALS.tutorials);
+  for (const slug of slugs) {
+    const tutorial = TUTORIALS.tutorials[slug];
+    await loadTutorial(tutorial);
+  }
 }
 
 fullReload();
@@ -249,11 +269,8 @@ app.get('/api/tutorials/:slug', (req, res) => {
     return;
   }
 
-  loadTutorial(tutorial.source)
-    .then(markdown => {
-      tutorial.markdown = markdown;
-      res.send(tutorial);
-    });
+  loadTutorial(tutorial)
+    .then(() => res.send(tutorial));
 });
 
 app.post('/api/channels/:id/auth', (req, res) => {

@@ -32,6 +32,7 @@
     "mermaid": "9.1.7",
     "monaco-editor": "0.34.0",
     "nanoid": "^4.0.0",
+    "parse-url": "^8.1.0",
     "pusher": "^5.0.1",
     "rxjs": "~7.5.0",
     "serialize-ts": "^2.6.0",
