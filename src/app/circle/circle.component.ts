@@ -63,6 +63,9 @@ export class CircleComponent {
     this.md = md;
   }
 
+  @Input()
+  assetsUrl!: string;
+
   get watching() {
     return !this.loading && !this.videoRef?.nativeElement?.paused && !this.videoRef?.nativeElement?.muted;
   }

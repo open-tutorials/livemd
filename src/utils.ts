@@ -54,6 +54,7 @@ export function getMarkedOptions(baseUrl: string, assetsUrl: string) {
         const el = document.createElement('md-circle');
         el.setAttribute('config', code);
         el.setAttribute('id', id);
+        el.setAttribute('assets-url', assetsUrl);
         return el.outerHTML;
       }
     }
@@ -63,6 +64,7 @@ export function getMarkedOptions(baseUrl: string, assetsUrl: string) {
       if (!!match) {
         const el = document.createElement('md-template');
         el.setAttribute('html', code);
+        el.setAttribute('assets-url', assetsUrl);
         return el.outerHTML;
       }
     }
