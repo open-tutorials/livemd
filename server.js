@@ -236,6 +236,7 @@ async function loadTutorial(tutorial) {
 }
 
 async function fullReload() {
+  delete cache[TAGS_URL];
   const tags = JSON.parse(await loadURL(TAGS_URL));
   const tag = tags.shift().name;
   console.log('latest', tag);
