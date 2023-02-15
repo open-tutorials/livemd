@@ -56,11 +56,11 @@ export const summary: any = {
   }
 };
 
-export const person: any = {
+export const person = (assetsUrl: string) => ({
   name: 'person',
   level: 'inline',
   start(src: string) {
-    return src.match(/^@\[/)?.index;
+    return src.match(/@\[/)?.index;
   },
   tokenizer(src: string, tokens: any[]): any {
     const rule = /^@\[([^\|]+)\|([^\|]+)(?:\|(.+))*\]/;
@@ -79,16 +79,16 @@ export const person: any = {
   },
   renderer(token: any) {
     const avatar = document.createElement('img');
-    avatar.setAttribute('src',token.avatar);
+    avatar.setAttribute('src', assetsUrl + '/' + token.avatar);
 
     const element = document.createElement('a');
-    element.setAttribute('class','person');
-    element.setAttribute('target','_blank');
-    element.setAttribute('href',token.link);
+    element.setAttribute('class', 'person');
+    element.setAttribute('target', '_blank');
+    element.setAttribute('href', token.link);
     element.innerHTML = `${avatar.outerHTML} ${token.name} 🤙`;
     return element.outerHTML;
   }
-};
+});
 
 export const hr: any = {
   name: 'hr',

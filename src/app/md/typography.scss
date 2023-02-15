@@ -29,6 +29,7 @@ pre {
   margin: 20px 0;
   position: relative;
 
+  & > code.language-yaml,
   & > code.language-js,
   & > code.language-html,
   & > code.language-python,
@@ -45,6 +46,10 @@ pre {
       left: 0px;
       font-size: .65em;
     }
+  }
+
+  & > code.language-yaml::before {
+    content: "YAML";
   }
 
   & > code.language-js::before {

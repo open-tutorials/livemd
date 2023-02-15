@@ -1,6 +1,7 @@
 import { trim, trimStart } from 'lodash';
 import { marked } from 'marked';
 import { environment } from 'src/environments/environment';
+import { badge, block, details, hr, person, section, summary } from 'src/marked';
 
 export function getMarkedOptions(baseUrl: string, assetsUrl: string) {
   const renderer = new marked.Renderer();
@@ -164,7 +165,14 @@ export function getMarkedOptions(baseUrl: string, assetsUrl: string) {
     return html.replace(/src\=\"((?!http).+)\"/, `src="${assetsUrl}/$1"`);
   };
 
-  return {baseUrl, renderer};
+  marked.use({
+    extensions: [badge, summary, details, person(assetsUrl), hr, block, section]
+  });
+
+  return {
+    baseUrl,
+    renderer
+  };
 }
 
 export function getEndpoint(...chunks: (string | number)[]) {
