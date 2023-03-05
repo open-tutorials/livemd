@@ -200,4 +200,32 @@ export const section: any = {
   }
 };
 
+export const tag: any = {
+  name: 'tag',
+  level: 'inline',
+  start(src: string) {
+    return src.match(/#[a-zA-Zа-яА-Я]+/)?.index;
+  },
+  tokenizer(src: string, tokens: any[]): any {
+    const rule = /^#([a-zA-Zа-яА-Я]+)/;
+    const match = rule.exec(src);
+    if (match) {
+      let [raw, text] = match;
+      text = text.trim();
+      const token = {
+        type: 'tag',
+        raw,
+        text: text.trim()
+      };
+      return token;
+    }
+  },
+  renderer(token: any) {
+    const element = document.createElement('span');
+    element.setAttribute('class', 'tag');
+    element.innerHTML = token.text;
+    return element.outerHTML;
+  }
+};
+
 // @ts-ignore-end

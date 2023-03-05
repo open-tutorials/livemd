@@ -99,6 +99,18 @@ pre {
   font-weight: bold;
 }
 
+.tag {
+  &::before {
+    content: '# ';
+  }
+  border-radius: 10px;
+  padding: 2px 5px;
+  background: rgba(100, 254, 0, 0.2);
+  margin: 0px 2px;
+  font-weight: bold;
+  font-size: .85em;
+}
+
 blockquote {
   border-left: 3px solid silver;
   padding-left: 10px;
