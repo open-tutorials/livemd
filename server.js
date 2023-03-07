@@ -155,7 +155,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cors());
 
-const cache = {};
+let cache = {};
 
 async function loadURL(url) {
   if (!!cache[url]) {
@@ -236,7 +236,7 @@ async function loadTutorial(tutorial) {
 }
 
 async function fullReload() {
-  delete cache[TAGS_URL];
+  cache = {};
   const tags = JSON.parse(await loadURL(TAGS_URL));
   const tag = tags.shift().name;
   console.log('latest', tag);
