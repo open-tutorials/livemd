@@ -1,0 +1,77 @@
+:host {
+  display: inline-block;
+  position: relative;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px silver;
+  overflow: hidden;
+}
+
+.line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background-color: white;
+  z-index: 1;
+  opacity: .5;
+  animation-name: moving-line;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes moving-line {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+$point-color: rgb(255, 82, 82);
+
+.point {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  z-index: 1;
+  background: rgba($point-color, 1);
+  box-shadow: 0 0 0 0 rgba($point-color, 1);
+  animation: pulse-point 2s infinite;
+}
+
+@keyframes pulse-point {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba($point-color, .75);
+  }
+
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10px rgba($point-color, 0);
+  }
+
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(255, 82, 82, 0);
+  }
+}
+
+video {
+  display: block;
+  opacity: 1;
+
+  &:not(.opened):not(:hover) {
+    opacity: .85;
+  }
+
+  &:not(.opened) {
+    cursor: pointer;
+    width: 400px;
+    height: auto;
+  }
+}

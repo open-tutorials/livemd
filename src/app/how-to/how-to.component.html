@@ -1,0 +1,11 @@
+<div class="point"></div>
+<div class="line"
+     *ngIf="!!videoRef"
+     [style.animation-duration]="videoRef.nativeElement.duration + 's'"></div>
+<video *ngIf="!!howTo" #videoRef autoplay muted loop
+       [width]="howTo.width"
+       [height]="howTo.height"
+       [class.opened]="opened"
+       (canplay)="loaded()">
+  <source src="{{assetsUrl}}/{{howTo.video}}" type="video/webm">
+</video>

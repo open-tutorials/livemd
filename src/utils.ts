@@ -48,6 +48,17 @@ export function getMarkedOptions(baseUrl: string, assetsUrl: string) {
       }
     }
     {
+      const rule = /json\show\-to$/;
+      const match = rule.exec(language);
+      if (!!match) {
+        const [, id] = match;
+        const el = document.createElement('md-how-to');
+        el.setAttribute('config', code);
+        el.setAttribute('assets-url', assetsUrl);
+        return el.outerHTML;
+      }
+    }
+    {
       const rule = /text\scircle\s([\w\_\-]+)$/;
       const match = rule.exec(language);
       if (!!match) {

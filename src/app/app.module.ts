@@ -8,6 +8,7 @@ import { filter } from 'rxjs';
 import { CircleComponent } from 'src/app/circle/circle.component';
 import { DiffCodeComponent } from 'src/app/diff-code/diff-code.component';
 import { EditorPreviewComponent } from 'src/app/editor-preview/editor-preview.component';
+import { HowToComponent } from 'src/app/how-to/how-to.component';
 import { LinkComponent } from 'src/app/link/link.component';
 import { MakeCodeComponent } from 'src/app/make-code/make-code.component';
 import { MessageComponent } from 'src/app/message/message.component';
@@ -78,6 +79,7 @@ export function routerErrorHandle(error: Error) {
     MessageComponent,
     IncludePipe,
     CircleComponent,
+    HowToComponent,
     ProgressComponent,
     MonacoEditorComponent,
     EditorComponent,

@@ -5,6 +5,7 @@ import { filter } from 'rxjs';
 import { CircleComponent } from 'src/app/circle/circle.component';
 import { DiffCodeComponent } from 'src/app/diff-code/diff-code.component';
 import { HiddenComponent } from 'src/app/hidden/hidden.component';
+import { HowToComponent } from 'src/app/how-to/how-to.component';
 import { LinkComponent } from 'src/app/link/link.component';
 import { MessageComponent } from 'src/app/message/message.component';
 import { AppPlaceholderComponent } from 'src/app/placeholder/app-placeholder.component';
@@ -72,6 +73,11 @@ export class AppComponent implements OnInit {
     if (!customElements.get('md-circle')) {
       const element = createCustomElement(CircleComponent, {injector: this.injector});
       customElements.define('md-circle', element);
+    }
+
+    if (!customElements.get('md-how-to')) {
+      const element = createCustomElement(HowToComponent, {injector: this.injector});
+      customElements.define('md-how-to', element);
     }
 
     if (!customElements.get('md-placeholder')) {
