@@ -28,12 +28,15 @@ code:not(pre > code) {
 pre {
   margin: 20px 0;
   position: relative;
+  display: inline-block;
+  min-width: 50%;
 
   & > code.language-yaml,
   & > code.language-js,
   & > code.language-html,
   & > code.language-python,
   & > code.language-diff,
+  & > code.language-sql,
   & > code.language-text {
     display: block;
     padding-top: 10px;
@@ -70,6 +73,10 @@ pre {
 
   & > code.language-text::before {
     content: "Plain text";
+  }
+
+  & > code.language-sql::before {
+    content: "SQL";
   }
 
   & > code.language-bash {
