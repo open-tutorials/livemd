@@ -52,10 +52,6 @@ export class HowToComponent {
   constructor(private hostRef: ElementRef) {
   }
 
-  loaded() {
-    console.log(this.videoRef.nativeElement.duration);
-  }
-
   @HostListener('click')
   open() {
     this.opened = !this.opened;

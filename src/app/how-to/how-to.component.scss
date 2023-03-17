@@ -112,14 +112,10 @@ $grain-color: #4A4A4A;
 
 video {
   display: block;
-  opacity: 1;
-
-  &:not(.opened):not(:hover) {
-
-  }
 
   &:not(.opened) {
-    width: 400px;
+    cursor: pointer;
+    width: 600px;
     height: auto;
   }
 }

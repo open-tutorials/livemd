@@ -6,7 +6,6 @@
 <video *ngIf="!!howTo" #videoRef autoplay muted loop
        [width]="howTo.width"
        [height]="howTo.height"
-       [class.opened]="opened"
-       (canplay)="loaded()">
+       [class.opened]="opened">
   <source src="{{assetsUrl}}/{{howTo.video}}" type="video/webm">
 </video>
