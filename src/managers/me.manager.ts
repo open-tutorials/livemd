@@ -3,6 +3,7 @@ import { random } from 'lodash';
 import { deserialize, Field, serialize } from 'serialize-ts';
 import { generate } from 'shortid';
 import { AVATARS } from 'src/consts';
+import { LocalstorageService } from 'src/services/local-storage.service';
 
 const ME_KEY = 'me';
 
@@ -31,8 +32,8 @@ export class MeManager {
 
   me!: Me;
 
-  constructor() {
-    const raw = localStorage.getItem(ME_KEY);
+  constructor(private localStorage: LocalstorageService) {
+    const raw = this.localStorage.getItem(ME_KEY);
     if (!!raw) {
       try {
         this.me = deserialize(JSON.parse(raw), Me);
@@ -51,7 +52,7 @@ export class MeManager {
 
   save() {
     const raw = JSON.stringify(serialize(this.me));
-    localStorage.setItem(ME_KEY, raw);
+    this.localStorage.setItem(ME_KEY, raw);
   }
 
   create() {

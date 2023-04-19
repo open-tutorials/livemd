@@ -4,6 +4,7 @@ import { map, Observable } from 'rxjs';
 import { deserialize } from 'serialize-ts';
 import { PREVIEW_TUTORIAL_KEY } from 'src/consts';
 import { Tutorial } from 'src/models/tutorial';
+import { LocalstorageService } from 'src/services/local-storage.service';
 import { TutorialsService } from 'src/services/tutorials.service';
 
 @Injectable({providedIn: 'root'})
@@ -25,8 +26,11 @@ export class TutorialResolver implements Resolve<Observable<Tutorial>> {
 @Injectable({providedIn: 'root'})
 export class PreviewTutorialResolver implements Resolve<Tutorial> {
 
+  constructor(private localStorage: LocalstorageService) {
+  }
+
   resolve(route: ActivatedRouteSnapshot, router: RouterStateSnapshot): Tutorial {
-    const json = localStorage.getItem(PREVIEW_TUTORIAL_KEY);
+    const json = this.localStorage.getItem(PREVIEW_TUTORIAL_KEY);
     if (!json) {
       throw new Error('No preview tutorial in local storage');
     }

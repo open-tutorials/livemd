@@ -4,6 +4,7 @@ import { map, Observable, of } from 'rxjs';
 import { deserialize, serialize } from 'serialize-ts';
 import { MeManager } from 'src/managers/me.manager';
 import { Heap } from 'src/models/heap';
+import { LocalstorageService } from 'src/services/local-storage.service';
 import { getEndpoint } from 'src/utils';
 
 const FAKE_HEAP_KEY = 'fake_heap';
@@ -35,13 +36,16 @@ export class HeapsService {
 @Injectable({providedIn: 'root'})
 export class FakeHeapsService {
 
+  constructor(private localStorage: LocalstorageService) {
+  }
+
   get(): Observable<Heap> {
-    const json = localStorage.getItem(FAKE_HEAP_KEY);
+    const json = this.localStorage.getItem(FAKE_HEAP_KEY);
     return of(!!json ? deserialize(JSON.parse(json), Heap) : new Heap());
   }
 
   put(tutorial: string, heap: Heap): Observable<null> {
-    localStorage.setItem(FAKE_HEAP_KEY, JSON.stringify(serialize(heap)));
+    this.localStorage.setItem(FAKE_HEAP_KEY, JSON.stringify(serialize(heap)));
     return of(null);
   }
 
