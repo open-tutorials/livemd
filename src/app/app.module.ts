@@ -94,65 +94,65 @@ export function routerErrorHandle(error: Error) {
   ],
   imports: [
     HttpClientModule,
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     RouterModule.forRoot([
-      {
+    {
         path: '',
         pathMatch: 'full',
         resolve: {
-          channel: ChannelResolver,
-          heap: HeapResolver,
-          tutorial: TutorialResolver
+            channel: ChannelResolver,
+            heap: HeapResolver,
+            tutorial: TutorialResolver
         },
         component: TutorialComponent
-      },
-      {
+    },
+    {
         path: 'editor',
         children: [
-          {
-            path: '',
-            pathMatch: 'full',
-            component: EditorComponent
-          },
-          {
-            path: 'preview',
-            component: EditorPreviewComponent,
-            children: [
-              {
+            {
                 path: '',
                 pathMatch: 'full',
-                resolve: {
-                  channel: ChannelResolver,
-                  heap: FakeHeapResolver,
-                  tutorial: PreviewTutorialResolver
-                },
-                component: TutorialComponent
-              }
-            ]
-          }
+                component: EditorComponent
+            },
+            {
+                path: 'preview',
+                component: EditorPreviewComponent,
+                children: [
+                    {
+                        path: '',
+                        pathMatch: 'full',
+                        resolve: {
+                            channel: ChannelResolver,
+                            heap: FakeHeapResolver,
+                            tutorial: PreviewTutorialResolver
+                        },
+                        component: TutorialComponent
+                    }
+                ]
+            }
         ]
-      },
-      {
+    },
+    {
         path: ':tutorial',
         resolve: {
-          channel: ChannelResolver,
-          heap: HeapResolver,
-          tutorial: TutorialResolver
+            channel: ChannelResolver,
+            heap: HeapResolver,
+            tutorial: TutorialResolver
         },
         component: TutorialComponent
-      },
-      {
+    },
+    {
         path: ':channel/join',
         redirectTo: '/:channel'
-      }
-    ], {
-      scrollPositionRestoration: 'disabled',
-      anchorScrolling: 'disabled',
-      scrollOffset: [0, 50],
-      initialNavigation: 'enabled',
-      paramsInheritanceStrategy: 'always',
-      errorHandler: routerErrorHandle
-    }),
+    }
+], {
+    scrollPositionRestoration: 'disabled',
+    anchorScrolling: 'disabled',
+    scrollOffset: [0, 50],
+    initialNavigation: 'enabled',
+    paramsInheritanceStrategy: 'always',
+    errorHandler: routerErrorHandle
+}),
     ReactiveFormsModule
   ],
   bootstrap: [

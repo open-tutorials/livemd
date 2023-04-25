@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { deserialize, serialize } from 'serialize-ts';
 import { PREVIEW_TUTORIAL_KEY } from 'src/consts';
 import { Tutorial } from 'src/models/tutorial';
+import { LocalstorageService } from 'src/services/local-storage.service';
 import { getEndpoint } from 'src/utils';
 
 @Component({
@@ -24,12 +25,13 @@ export class EditorComponent implements OnInit {
   constructor(private http: HttpClient,
               private fb: FormBuilder,
               private route: ActivatedRoute,
-              private router: Router) {
+              private router: Router,
+              private localStorage: LocalstorageService) {
 
   }
 
   ngOnInit() {
-    const json = localStorage.getItem(PREVIEW_TUTORIAL_KEY);
+    const json = this.localStorage.getItem(PREVIEW_TUTORIAL_KEY);
     if (!!json) {
       const tutorial = deserialize(JSON.parse(json), Tutorial);
       this.form.patchValue(tutorial);
@@ -43,7 +45,7 @@ export class EditorComponent implements OnInit {
   preview() {
     if (this.form.valid) {
       const tutorial = new Tutorial(this.form.getRawValue());
-      localStorage.setItem(PREVIEW_TUTORIAL_KEY, JSON.stringify(serialize(tutorial)));
+      this.localStorage.setItem(PREVIEW_TUTORIAL_KEY, JSON.stringify(serialize(tutorial)));
       this.router.navigate(['preview'], {relativeTo: this.route});
     }
   }

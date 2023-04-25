@@ -1,7 +1,8 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { Component, Inject, Injector, OnInit, PLATFORM_ID } from '@angular/core';
 import { createCustomElement } from '@angular/elements';
 import { NavigationEnd, Router } from '@angular/router';
-import { filter } from 'rxjs';
+import { BehaviorSubject, filter } from 'rxjs';
 import { CircleComponent } from 'src/app/circle/circle.component';
 import { DiffCodeComponent } from 'src/app/diff-code/diff-code.component';
 import { HiddenComponent } from 'src/app/hidden/hidden.component';
@@ -25,8 +26,12 @@ import { sendHit } from 'src/utils';
 })
 export class AppComponent implements OnInit {
 
+  static isBrowser = new BehaviorSubject<boolean | null>(null);
+
   constructor(private injector: Injector,
-              private router: Router) {
+              private router: Router,
+              @Inject(PLATFORM_ID) private platformId: any) {
+    AppComponent.isBrowser.next(isPlatformBrowser(platformId));
   }
 
   ngOnInit() {

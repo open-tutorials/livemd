@@ -4,6 +4,7 @@ import { map, Observable, of } from 'rxjs';
 import { deserialize, serialize } from 'serialize-ts';
 import { MeManager } from 'src/managers/me.manager';
 import { Channel } from 'src/models/channel';
+import { LocalstorageService } from 'src/services/local-storage.service';
 import { getEndpoint } from 'src/utils';
 
 const FAKE_CHANNELS_KEY = 'fake_channel';
@@ -43,8 +44,11 @@ export class ChannelsService {
 @Injectable({providedIn: 'root'})
 export class FakeChannelsService {
 
+  constructor(private localStorage: LocalstorageService) {
+  }
+
   join(): Observable<Channel> {
-    const json = localStorage.getItem(FAKE_CHANNELS_KEY);
+    const json = this.localStorage.getItem(FAKE_CHANNELS_KEY);
     return of(!!json ? deserialize(JSON.parse(json), Channel) : new Channel());
   }
 
