@@ -9,6 +9,7 @@ const {merge} = require('lodash');
 const http = require('https');
 const xml = require('xml');
 const parseUrl = require('parse-url');
+const marked = require('marked');
 
 class Channel {
   id;
@@ -442,7 +443,7 @@ function prerender(tutorial) {
   }
 
   if (!!tutorial.markdown) {
-    output = output.replace('<!--prerender-->', tutorial.markdown);
+    output = output.replace('<!--prerender-->', marked.parse(tutorial.markdown));
   }
   output = output.replace(/<title>.+<\/title>/, `<title>${tutorial.title}</title>`);
   return output;
