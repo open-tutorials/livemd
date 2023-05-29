@@ -1,7 +1,29 @@
-import { ChangeDetectorRef, Component, HostBinding, Input, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  HostBinding,
+  Input,
+  Pipe, PipeTransform,
+  ViewEncapsulation
+} from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { marked } from 'marked';
 import { HeapManager } from 'src/managers/heap.manager';
+
+@Pipe({name: 'getSelectedAnswers'})
+export class GetSelectedAnswersPipePipe implements PipeTransform {
+
+  transform(arr: boolean[]): number[] {
+    const selected = [];
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i]) {
+        selected.push(i);
+      }
+    }
+    return selected;
+  }
+
+}
 
 @Component({
   selector: 'app-quiz',

@@ -13,7 +13,7 @@
                 <div *ngLet="item | getFromMap: indexes as index"
                      class="option"
                      [class.right]="right | include: index"
-                     [class.answer]="(answers || []) | include: index">
+                     [class.answer]="answersControl.value | getSelectedAnswers | include: index">
                   <label>
                     <input type="checkbox"
                            [formControlName]="index"

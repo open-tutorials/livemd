@@ -13,7 +13,7 @@ import { LinkComponent } from 'src/app/link/link.component';
 import { MakeCodeComponent } from 'src/app/make-code/make-code.component';
 import { MessageComponent } from 'src/app/message/message.component';
 import { AppPlaceholderComponent } from 'src/app/placeholder/app-placeholder.component';
-import { QuizComponent } from 'src/app/quiz/quiz.component';
+import { GetSelectedAnswersPipePipe, QuizComponent } from 'src/app/quiz/quiz.component';
 import { RobotComponent } from 'src/app/robot/robot.component';
 import { TimerComponent } from 'src/app/timer/timer.component';
 import { TutorialComponent } from 'src/app/tutorial/tutorial.component';
@@ -88,6 +88,7 @@ export function routerErrorHandle(error: Error) {
     LinkComponent,
     SafePipe,
     TypePipe,
+    GetSelectedAnswersPipePipe,
     TemplateComponent,
     HiddenComponent,
     PollComponent

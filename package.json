@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "canary": "open -a Google\\ Chrome\\ Canary --args --disable-web-security --user-data-dir=$HOME/cannary"
   },
   "private": true,
   "dependencies": {
