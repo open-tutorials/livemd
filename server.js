@@ -417,7 +417,10 @@ function prerender(tutorial) {
   let output = files.index;
 
   if (!!tutorial.meta) {
-    const {description, thumbnail, keywords, site} = tutorial.meta;
+    let {description, thumbnail, keywords, site} = tutorial.meta;
+
+    thumbnail = thumbnail.replace('{TAG}', TAG);
+
     const meta = xml([
       metaTag('name', 'description', description),
       metaTag('name', 'keywords', keywords),
